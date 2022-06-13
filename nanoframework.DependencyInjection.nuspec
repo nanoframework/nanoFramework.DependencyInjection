@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>nanoframework.DependencyInjection</id>
+    <version>$version$</version>
+    <title>nanoframework.DependencyInjection</title>
+    <authors>nanoframework</authors>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <license type="file">LICENSE.md</license>
+    <releaseNotes>
+    </releaseNotes>
+    <readme>docs\README.md</readme>
+    <developmentDependency>false</developmentDependency>
+    <projectUrl>https://github.com/nanoframework/nanoframework.DependencyInjection</projectUrl>
+    <icon>images\nf-logo.png</icon>
+    <repository type="git" url="https://github.com/nanoframework/nanoframework.DependencyInjection" commit="$commit$" />
+    <copyright>Copyright (c) .NET Foundation and Contributors</copyright>
+    <description>This package includes the nanoframework.DependencyInjection assembly for .NET nanoFramework C# projects.</description>
+    <tags>nanoFramework C# csharp netmf netnf dependencyinjection</tags>
+    <dependencies>
+      <dependency id="nanoFramework.CoreLibrary" version="1.12.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="WebSockets.Server\bin\Release\nanoframework.DependencyInjection.dll" target="lib\nanoframework.DependencyInjection.dll" />
+    <file src="WebSockets.Server\bin\Release\nanoframework.DependencyInjection.pdb" target="lib\nanoframework.DependencyInjection.pdb" />
+    <file src="WebSockets.Server\bin\Release\nanoframework.DependencyInjection.pdbx" target="lib\nanoframework.DependencyInjection.pdbx" />
+    <file src="WebSockets.Server\bin\Release\nanoframework.DependencyInjection.pe" target="lib\nanoframework.DependencyInjection.pe" />
+    <file src="WebSockets.Server\bin\Release\nanoframework.DependencyInjection.xml" target="lib\nanoframework.DependencyInjection.xml" />
+    <file src="assets\readme.txt" target="" />
+    <file src="README.md" target="docs\" />
+    <file src="assets\nf-logo.png" target="images\" />
+    <file src="LICENSE.md" target="" />
+  </files>
+</package>
