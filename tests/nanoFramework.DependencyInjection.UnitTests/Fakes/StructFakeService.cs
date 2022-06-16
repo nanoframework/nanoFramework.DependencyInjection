@@ -4,7 +4,7 @@ namespace nanoFramework.DependencyInjection.UnitTests.Fakes
 {
     public struct StructFakeService : IStructFakeService
     {
-        public StructFakeService(IServiceProvider serviceProvider)
+        public StructFakeService(PocoClass poco)
         {
         }
     }

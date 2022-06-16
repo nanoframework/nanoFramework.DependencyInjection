@@ -2,27 +2,26 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-using System.Collections;
 using System.Reflection;
+using System.Collections;
 
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
     /// The default <see cref="IServiceProvider"/>.
     /// </summary>
-    public sealed class ServiceProvider : IDisposable, IServiceProvider
+    public sealed class ServiceProvider : IServiceProvider, IDisposable
     {
         internal IServiceCollection _serviceDescriptors;
-        private bool disposedValue;
 
-        internal ServiceProvider(IServiceCollection serviceDescriptors, ServiceProviderOptions options)
+        internal ServiceProvider(IServiceCollection descriptors, ServiceProviderOptions options)
         {
-            _serviceDescriptors = serviceDescriptors;
+            _serviceDescriptors = descriptors;
 
             if (options.ValidateOnBuild)
             {
                 ArrayList exceptions = null;
-                foreach (ServiceDescriptor serviceDescriptor in serviceDescriptors)
+                foreach (ServiceDescriptor serviceDescriptor in descriptors)
                 {
                     try
                     {
@@ -42,6 +41,23 @@ namespace nanoFramework.DependencyInjection
             }
 
             _serviceDescriptors.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
+        }
+
+        public void Dispose()
+        {
+            foreach (ServiceDescriptor descriptor in _serviceDescriptors)
+            {
+                if (descriptor.ServiceType != typeof(IServiceProvider))
+                {
+                    if (descriptor.ImplementationInstance is IDisposable instance)
+                    {
+                        lock (_serviceDescriptors)
+                        {
+                            instance.Dispose();
+                        }
+                    }
+                }
+            }
         }
 
         /// <inheritdoc />
@@ -65,8 +81,6 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            object[] buffer = new object[0];
-
             if (serviceType.Length == 1)
             {
                 var services = GetServices(serviceType[0]);
@@ -74,68 +88,80 @@ namespace nanoFramework.DependencyInjection
                 {
                     return services;
                 }
+
+                return new object[0];
             }
-            else
+
+            object[] response = new object[0];
+            foreach (Type type in serviceType)
             {
-                foreach (Type type in serviceType)
+                var services = GetServices(type);
+                if (services.Length > 0)
                 {
-                    var services = GetServices(type);
-                    if (services.Length > 0)
-                    {
-                        var newBuffer = new object[buffer.Length + services.Length];
-                        Array.Copy(buffer, newBuffer, buffer.Length);
-                        Array.Copy(services, 0, newBuffer, buffer.Length, services.Length);
-                        buffer = newBuffer;
-                    }
+                    var newResponse = new object[response.Length + services.Length];
+                    Array.Copy(response, newResponse, response.Length);
+                    Array.Copy(services, 0, newResponse, response.Length, services.Length);
+                    response = newResponse;
                 }
             }
 
-            return buffer.Length != 0 ? buffer : new object[0];
+            return response.Length != 0 ? response : new object[0];
         }
 
         private object[] GetServices(Type serviceType)
         {
             ArrayList services = new ArrayList();
 
-            foreach (ServiceDescriptor serviceDescriptor in _serviceDescriptors)
+            foreach (ServiceDescriptor descriptor in _serviceDescriptors)
             {
-                if (serviceDescriptor.ServiceType == serviceType)
+                if (descriptor.ServiceType == serviceType)
                 {
-                    if (serviceDescriptor.Lifetime == ServiceLifetime.Singleton
-                      & serviceDescriptor.ImplementationInstance != null)
+                    if (descriptor.Lifetime == ServiceLifetime.Singleton
+                      & descriptor.ImplementationInstance != null)
                     {
-                        services.Add(serviceDescriptor.ImplementationInstance);
+                        services.Add(descriptor.ImplementationInstance);
                     }
                     else
                     {
-                        var instance = Resolve(serviceDescriptor.ImplementationType);
+                        try
                         {
-                            lock (_serviceDescriptors)
+                            var instance = Resolve(descriptor.ImplementationType);
                             {
-                                serviceDescriptor.ImplementationInstance = instance;
+                                lock (_serviceDescriptors)
+                                {
+                                    descriptor.ImplementationInstance = instance;
+                                }
                             }
-                        }
 
-                        services.Add(instance);
+                            services.Add(instance);
+                        }
+                        catch
+                        {
+                            throw new InvalidOperationException(
+                                $"Unable to resolve service for type '{descriptor.ServiceType}' while attempting to activate '{descriptor.ImplementationType}'.");
+                        }
                     }
                 }
             }
-
-            //object[] buffer = new object[services.Count];
-            //for (int i = 0; i < services.Count; i++)
-            //{
-            //    buffer[i] = services[i];
-            //}
-
-            //return buffer;
 
             return (object[])services.ToArray(typeof(object));
         }
 
         private object Resolve(Type implementationType)
         {
-            ConstructorInfo constructor = implementationType.GetConstructors()[0];
-            ParameterInfo[] constructorParameters = constructor.GetParameters();
+            ConstructorInfo[] constructor;
+            ParameterInfo[] constructorParameters;
+
+            try
+            {
+                constructor = implementationType.GetConstructors();
+                constructorParameters = constructor[0].GetParameters();
+            }
+            catch
+            {
+                throw new InvalidOperationException(
+                    $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor.");
+            }
 
             object instance;
 
@@ -173,41 +199,6 @@ namespace nanoFramework.DependencyInjection
         {
             // TODO:  Add service validator
             throw new NotImplementedException();
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (!disposedValue)
-            {
-                if (disposing)
-                {
-                    foreach (ServiceDescriptor descriptor in _serviceDescriptors)
-                    {
-                        if (descriptor.ServiceType == typeof(IServiceProvider))
-                        {
-                            continue;
-                        }
-
-                        if (descriptor.ImplementationInstance is IDisposable instance)
-                        {
-                            instance.Dispose();
-                        }
-                    }
-                }
-
-                disposedValue = true;
-            }
-        }
-
-        ~ServiceProvider()
-        {
-            Dispose(disposing: false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(disposing: true);
-            GC.SuppressFinalize(this);
         }
     }
 }

@@ -28,11 +28,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DependencyInjectionTests.cs" />
+    <Compile Include="Fakes\FakeObject.cs" />
+    <Compile Include="Fakes\IFakeObject.cs" />
+    <Compile Include="Fakes\IRootService.cs" />
+    <Compile Include="Fakes\IService1.cs" />
+    <Compile Include="Fakes\IService2.cs" />
+    <Compile Include="Fakes\IService3.cs" />
     <Compile Include="Fakes\IStructFakeService.cs" />
     <Compile Include="Fakes\IFakeService.cs" />
     <Compile Include="Fakes\FakeService .cs" />
     <Compile Include="Fakes\INonexistentService.cs" />
     <Compile Include="Fakes\PocoClass.cs" />
+    <Compile Include="Fakes\RootService.cs" />
+    <Compile Include="Fakes\Service1.cs" />
+    <Compile Include="Fakes\Service2.cs" />
+    <Compile Include="Fakes\Service3.cs" />
     <Compile Include="Fakes\StructFakeService.cs" />
     <Compile Include="ServiceProviderExtensionsTest.cs" />
     <Compile Include="ServiceCollectionTests.cs" />

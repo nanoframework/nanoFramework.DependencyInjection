@@ -27,6 +27,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         //public void ServicesRegisteredWithImplementationTypeForStructTransientServices()
         //{
         //    var serviceProvider = new ServiceCollection()
+        //        .AddSingleton(typeof(PocoClass))
         //        .AddTransient(typeof(IStructFakeService), typeof(StructFakeService))
         //        .BuildServiceProvider();
 
@@ -81,6 +82,24 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.IsType(typeof(FakeService), service1.GetType());
             Assert.IsType(typeof(FakeService), service2.GetType());
             Assert.Same(service1, service2);
+        }
+
+        [TestMethod]
+        public void NestedServicesRegisteredWithInterfaceTypeForSingletons()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IService1), typeof(Service1))
+                .AddSingleton(typeof(IService2), typeof(Service2))
+                .AddSingleton(typeof(IService3), typeof(Service3))
+                .AddSingleton(typeof(IRootService), typeof(RootService))
+                .BuildServiceProvider();
+
+            var rootService = (RootService)serviceProvider.GetRequiredService(typeof(IRootService));
+
+            Assert.IsType(typeof(Service1), rootService.Service1.GetType());
+            Assert.IsType(typeof(Service2), rootService.Service2.GetType());
+            Assert.Equal(2000, rootService.IntProperty);
+            Assert.Equal("default", rootService.StringProperty);
         }
 
         [TestMethod]
@@ -146,7 +165,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .AddSingleton(typeof(IFakeService), typeof(FakeService))
                 .BuildServiceProvider();
 
-            var service = serviceProvider.GetService(typeof(IServiceProvider));
+            var service = (ServiceProvider)serviceProvider.GetService(typeof(IServiceProvider));
 
             Assert.NotNull(service);
 
@@ -164,5 +183,22 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.Null(service);
         }
+    }
+
+    public static class ObjectExtensions
+    {
+        public static bool IsDisposed(this ServiceProvider obj)
+        {
+            try
+            {
+                obj.ToString();
+                return false;
+            }
+            catch (ObjectDisposedException)
+            {
+                return true;
+            }
+        }
+
     }
 }

@@ -9,7 +9,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
     public class ServiceProviderExtensionsTest
     {
         [TestMethod]
-        public void GetService_Returns_CorrectService()
+        public void GetServiceReturnsCorrectService()
         {
             var serviceProvider = CreateTestServiceProvider(1);
             var service = serviceProvider.GetService(typeof(IFoo));
@@ -18,7 +18,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetRequiredService_Returns_CorrectService()
+        public void GetRequiredServiceReturnsCorrectService()
         {
             var serviceProvider = CreateTestServiceProvider(1);
             var service = serviceProvider.GetRequiredService(typeof(IFoo));
@@ -27,7 +27,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetRequiredService_Throws_WhenNoServiceRegistered()
+        public void GetRequiredServiceThrowsWhenNoServiceRegistered()
         {
             var serviceProvider = CreateTestServiceProvider(0);
 
@@ -36,11 +36,11 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_Returns_MultipleServices()
+        public void GetServicesReturnsMultipleServices()
         {
             var serviceProvider = CreateTestServiceProvider(4);
 
-            var types = new Type[2] { typeof(IFoo), typeof(IBar) };
+            var types = new Type[] { typeof(IFoo), typeof(IBar) };
             object[] services = ((ServiceProvider)serviceProvider).GetService(types);
 
             Assert.IsType(typeof(Foo1), services[0].GetType());
@@ -51,7 +51,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_Returns_AllServices()
+        public void GetServicesReturnsAllServices()
         {
             var serviceProvider = CreateTestServiceProvider(2);
             object[] services = serviceProvider.GetServices(typeof(IFoo));
@@ -62,7 +62,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_Returns_SingleService()
+        public void GetServicesReturnsSingleService()
         {
             var serviceProvider = CreateTestServiceProvider(1);
             object[] services = serviceProvider.GetServices(typeof(IFoo));
@@ -72,7 +72,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_Returns_CorrectTypes()
+        public void GetServicesReturnsCorrectTypes()
         {
             var serviceProvider = CreateTestServiceProvider(4);
             object[] services = serviceProvider.GetServices(typeof(IBar));
@@ -83,7 +83,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_Returns_EmptyArray_WhenNoServicesAvailable()
+        public void GetServicesReturnsEmptyArrayWhenNoServicesAvailable()
         {
             var serviceProvider = CreateTestServiceProvider(0);
             object[] services = serviceProvider.GetServices(typeof(IFoo));
@@ -93,7 +93,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void GetServices_WithBuildServiceProvider_Returns_EmptyList_WhenNoServicesAvailable()
+        public void GetServicesWithBuildServiceProviderReturnsEmptyListWhenNoServicesAvailable()
         {
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddSingleton(typeof(IFoo), new ArrayList());

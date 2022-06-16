@@ -31,6 +31,12 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
+            // TODO: Should i really care about abstract?
+            if (implementationType.IsAbstract || implementationType.IsInterface)
+            {
+                throw new ArgumentException("Implementation type cannot be an abstract or interface class.");
+            }
+
             ImplementationType = implementationType;
         }
 
@@ -109,52 +115,6 @@ namespace nanoFramework.DependencyInjection
             Debug.Assert(false, "ImplementationType, ImplementationInstance or ImplementationFactory must be non null");
             
             return null;
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
-        /// <paramref name="service"/> and <paramref name="implementationType"/>
-        /// and the <see cref="ServiceLifetime.Transient"/> lifetime.
-        /// </summary>
-        /// <param name="service">The type of the service.</param>
-        /// <param name="implementationType">The type of the implementation.</param>
-        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
-        public static ServiceDescriptor Transient(Type service, Type implementationType)
-        {
-            if (service == null)
-            {
-                throw new ArgumentNullException(nameof(service));
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            return Describe(service, implementationType, ServiceLifetime.Transient);
-        }
-
-        /// <summary>
-        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
-        /// <paramref name="service"/> and <paramref name="implementationType"/>
-        /// and the <see cref="ServiceLifetime.Singleton"/> lifetime.
-        /// </summary>
-        /// <param name="service">The type of the service.</param>
-        /// <param name="implementationType">The type of the implementation.</param>
-        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
-        public static ServiceDescriptor Singleton(Type service, Type implementationType)
-        {
-            if (service == null)
-            {
-                throw new ArgumentNullException(nameof(service));
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            return Describe(service, implementationType, ServiceLifetime.Singleton);
         }
 
         /// <summary>
