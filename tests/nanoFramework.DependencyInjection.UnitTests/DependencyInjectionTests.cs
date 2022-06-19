@@ -23,20 +23,18 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.NotSame(service1, service2);
         }
 
+        // TODO:  I think Array.Copy is failing to copy a struct type.
         //[TestMethod]
-        //public void ServicesRegisteredWithImplementationTypeForStructTransientServices()
+        //public void ServicesRegisteredWithImplementationTypeForStructSingletonServices()
         //{
         //    var serviceProvider = new ServiceCollection()
         //        .AddSingleton(typeof(PocoClass))
-        //        .AddTransient(typeof(IStructFakeService), typeof(StructFakeService))
+        //        .AddSingleton(typeof(IStructFakeService), typeof(StructFakeService))
         //        .BuildServiceProvider();
 
-        //    var service1 = serviceProvider.GetService(typeof(IStructFakeService));
-        //    var service2 = serviceProvider.GetService(typeof(IStructFakeService));
+        //    var service = serviceProvider.GetService(typeof(IStructFakeService));
 
-        //    Assert.IsType(typeof(StructFakeService), service1.GetType());
-        //    Assert.IsType(typeof(StructFakeService), service2.GetType());
-        //    Assert.NotSame(service1, service2);
+        //    Assert.IsType(typeof(StructFakeService), service.GetType());
         //}
 
         [TestMethod]
@@ -95,11 +93,14 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
             var rootService = (RootService)serviceProvider.GetRequiredService(typeof(IRootService));
-
+            
             Assert.IsType(typeof(Service1), rootService.Service1.GetType());
             Assert.IsType(typeof(Service2), rootService.Service2.GetType());
             Assert.Equal(2000, rootService.IntProperty);
             Assert.Equal("default", rootService.StringProperty);
+
+            var innerService = (Service3)serviceProvider.GetRequiredService(typeof(IService3));
+            Assert.NotNull(innerService);
         }
 
         [TestMethod]
@@ -142,7 +143,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             object[] service = serviceProvider.GetService(new Type[] { typeof(IFakeService) });
 
             Assert.NotNull(service);
-            Assert.Equals(1, service.Length);
+            Assert.Equal(1, service.Length);
             Assert.IsType(typeof(FakeService), service[0].GetType());
         }
 
@@ -170,6 +171,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.NotNull(service);
 
             serviceProvider.Dispose();
+
         }
 
         [TestMethod]

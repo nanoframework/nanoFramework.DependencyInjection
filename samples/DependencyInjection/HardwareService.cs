@@ -4,7 +4,7 @@ using System.Device.Gpio;
 
 using Microsoft.Extensions.Logging;
 
-namespace DependencyInjection
+namespace DI
 {
     internal class HardwareService : IHardwareService, IDisposable
     {

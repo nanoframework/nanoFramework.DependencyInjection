@@ -4,5 +4,8 @@ namespace nanoFramework.DependencyInjection.UnitTests.Fakes
 {
     public class PocoClass
     {
+        public PocoClass()
+        {
+        }
     }
 }

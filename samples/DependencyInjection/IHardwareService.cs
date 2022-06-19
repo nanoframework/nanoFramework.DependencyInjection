@@ -1,4 +1,4 @@
-﻿namespace DependencyInjection
+﻿namespace DI
 {
     public interface IHardwareService
     {

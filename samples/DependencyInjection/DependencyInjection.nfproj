@@ -29,7 +29,7 @@
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.12.0\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Logging">
-      <HintPath>..\..\packages\nanoFramework.Logging.1.0.1.27\lib\nanoFramework.Logging.dll</HintPath>
+      <HintPath>..\..\packages\nanoFramework.Logging.1.0.1.29\lib\nanoFramework.Logging.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.Runtime.Events">
       <HintPath>..\..\packages\nanoFramework.Runtime.Events.1.10.0\lib\nanoFramework.Runtime.Events.dll</HintPath>

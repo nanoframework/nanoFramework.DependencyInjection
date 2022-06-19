@@ -2,14 +2,14 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace DependencyInjection
+namespace DI
 {
     internal class Application
     {
         private readonly ILogger _logger;
         private readonly IHardwareService _hardware;
         private readonly IServiceProvider _provider;
-       
+
         public Application(IServiceProvider provider, IHardwareService hardware, ILoggerFactory loggerFactory)
         {
             _provider = provider;
@@ -21,7 +21,7 @@ namespace DependencyInjection
 
         public void Run()
         {
-            var ledPin = 15; // Set pin number to blink
+            var ledPin = 23; // Set pin number to blink 15=ESP32; 23=STM32
 
             _logger.LogInformation($"Started blinking led on pin {ledPin}.");
             _hardware.StartBlinking(ledPin);

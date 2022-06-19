@@ -43,6 +43,7 @@ namespace nanoFramework.DependencyInjection
             _serviceDescriptors.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             foreach (ServiceDescriptor descriptor in _serviceDescriptors)
@@ -76,9 +77,14 @@ namespace nanoFramework.DependencyInjection
         /// <inheritdoc />
         public object[] GetService(Type[] serviceType)
         {
-            if (serviceType.Length == 0)
+            if (serviceType == null)
             {
                 throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            if (serviceType.Length == 0)
+            {
+                throw new ArgumentException(nameof(serviceType));
             }
 
             if (serviceType.Length == 1)
@@ -92,20 +98,20 @@ namespace nanoFramework.DependencyInjection
                 return new object[0];
             }
 
-            object[] response = new object[0];
+            object[] array = new object[0];
             foreach (Type type in serviceType)
             {
                 var services = GetServices(type);
                 if (services.Length > 0)
                 {
-                    var newResponse = new object[response.Length + services.Length];
-                    Array.Copy(response, newResponse, response.Length);
-                    Array.Copy(services, 0, newResponse, response.Length, services.Length);
-                    response = newResponse;
+                    var newResponse = new object[array.Length + services.Length];
+                    Array.Copy(array, newResponse, array.Length);
+                    Array.Copy(services, 0, newResponse, array.Length, services.Length);
+                    array = newResponse;
                 }
             }
 
-            return response.Length != 0 ? response : new object[0];
+            return array.Length != 0 ? array : new object[0];
         }
 
         private object[] GetServices(Type serviceType)
@@ -149,22 +155,9 @@ namespace nanoFramework.DependencyInjection
 
         private object Resolve(Type implementationType)
         {
-            ConstructorInfo[] constructor;
-            ParameterInfo[] constructorParameters;
-
-            try
-            {
-                constructor = implementationType.GetConstructors();
-                constructorParameters = constructor[0].GetParameters();
-            }
-            catch
-            {
-                throw new InvalidOperationException(
-                    $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor.");
-            }
-
             object instance;
 
+            ParameterInfo[] constructorParameters = GetParameters(implementationType);
             if (constructorParameters.Length == 0)
             {
                 instance = Activator.CreateInstance(implementationType);
@@ -193,6 +186,20 @@ namespace nanoFramework.DependencyInjection
             }
 
             return instance;
+        }
+
+        private ParameterInfo[] GetParameters(Type implementationType)
+        {
+            try
+            {
+                ConstructorInfo[] constructor = implementationType.GetConstructors();
+                return constructor[0].GetParameters();
+            }
+            catch
+            {
+                throw new InvalidOperationException(
+                    $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor.");
+            }
         }
 
         private void ValidateService(ServiceDescriptor descriptor)

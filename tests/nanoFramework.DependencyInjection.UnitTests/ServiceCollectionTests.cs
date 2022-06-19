@@ -14,8 +14,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
         {
             var serviceDescriptor = ServiceDescriptor.Describe(typeof(IFakeObject), typeof(FakeObject), ServiceLifetime.Singleton);
 
-            Assert.True(serviceDescriptor.ServiceType.GetType() == typeof(IFakeObject));
-            Assert.True(serviceDescriptor.ImplementationType.GetType() == typeof(FakeObject));
+            Assert.IsType(typeof(IFakeObject), serviceDescriptor.ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceDescriptor.ImplementationType.GetType());
             Assert.True(serviceDescriptor.Lifetime == ServiceLifetime.Singleton);
         }
 

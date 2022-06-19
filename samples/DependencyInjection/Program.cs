@@ -1,18 +1,19 @@
-using Microsoft.Extensions.Logging;
-
 using nanoFramework.Logging.Debug;
 using nanoFramework.DependencyInjection;
 
-namespace DependencyInjection
+using Microsoft.Extensions.Logging;
+
+namespace DI
 {
     public class Program
     {
         public static void Main()
         {
-            var serviceProvider = ConfigureServices();
-            var application = (Application)serviceProvider.GetRequiredService(typeof(Application));
-            
+            var services = ConfigureServices();
+            var application = (Application)services.GetRequiredService(typeof(Application));
+
             application.Run();
+
         }
 
         private static ServiceProvider ConfigureServices()
