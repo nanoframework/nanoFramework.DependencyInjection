@@ -1,3 +1,6 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Collections;
 
@@ -31,8 +34,27 @@ namespace nanoFramework.DependencyInjection.UnitTests
         {
             var serviceProvider = CreateTestServiceProvider(0);
 
-            Assert.Throws(typeof(InvalidOperationException), () => serviceProvider.GetRequiredService(typeof(IFoo)),
-                $"No service for type '{typeof(IFoo)}' has been registered.");
+            var expectedMessage = $"No service for type 'nanoFramework.DependencyInjection.UnitTests.ServiceProviderExtensionsTest+IFoo' has been registered.";
+            Assert.Throws(typeof(InvalidOperationException),
+                () =>
+                {
+                    try
+                    {
+                        serviceProvider.GetRequiredService(typeof(IFoo));
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        if (string.Equals(expectedMessage, ex.Message))
+                        {
+                            throw new InvalidOperationException();
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                }
+            );
         }
 
         [TestMethod]

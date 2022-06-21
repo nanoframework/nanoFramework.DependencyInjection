@@ -34,22 +34,31 @@ This API mirrors as close as possible the official .NET
 ### Object Composition
 Define an object composition to create and couple.
 ```csharp
-public interface IFakeObject { }
+public interface IServiceObject { }
 
-public class FakeObject : IFakeObject { }
+public class ServiceObject : IServiceObject { }
 
-public interface IFakeRootObject
+public interface IRootObject
 {
-    IFakeObject FakeObject { get; }
+    IServiceObject ServiceObject { get; }
 }
 
-public class FakeRootObject : IFakeRootObject
+public class RootObject : IRootObject
 {
-    public IFakeObject FakeObject { get; protected set; }
+    public string One { get; }
+    public string Two { get; }
+    public IServiceObject ServiceObject { get; protected set; }
 
-    public FakeRootObject(IFakeObject fakeObject)
+    public RootObject(IServiceObject fakeObject)
     {
-        FakeObject = fakeObject;
+        ServiceObject = ServiceObject;
+    }
+
+    public RootObject(IServiceObject serviceObject, string one, string two)
+    {
+        ServiceObject = serviceObject;
+        One = one;
+        Two = two;
     }
 }
 ```
@@ -59,15 +68,30 @@ Create a Service Collection and register singleton or transient type services to
 
 ```csharp
 var serviceProvider = new ServiceCollection()
-    .AddSingleton(typeof(IFakeObject), typeof(FakeObject))
-    .AddSingleton(typeof(IFakeRootObject), typeof(FakeRootObject))
+    .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
+    .AddSingleton(typeof(IRootObject), typeof(RootObject))
     .BuildServiceProvider();
 ```
 ### Service Provider
-Create a Service Provider to access the object graph composition.
+Create a Service Provider to access the object.
 
 ```csharp
- var service = (FakeRootObject)serviceProvider.GetService(typeof(IFakeRootObject));
+ var service = (RootObject)serviceProvider.GetService(typeof(IRootObject));
+```
+
+## Activator Utilities
+An instance of an object can be created by calling its constructor with any dependencies resolved through the service provider. Automatically instantiate a type with constructor arguments provided from an IServiceProvider without having to register the type with the DI Container.
+
+```csharp
+var instance = (RootObject)ActivatorUtilities.CreateInstance(
+    serviceProvider,
+    typeof(RootObject),
+    "1",
+    "2");
+
+Debug.WriteLine(instance.One);
+Debug.WriteLine(instance.Two);
+Debug.WriteLine(instance.ServiceObject.ToString());
 ```
 
 ## Example Application Container
@@ -109,7 +133,10 @@ namespace DI
             private readonly IHardwareService _hardware;
             private readonly IServiceProvider _provider;
 
-            public Application(IServiceProvider provider, IHardwareService hardware, ILoggerFactory loggerFactory)
+            public Application(
+                IServiceProvider provider,
+                IHardwareService hardware,
+                ILoggerFactory loggerFactory)
             {
                 _provider = provider;
                 _hardware = hardware;

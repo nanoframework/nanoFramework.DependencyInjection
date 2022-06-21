@@ -9,26 +9,107 @@ namespace nanoFramework.DependencyInjection
     public static class ServiceCollectionServiceExtensions
     {
         /// <summary>
-        /// Adds the specified <paramref name="descriptor"/> to the <paramref name="collection"/>.
+        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> with an
+        /// implementation of the type specified in <paramref name="implementationType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
         /// </summary>
-        /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
-        /// <param name="descriptor">The <see cref="ServiceDescriptor"/> to add.</param>
-        /// <returns>A reference to the current instance of <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection Add(this IServiceCollection collection, ServiceDescriptor descriptor)
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="implementationType">The implementation type of the service.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Singleton"/>
+        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, Type implementationType)
         {
-            if (collection == null)
+            if (services == null)
             {
-                throw new ArgumentNullException(nameof(collection));
+                throw new ArgumentNullException(nameof(services));
             }
 
-            if (descriptor == null)
+            var descriptor = new ServiceDescriptor(serviceType, implementationType, ServiceLifetime.Singleton);
+            services.Add(descriptor);
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Singleton"/>
+        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType)
+        {
+            if (services == null)
             {
-                throw new ArgumentNullException(nameof(descriptor));
+                throw new ArgumentNullException(nameof(services));
             }
 
-            collection.Add(descriptor);
-            
-            return collection;
+            return services.AddSingleton(serviceType, serviceType);
+        }
+
+        /// <summary>
+        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> with an
+        /// instance specified in <paramref name="implementationInstance"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="implementationInstance">The instance of the service.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Singleton"/>
+        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, object implementationInstance)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance);
+            services.Add(serviceDescriptor);
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a transient service of the type specified in <paramref name="serviceType"/> with an
+        /// implementation of the type specified in <paramref name="implementationType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="implementationType">The implementation type of the service.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Transient"/>
+        public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, Type implementationType)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            var descriptor = new ServiceDescriptor(serviceType, implementationType, ServiceLifetime.Transient);
+            services.Add(descriptor);
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a transient service of the type specified in <paramref name="serviceType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Transient"/>
+        public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException(nameof(services));
+            }
+
+            return services.AddTransient(serviceType, serviceType);
         }
 
         /// <summary>
@@ -60,144 +141,6 @@ namespace nanoFramework.DependencyInjection
             }
 
             collection.Add(descriptor);
-        }
-
-        /// <summary>
-        /// Adds a transient service of the type specified in <paramref name="serviceType"/> with an
-        /// implementation of the type specified in <paramref name="implementationType"/> to the
-        /// specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-        /// <param name="serviceType">The type of the service to register.</param>
-        /// <param name="implementationType">The implementation type of the service.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <seealso cref="ServiceLifetime.Transient"/>
-        public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, Type implementationType)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            return Add(services, serviceType, implementationType, ServiceLifetime.Transient);
-        }
-
-        /// <summary>
-        /// Adds a transient service of the type specified in <paramref name="serviceType"/> to the
-        /// specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-        /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <seealso cref="ServiceLifetime.Transient"/>
-        public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            return services.AddTransient(serviceType, serviceType);
-        }
-
-        /// <summary>
-        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> with an
-        /// implementation of the type specified in <paramref name="implementationType"/> to the
-        /// specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-        /// <param name="serviceType">The type of the service to register.</param>
-        /// <param name="implementationType">The implementation type of the service.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <seealso cref="ServiceLifetime.Singleton"/>
-        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, Type implementationType)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException(nameof(implementationType));
-            }
-
-            return Add(services, serviceType, implementationType, ServiceLifetime.Singleton);
-        }
-
-        /// <summary>
-        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> to the
-        /// specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-        /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <seealso cref="ServiceLifetime.Singleton"/>
-        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            return services.AddSingleton(serviceType, serviceType);
-        }
-
-        /// <summary>
-        /// Adds a singleton service of the type specified in <paramref name="serviceType"/> with an
-        /// instance specified in <paramref name="implementationInstance"/> to the
-        /// specified <see cref="IServiceCollection"/>.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
-        /// <param name="serviceType">The type of the service to register.</param>
-        /// <param name="implementationInstance">The instance of the service.</param>
-        /// <returns>A reference to this instance after the operation has completed.</returns>
-        /// <seealso cref="ServiceLifetime.Singleton"/>
-        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, object implementationInstance)
-        {
-            if (services == null)
-            {
-                throw new ArgumentNullException(nameof(services));
-            }
-
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
-            if (implementationInstance == null)
-            {
-                throw new ArgumentNullException(nameof(implementationInstance));
-            }
-
-            var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance);
-            services.Add(serviceDescriptor);
-            return services;
         }
 
         /// <summary>
@@ -235,8 +178,8 @@ namespace nanoFramework.DependencyInjection
                 implementationType == descriptor.ServiceType)
             {
                 throw new ArgumentException(
-                        string.Format("Implementation type cannot be '{0}' because it is indistinguishable from other services registered for '{1}'.", 
-                        implementationType, 
+                        string.Format("Implementation type cannot be '{0}' because it is indistinguishable from other services registered for '{1}'.",
+                        implementationType,
                         descriptor.ServiceType),
                         nameof(descriptor)
                     );
@@ -348,14 +291,6 @@ namespace nanoFramework.DependencyInjection
                 }
             }
 
-            return collection;
-        }
-
-        private static IServiceCollection Add(IServiceCollection collection, Type serviceType, Type implementationType, ServiceLifetime lifetime)
-        {
-            var descriptor = new ServiceDescriptor(serviceType, implementationType, lifetime);
-            collection.Add(descriptor);
-            
             return collection;
         }
     }

@@ -27,9 +27,20 @@
     <RunSettingsFilePath>$(MSBuildProjectDirectory)\nano.runsettings</RunSettingsFilePath>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="ActivatorUtilitiesTests.cs" />
     <Compile Include="DependencyInjectionTests.cs" />
+    <Compile Include="Fakes\ClassWithAmbiguousCtorsAndAttribute.cs" />
+    <Compile Include="Fakes\CreationCountFakeService.cs" />
+    <Compile Include="Fakes\ClassWithThrowingEmptyCtor.cs" />
+    <Compile Include="Fakes\ClassWithThrowingCtor.cs" />
+    <Compile Include="Fakes\AnotherClassAcceptingData.cs" />
+    <Compile Include="Fakes\ClassWithAmbiguousCtors.cs" />
     <Compile Include="Fakes\FakeObject.cs" />
+    <Compile Include="Fakes\AnotherClass.cs" />
+    <Compile Include="Fakes\IFakeMultipleService.cs" />
+    <Compile Include="Fakes\FakeOneMultipleService.cs" />
     <Compile Include="Fakes\IFakeObject.cs" />
+    <Compile Include="Fakes\IFactoryService.cs" />
     <Compile Include="Fakes\IRootService.cs" />
     <Compile Include="Fakes\IService1.cs" />
     <Compile Include="Fakes\IService2.cs" />
@@ -40,9 +51,11 @@
     <Compile Include="Fakes\INonexistentService.cs" />
     <Compile Include="Fakes\PocoClass.cs" />
     <Compile Include="Fakes\RootService.cs" />
+    <Compile Include="Fakes\ClassWithNestedReferencesToProvider.cs" />
     <Compile Include="Fakes\Service1.cs" />
     <Compile Include="Fakes\Service2.cs" />
     <Compile Include="Fakes\Service3.cs" />
+    <Compile Include="Fakes\FakeTwoMultipleService.cs" />
     <Compile Include="Fakes\StructFakeService.cs" />
     <Compile Include="ServiceProviderExtensionsTest.cs" />
     <Compile Include="ServiceCollectionTests.cs" />
@@ -55,10 +68,10 @@
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.12.0\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.TestFramework">
-      <HintPath>..\packages\nanoFramework.TestFramework.1.0.189\lib\nanoFramework.TestFramework.dll</HintPath>
+      <HintPath>..\..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.UnitTestLauncher">
-      <HintPath>..\packages\nanoFramework.TestFramework.1.0.189\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+      <HintPath>..\..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

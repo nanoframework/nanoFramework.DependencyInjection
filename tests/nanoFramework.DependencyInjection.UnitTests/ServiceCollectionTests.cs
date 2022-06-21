@@ -1,3 +1,6 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 using System.Collections;
 
@@ -20,6 +23,18 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
+        public static void ServiceDescriptorToString()
+        {
+            var expectedMessage = "ServiceType: nanoFramework.DependencyInjection.UnitTests.Fakes.IFakeObject Lifetime: 0 ImplementationType: nanoFramework.DependencyInjection.UnitTests.Fakes.FakeObject.";
+            var serviceDescriptor = new ServiceDescriptor(typeof(IFakeObject), typeof(FakeObject), ServiceLifetime.Singleton);
+
+            Assert.IsType(typeof(IFakeObject), serviceDescriptor.ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceDescriptor.ImplementationType.GetType());
+            Assert.True(serviceDescriptor.Lifetime == ServiceLifetime.Singleton);
+            Assert.Contains(serviceDescriptor.ToString(), expectedMessage);
+        }
+
+        [TestMethod]
         public static void ServiceCollectionAdd()
         {
             var serviceCollection = new ServiceCollection();
@@ -28,9 +43,32 @@ namespace nanoFramework.DependencyInjection.UnitTests
             serviceCollection.Add(serviceDescriptor);
             Assert.Equal(1, serviceCollection.Count);
 
-            Assert.True(serviceCollection[0].ServiceType.GetType() == typeof(IFakeObject));
-            Assert.True(serviceCollection[0].ImplementationType.GetType() == typeof(FakeObject));
+            Assert.IsType(typeof(IFakeObject), serviceCollection[0].ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceCollection[0].ImplementationType.GetType());
             Assert.True(serviceCollection[0].Lifetime == ServiceLifetime.Singleton);
+        }
+
+        [TestMethod]
+        public static void ServiceCollectionReplace()
+        {
+            var serviceCollection = new ServiceCollection();
+            var serviceDescriptor = new ServiceDescriptor(typeof(IFakeObject), typeof(FakeObject), ServiceLifetime.Singleton);
+
+            serviceCollection.Add(serviceDescriptor);
+            Assert.Equal(1, serviceCollection.Count);
+
+            Assert.IsType(typeof(IFakeObject), serviceCollection[0].ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceCollection[0].ImplementationType.GetType());
+            Assert.True(serviceCollection[0].Lifetime == ServiceLifetime.Singleton);
+
+            serviceDescriptor = new ServiceDescriptor(typeof(IFakeObject), typeof(FakeObject), ServiceLifetime.Transient);
+
+            serviceCollection.Replace(serviceDescriptor);
+            Assert.Equal(1, serviceCollection.Count);
+
+            Assert.IsType(typeof(IFakeObject), serviceCollection[0].ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceCollection[0].ImplementationType.GetType());
+            Assert.True(serviceCollection[0].Lifetime == ServiceLifetime.Transient);
         }
 
         [TestMethod]
@@ -120,8 +158,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             serviceCollection.RemoveAll(typeof(IFakeObject));
             Assert.Equal(1, serviceCollection.Count);
 
-            Assert.True(serviceCollection[0].ServiceType.GetType() == typeof(IFakeService));
-            Assert.True(serviceCollection[0].ImplementationType.GetType() == typeof(FakeService));
+            Assert.IsType(typeof(IFakeService), serviceCollection[0].ServiceType.GetType());
+            Assert.IsType(typeof(FakeService), serviceCollection[0].ImplementationType.GetType());
             Assert.True(serviceCollection[0].Lifetime == ServiceLifetime.Singleton);
         }
 
@@ -138,11 +176,11 @@ namespace nanoFramework.DependencyInjection.UnitTests
             serviceCollection.RemoveAt(1);
             Assert.Equal(2, serviceCollection.Count);
 
-            Assert.True(serviceCollection[0].ServiceType.GetType() == typeof(IFakeObject));
-            Assert.True(serviceCollection[0].ImplementationType.GetType() == typeof(FakeObject));
+            Assert.IsType(typeof(IFakeObject), serviceCollection[0].ServiceType.GetType());
+            Assert.IsType(typeof(FakeObject), serviceCollection[0].ImplementationType.GetType());
             Assert.True(serviceCollection[0].Lifetime == ServiceLifetime.Transient);
-            Assert.True(serviceCollection[1].ServiceType.GetType() == typeof(IFakeService));
-            Assert.True(serviceCollection[1].ImplementationType.GetType() == typeof(FakeService));
+            Assert.IsType(typeof(IFakeService), serviceCollection[1].ServiceType.GetType());
+            Assert.IsType(typeof(FakeService), serviceCollection[1].ImplementationType.GetType());
             Assert.True(serviceCollection[1].Lifetime == ServiceLifetime.Singleton);
         }
 

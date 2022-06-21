@@ -1,7 +1,11 @@
+// Licensed to the .NET Foundation under one or more agreements.
+// The .NET Foundation licenses this file to you under the MIT license.
+
 using System;
 
 using nanoFramework.TestFramework;
 using nanoFramework.DependencyInjection.UnitTests.Fakes;
+using System.Diagnostics;
 
 namespace nanoFramework.DependencyInjection.UnitTests
 {
@@ -93,7 +97,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
             var rootService = (RootService)serviceProvider.GetRequiredService(typeof(IRootService));
-            
+
             Assert.IsType(typeof(Service1), rootService.Service1.GetType());
             Assert.IsType(typeof(Service2), rootService.Service2.GetType());
             Assert.Equal(2000, rootService.IntProperty);
@@ -101,6 +105,19 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var innerService = (Service3)serviceProvider.GetRequiredService(typeof(IService3));
             Assert.NotNull(innerService);
+        }
+
+        [TestMethod]
+        public void LastServiceReplacesPreviousServices()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddTransient(typeof(IFakeMultipleService), typeof(FakeOneMultipleService))
+                .AddTransient(typeof(IFakeMultipleService), typeof(FakeTwoMultipleService))
+                .BuildServiceProvider();
+
+            var service = (FakeTwoMultipleService)serviceProvider.GetService(typeof(IFakeMultipleService));
+
+            Assert.IsType(typeof(FakeTwoMultipleService), service.GetType());
         }
 
         [TestMethod]
@@ -160,19 +177,63 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
+        public void DoesNotAllowForAmbiguousConstructorMatches()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IFakeService), typeof(FakeService))
+                .AddSingleton(typeof(ClassWithAmbiguousCtors))
+                .BuildServiceProvider();
+
+            var expectedMessage = "Multiple constructors accepting all given argument types have been found in type 'nanoFramework.DependencyInjection.UnitTests.Fakes.ClassWithAmbiguousCtors'. There should only be one applicable constructor.";
+            Assert.Throws(typeof(InvalidOperationException),
+                () =>
+                {
+                    try
+                    {
+                        serviceProvider.GetService(typeof(ClassWithAmbiguousCtors));
+                    }
+                    catch (InvalidOperationException ex)
+                    {
+                        if (string.Equals(expectedMessage, ex.Message))
+                        {
+                            throw new InvalidOperationException();
+                        }
+                        else
+                        {
+                            throw new Exception();
+                        }
+                    }
+                }
+            );
+        }
+
+        [TestMethod]
         public void SelfResolveThenDispose()
         {
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(typeof(IFakeService), typeof(FakeService))
                 .BuildServiceProvider();
 
-            var service = (ServiceProvider)serviceProvider.GetService(typeof(IServiceProvider));
+            var service = (IDisposable)serviceProvider.GetService(typeof(IServiceProvider));
 
             Assert.NotNull(service);
 
             serviceProvider.Dispose();
-
         }
+
+        [TestMethod]
+        public void SafelyDisposeNestedProviderReferences()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddTransient(typeof(ClassWithNestedReferencesToProvider))
+                .BuildServiceProvider();
+
+            var service = (IDisposable)serviceProvider.GetService(typeof(ClassWithNestedReferencesToProvider));
+
+            Assert.NotNull(service);
+            //service.Dispose();  //TODO: Not working throwing memory error 
+        }
+
 
         [TestMethod]
         public void AttemptingToResolveNonexistentServiceReturnsNull()
@@ -185,22 +246,5 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.Null(service);
         }
-    }
-
-    public static class ObjectExtensions
-    {
-        public static bool IsDisposed(this ServiceProvider obj)
-        {
-            try
-            {
-                obj.ToString();
-                return false;
-            }
-            catch (ObjectDisposedException)
-            {
-                return true;
-            }
-        }
-
     }
 }

@@ -5,10 +5,11 @@ using System;
 
 namespace nanoFramework.DependencyInjection.UnitTests.Fakes
 {
-    public struct StructFakeService : IStructFakeService
+    public class ClassWithThrowingEmptyCtor
     {
-        public StructFakeService(PocoClass poco)
+        public ClassWithThrowingEmptyCtor()
         {
+            throw new Exception(nameof(ClassWithThrowingEmptyCtor));
         }
     }
 }

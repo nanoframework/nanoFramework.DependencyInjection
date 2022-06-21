@@ -144,7 +144,8 @@ namespace nanoFramework.DependencyInjection
                         catch
                         {
                             throw new InvalidOperationException(
-                                $"Unable to resolve service for type '{descriptor.ServiceType}' while attempting to activate '{descriptor.ImplementationType}'.");
+                                    $"Multiple constructors accepting all given argument types have been found in type '{descriptor.ImplementationType}'. There should only be one applicable constructor.");
+
                         }
                     }
                 }
@@ -176,6 +177,7 @@ namespace nanoFramework.DependencyInjection
                     {
                         throw new InvalidOperationException(
                             $"Unable to resolve service for type '{parameterType}' while attempting to activate.");
+
                     }
 
                     parameters[i] = service;
