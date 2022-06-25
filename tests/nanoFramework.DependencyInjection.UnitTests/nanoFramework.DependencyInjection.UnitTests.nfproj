@@ -29,7 +29,6 @@
   <ItemGroup>
     <Compile Include="ActivatorUtilitiesTests.cs" />
     <Compile Include="DependencyInjectionTests.cs" />
-    <Compile Include="Fakes\ClassWithAmbiguousCtorsAndAttribute.cs" />
     <Compile Include="Fakes\CreationCountFakeService.cs" />
     <Compile Include="Fakes\ClassWithThrowingEmptyCtor.cs" />
     <Compile Include="Fakes\ClassWithThrowingCtor.cs" />

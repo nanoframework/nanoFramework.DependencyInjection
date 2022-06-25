@@ -19,8 +19,8 @@
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
     <Compile Include="Application.cs" />
-    <Compile Include="HardwareService.cs" />
-    <Compile Include="IHardwareService.cs" />
+    <Compile Include="Services\HardwareService.cs" />
+    <Compile Include="Services\IHardwareService.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

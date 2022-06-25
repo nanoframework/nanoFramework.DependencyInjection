@@ -31,7 +31,6 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException(nameof(implementationType));
             }
 
-            // TODO: Should i really care about abstract?
             if (implementationType.IsAbstract || implementationType.IsInterface)
             {
                 throw new ArgumentException("Implementation type cannot be an abstract or interface class.");
@@ -69,6 +68,9 @@ namespace nanoFramework.DependencyInjection
             Lifetime = lifetime;
         }
 
+        /// <summary>
+        /// The <see cref="ServiceLifetime"/> of the service.
+        /// </summary>
         public ServiceLifetime Lifetime { get; }
 
         /// <summary>
@@ -113,7 +115,7 @@ namespace nanoFramework.DependencyInjection
             }
 
             Debug.Assert(false, "ImplementationType, ImplementationInstance or ImplementationFactory must be non null");
-            
+
             return null;
         }
 

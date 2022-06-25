@@ -15,11 +15,11 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 
 [Dependency Injection Sample](https://github.com/nanoframework/Samples/tree/main/samples/DependencyInjection)
 
-
-
 ## Dependency Injection Container
 A Dependency Injection (DI) Container provides functionality and automates many of the tasks involved in Object Composition, Interception, and Lifetime Management. It’s an engine that resolves and manages object graphs. These DI Containers depend on the static information compiled into all classes. Then using reflection they can analyze the requested class and figure out which Dependencies are required.
 
+This API mirrors as close as possible the official .NET 
+[DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
 ## Usage
 
 ### Service Collection
@@ -27,9 +27,6 @@ Creating a dependency injection container required three basic components.
  * Object Composition - A object composition defining a set of objects to create and couple.
  * Registering Services - Define an instance of the ServiceCollection  and register the object composition with a specific service lifetime.
  * Service Provider - Creating a service provider to retrive the object. 
-
-This API mirrors as close as possible the official .NET 
-[Microsoft.Extensions.DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
 
 ### Object Composition
 Define an object composition to create and couple.
@@ -49,9 +46,9 @@ public class RootObject : IRootObject
     public string Two { get; }
     public IServiceObject ServiceObject { get; protected set; }
 
-    public RootObject(IServiceObject fakeObject)
+    public RootObject(IServiceObject serviceObject)
     {
-        ServiceObject = ServiceObject;
+        ServiceObject = serviceObject;
     }
 
     public RootObject(IServiceObject serviceObject, string one, string two)
@@ -72,8 +69,18 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton(typeof(IRootObject), typeof(RootObject))
     .BuildServiceProvider();
 ```
+
+###  Validate On Build 
+A check is performed to ensure that all services registered with the container can actually be created. Any exceptions are caught and added to a list wrapped inside an AggregateException at the end of the method. This check aims to ensure that all registrations are valid and all dependencies in the dependency graph can be constructed, with all of their arguments satisfied by the container.  Enabling ValidateOnBuild ensures that most exceptions from missing or faulty service registrations can be caught early, when an application starts, rather than randomly at runtime when services are first resolved. This can be particularly useful during development to fail fast and allow developers to fix the issue.  ValidateOnBuild are false by default.
+
+```csharp
+var serviceProvider = new ServiceCollection()
+    .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
+    .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
+```
+
 ### Service Provider
-Create a Service Provider to access the object.
+Create a Service Provider to access an object.
 
 ```csharp
  var service = (RootObject)serviceProvider.GetService(typeof(IRootObject));

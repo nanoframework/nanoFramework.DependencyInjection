@@ -10,79 +10,122 @@ namespace nanoFramework.DependencyInjection
     /// </summary>
     public class ServiceCollection : IServiceCollection
     {
+        private static readonly object _syncLock = new object();
         private readonly ArrayList _descriptors = new ArrayList();
 
         /// <inheritdoc />
-        public int Count => _descriptors.Count;
+        public bool IsReadOnly => false;
 
         /// <inheritdoc />
-        public bool IsReadOnly => false;
+        public int Count
+        {
+            get
+            {
+                lock (_syncLock)
+                {
+                    return _descriptors.Count;
+                }
+            }
+        }
 
         /// <inheritdoc />
         public ServiceDescriptor this[int index]
         {
             get
             {
-                return (ServiceDescriptor)_descriptors[index];
+                lock (_syncLock)
+                {
+                    return (ServiceDescriptor)_descriptors[index];
+                }
             }
             set
             {
-                _descriptors[index] = value;
+                lock (_syncLock)
+                {
+                    _descriptors[index] = value;
+                }
             }
         }
 
         /// <inheritdoc />
         public int Add(ServiceDescriptor item)
         {
-            return _descriptors.Add(item);
+            lock (_syncLock)
+            {
+                return _descriptors.Add(item);
+            }
         }
 
         /// <inheritdoc />
         public void Clear()
         {
-            _descriptors.Clear();
+            lock (_syncLock)
+            {
+                _descriptors.Clear();
+            }
         }
 
         /// <inheritdoc />
         public bool Contains(ServiceDescriptor item)
         {
-            return _descriptors.Contains(item);
+            lock (_syncLock)
+            {
+                return _descriptors.Contains(item);
+            }
         }
 
         /// <inheritdoc />
         public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
         {
-            _descriptors.CopyTo(array, arrayIndex);
+            lock (_syncLock)
+            {
+                _descriptors.CopyTo(array, arrayIndex);
+            }
         }
 
         /// <inheritdoc />
         public void Remove(ServiceDescriptor item)
         {
-            _descriptors.Remove(item);
+            lock (_syncLock)
+            {
+                _descriptors.Remove(item);
+            }
         }
 
         /// <inheritdoc />
         public IEnumerator GetEnumerator()
         {
-            return _descriptors.GetEnumerator();
+            lock (_syncLock)
+            {
+                return _descriptors.GetEnumerator();
+            }
         }
 
         /// <inheritdoc />
         public int IndexOf(ServiceDescriptor item)
         {
-            return _descriptors.IndexOf(item);
+            lock (_syncLock)
+            {
+                return _descriptors.IndexOf(item);
+            }
         }
 
         /// <inheritdoc />
         public void Insert(int index, ServiceDescriptor item)
         {
-            _descriptors.Insert(index, item);
+            lock (_syncLock)
+            {
+                _descriptors.Insert(index, item);
+            }
         }
 
         /// <inheritdoc />
         public void RemoveAt(int index)
         {
-            _descriptors.RemoveAt(index);
+            lock (_syncLock)
+            {
+                _descriptors.RemoveAt(index);
+            }
         }
     }
 }

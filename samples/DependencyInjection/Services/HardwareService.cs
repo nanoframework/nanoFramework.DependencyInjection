@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Device.Gpio;
 
+using nanoFramework.Logging.Debug;
+
 using Microsoft.Extensions.Logging;
 
 namespace DI
@@ -11,6 +13,14 @@ namespace DI
         private Thread _thread;
         private readonly ILogger _logger;
         private readonly GpioController _gpioController;
+
+        public HardwareService()
+        {
+            _gpioController = new GpioController();
+
+            var loggerFactory = new DebugLoggerFactory();
+            _logger = loggerFactory.CreateLogger(nameof(HardwareService));
+        }
 
         public HardwareService(ILoggerFactory loggerFactory)
         {

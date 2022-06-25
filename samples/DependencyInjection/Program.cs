@@ -2,6 +2,7 @@ using nanoFramework.Logging.Debug;
 using nanoFramework.DependencyInjection;
 
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace DI
 {
@@ -22,7 +23,7 @@ namespace DI
                 .AddSingleton(typeof(Application))
                 .AddSingleton(typeof(IHardwareService), typeof(HardwareService))
                 .AddSingleton(typeof(ILoggerFactory), typeof(DebugLoggerFactory))
-                .BuildServiceProvider();
+                .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
         }
     }
 }

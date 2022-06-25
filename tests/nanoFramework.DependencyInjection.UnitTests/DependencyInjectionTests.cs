@@ -27,12 +27,14 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.NotSame(service1, service2);
         }
 
-        // TODO:  I think Array.Copy is failing to copy a struct type.
+        // TODO:  typeof(StructFakeService).GetConstructor() is failing to create struct correctly.
+        // https://github.com/nanoframework/Home/issues/1085
+
         //[TestMethod]
         //public void ServicesRegisteredWithImplementationTypeForStructSingletonServices()
         //{
         //    var serviceProvider = new ServiceCollection()
-        //        .AddSingleton(typeof(PocoClass))
+        //        .AddSingleton(typeof(IFakeObject), typeof(FakeObject))
         //        .AddSingleton(typeof(IStructFakeService), typeof(StructFakeService))
         //        .BuildServiceProvider();
 

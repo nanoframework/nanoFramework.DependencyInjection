@@ -43,9 +43,9 @@ namespace System
         {
             Type[] types = args != null ? new Type[args.Length] : new Type[] { };
 
-            for (int i = types.Length - 1; i >= 0; i--)
+            for (int index = types.Length - 1; index >= 0; index--)
             {
-                types[i] = args[i]?.GetType();
+                types[index] = args[index]?.GetType();
             }
 
             return CreateInstance(type, types, args);

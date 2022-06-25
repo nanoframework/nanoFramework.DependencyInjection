@@ -113,18 +113,18 @@ namespace System
                     return base.Message;
                 }
 
-                var msg = string.Format("{0} ", base.Message);
+                var msg = $"{ base.Message } ";
 
                 var count = _innerExceptions.Length;
-                for (int i = 0; i < count; i++)
+                for (int index = 0; index < count; index++)
                 {           
-                    if (i < count - 1)
+                    if (index < count - 1)
                     {
-                        msg = string.Concat(msg, string.Format("({0}) ", _innerExceptions[i].Message));
+                        msg = string.Concat(msg, $"({ _innerExceptions[index].Message }) ");
                     }
                     else
                     {
-                        msg = string.Concat(msg, string.Format("({0})", _innerExceptions[i].Message));
+                        msg = string.Concat(msg, $"({ _innerExceptions[index].Message })");
                     }
                 }
 
@@ -140,17 +140,17 @@ namespace System
         {
             string msg = base.ToString();
 
-            for (int i = 0; i < _innerExceptions.Length; i++)
+            for (int index = 0; index < _innerExceptions.Length; index++)
             {
-                if (i == 0)
+                if (index == 0)
                 {
                     msg = string.Concat(msg, "\n");
                 }
 
-                if (_innerExceptions[i] == InnerException)
+                if (_innerExceptions[index] == InnerException)
                     continue; // Already logged in base.ToString()
                 
-                msg = string.Concat(msg, string.Format("---> (Inner Exception #{0}) {1} <---\n", i, _innerExceptions[i].ToString()));
+                msg = string.Concat(msg, $"---> (Inner Exception #{index}) {_innerExceptions[index]} <---\n");
             }
 
             return msg;

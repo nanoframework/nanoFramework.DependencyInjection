@@ -17,14 +17,14 @@ namespace nanoFramework.DependencyInjection
         ServiceDescriptor this[int index] { get; set; }
 
         /// <summary>
-        /// Gets the number of elements contained in the collection.
-        /// </summary>
-        int Count { get; }
-
-        /// <summary>
         /// Gets a value indicating whether the collection is read-only.
         /// </summary>
         bool IsReadOnly { get; }
+
+        /// <summary>
+        /// Gets the number of elements contained in the collection.
+        /// </summary>
+        int Count { get; }
 
         /// <summary>
         /// Adds an item to the collection.

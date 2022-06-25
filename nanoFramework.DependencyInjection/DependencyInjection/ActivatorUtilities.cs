@@ -2,7 +2,6 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System;
-//using System.Diagnostics;
 using System.Reflection;
 
 namespace nanoFramework.DependencyInjection
@@ -22,7 +21,6 @@ namespace nanoFramework.DependencyInjection
         public static object CreateInstance(IServiceProvider provider, Type instanceType, params object[] parameters)
         {
             int bestLength = -1;
-            bool seenPreferred = false;
 
             ConstructorMatcher bestMatcher = default;
 
@@ -31,30 +29,13 @@ namespace nanoFramework.DependencyInjection
                 foreach (ConstructorInfo constructor in instanceType.GetConstructors())
                 {
                     var matcher = new ConstructorMatcher(constructor);
-                   
-                    bool isPreferred = constructor.IsDefined(false);
                     int length = matcher.Match(parameters);
-                    
-                    if (isPreferred)
-                    {
-                        if (seenPreferred)
-                        {
-                            throw new InvalidOperationException($"Multiple constructors were marked with {nameof(ActivatorUtilitiesConstructorAttribute)}.");
-                        }
 
-                        if (length == -1)
-                        {
-                            throw new InvalidOperationException($"Constructor marked with {nameof(ActivatorUtilitiesConstructorAttribute)} does not accept all given argument types.");
-                        }
-                    }
-
-                    if (isPreferred || bestLength < length)
+                    if (bestLength < length)
                     {
                         bestLength = length;
                         bestMatcher = matcher;
                     }
-
-                    seenPreferred |= isPreferred;
                 }
             }
 
@@ -80,9 +61,9 @@ namespace nanoFramework.DependencyInjection
 
         private struct ConstructorMatcher
         {
-            private readonly ConstructorInfo _constructor;
-            private readonly ParameterInfo[] _parameters;
             private readonly object[] _parameterValues;
+            private readonly ParameterInfo[] _parameters;
+            private readonly ConstructorInfo _constructor;
 
             public ConstructorMatcher(ConstructorInfo constructor)
             {
@@ -146,26 +127,6 @@ namespace nanoFramework.DependencyInjection
 
                 return _constructor.Invoke(_parameterValues);
             }
-        }
-    }
-
-    internal static class TypeExtensions
-    {
-        internal static bool IsDefined(this ConstructorInfo element, bool inherit)
-        {
-            // TODO: ConstructorInfo.GetCustomAttributes() not NotImplementedException? Any workaround?
-
-            //object[] attributes = element.GetCustomAttributes(inherit);
-            //for (int i = 0; i < attributes.Length; i++)
-            //{
-            //    Debug.WriteLine($"{attributes[i]}");
-            //    if (attributes[i] is ActivatorUtilitiesConstructorAttribute)
-            //    {
-            //        return true;
-            //    }
-            //}
-
-            return false;
         }
     }
 }

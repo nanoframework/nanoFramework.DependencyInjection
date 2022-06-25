@@ -131,9 +131,9 @@ namespace nanoFramework.DependencyInjection
             }
 
             int count = collection.Count;
-            for (int i = 0; i < count; i++)
+            for (int index = 0; index < count; index++)
             {
-                if (collection[i].ServiceType == descriptor.ServiceType)
+                if (collection[index].ServiceType == descriptor.ServiceType)
                 {
                     // Already added
                     return;
@@ -154,7 +154,7 @@ namespace nanoFramework.DependencyInjection
         /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registering a service implementation of a
         /// service type that
         /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(IServiceCollection, ServiceDescriptor)"/> is not idempotent and can add
+        /// <see cref="Add(ServiceDescriptor)"/> is not idempotent and can add
         /// duplicate
         /// <see cref="ServiceDescriptor"/> instances if called twice. Using
         /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
@@ -178,17 +178,15 @@ namespace nanoFramework.DependencyInjection
                 implementationType == descriptor.ServiceType)
             {
                 throw new ArgumentException(
-                        string.Format("Implementation type cannot be '{0}' because it is indistinguishable from other services registered for '{1}'.",
-                        implementationType,
-                        descriptor.ServiceType),
+                        $"Implementation type cannot be '{implementationType}' because it is indistinguishable from other services registered for '{descriptor.ServiceType}'.",
                         nameof(descriptor)
                     );
             }
 
             int count = services.Count;
-            for (int i = 0; i < count; i++)
+            for (int index = 0; index < count; index++)
             {
-                ServiceDescriptor service = services[i];
+                ServiceDescriptor service = services[index];
                 if (service.ServiceType == descriptor.ServiceType &&
                     service.GetImplementationType() == implementationType)
                 {
@@ -211,7 +209,7 @@ namespace nanoFramework.DependencyInjection
         /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registering a service
         /// implementation of a service type that
         /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(IServiceCollection, ServiceDescriptor)"/> is not idempotent and can add
+        /// <see cref="Add(ServiceDescriptor)"/> is not idempotent and can add
         /// duplicate
         /// <see cref="ServiceDescriptor"/> instances if called twice. Using
         /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
@@ -256,11 +254,11 @@ namespace nanoFramework.DependencyInjection
 
             // Remove existing
             int count = collection.Count;
-            for (int i = 0; i < count; i++)
+            for (int index = 0; index < count; index++)
             {
-                if (collection[i].ServiceType == descriptor.ServiceType)
+                if (collection[index].ServiceType == descriptor.ServiceType)
                 {
-                    collection.RemoveAt(i);
+                    collection.RemoveAt(index);
                     break;
                 }
             }
@@ -282,12 +280,12 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            for (int i = collection.Count - 1; i >= 0; i--)
+            for (int index = collection.Count - 1; index >= 0; index--)
             {
-                ServiceDescriptor descriptor = collection[i];
+                ServiceDescriptor descriptor = collection[index];
                 if (descriptor.ServiceType == serviceType)
                 {
-                    collection.RemoveAt(i);
+                    collection.RemoveAt(index);
                 }
             }
 
