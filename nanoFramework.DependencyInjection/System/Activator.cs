@@ -65,7 +65,7 @@ namespace System
             {
                 throw new ArgumentNullException(nameof(type));
             }
-
+            
             if (types == null)
             {
                 types = new Type[] { };
@@ -80,4 +80,3 @@ namespace System
         }
     }
 }
-

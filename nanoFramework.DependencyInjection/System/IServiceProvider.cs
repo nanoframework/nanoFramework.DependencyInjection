@@ -18,7 +18,7 @@ namespace System
         object GetService(Type serviceType);
 
         /// <summary>
-        /// Gets the service object of the specified type.
+        /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An array object that specifies the type of service object to get.</param>
         /// <returns>

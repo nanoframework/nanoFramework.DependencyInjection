@@ -1,4 +1,4 @@
-﻿namespace DI
+﻿namespace nanoFramework.DiApplication
 {
     public interface IHardwareService
     {

@@ -10,6 +10,7 @@ namespace nanoFramework.DependencyInjection
     /// </summary>
     public class ServiceCollection : IServiceCollection
     {
+        // TODO: Scaleback locking? Count? GetEnumerator()?
         private static readonly object _syncLock = new object();
         private readonly ArrayList _descriptors = new ArrayList();
 

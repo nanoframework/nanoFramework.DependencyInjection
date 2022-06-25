@@ -11,18 +11,18 @@ namespace nanoFramework.DependencyInjection
     /// </summary>
     public sealed class ServiceProvider : IServiceProvider, IDisposable
     {
-        internal RuntimeServiceProviderEngine _engine;
+        internal ServiceProviderEngine _engine;
 
-        internal ServiceProvider(IServiceCollection descriptors, ServiceProviderOptions options)
+        internal ServiceProvider(IServiceCollection services, ServiceProviderOptions options)
         {
             _engine = GetEngine();
-            _engine.ServiceDescriptors = descriptors;
-            _engine.ServiceDescriptors.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
+            _engine.Services = services;
+            _engine.Services.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
 
             if (options.ValidateOnBuild)
             {
                 ArrayList exceptions = null;
-                foreach (ServiceDescriptor descriptor in descriptors)
+                foreach (ServiceDescriptor descriptor in services)
                 {
                     try
                     {
@@ -57,12 +57,12 @@ namespace nanoFramework.DependencyInjection
         /// <inheritdoc />
         public void Dispose()
         {
-            _engine.Dispose();
+            _engine.DisposeServices();
         }
 
-        private RuntimeServiceProviderEngine GetEngine()
+        private ServiceProviderEngine GetEngine()
         {
-            return RuntimeServiceProviderEngine.Instance;
+            return ServiceProviderEngine.Instance;
         }
     }
 }

@@ -25,80 +25,81 @@ This API mirrors as close as possible the official .NET
 ### Service Collection
 Creating a dependency injection container required three basic components. 
  * Object Composition - A object composition defining a set of objects to create and couple.
- * Registering Services - Define an instance of the ServiceCollection  and register the object composition with a specific service lifetime.
+ * Registering Services - Define an instance of the ServiceCollection and register the object composition with a specific service lifetime.
  * Service Provider - Creating a service provider to retrive the object. 
 
 ### Object Composition
+
 Define an object composition to create and couple.
 ```csharp
-public interface IServiceObject { }
-
-public class ServiceObject : IServiceObject { }
-
-public interface IRootObject
+public class RootObject
 {
-    IServiceObject ServiceObject { get; }
-}
-
-public class RootObject : IRootObject
-{
-    public string One { get; }
+    public int One { get; }
+    
     public string Two { get; }
-    public IServiceObject ServiceObject { get; protected set; }
 
-    public RootObject(IServiceObject serviceObject)
+    public ServiceObject ServiceObject { get; protected set; }
+
+    public RootObject(ServiceObject serviceObject)
     {
         ServiceObject = serviceObject;
     }
 
-    public RootObject(IServiceObject serviceObject, string one, string two)
+    // constructor with the most parameters will be used for activation
+    public RootObject(ServiceObject serviceObject, int one, string two)
     {
         ServiceObject = serviceObject;
         One = one;
         Two = two;
     }
 }
+
+public class ServiceObject
+{
+    public string Three { get; set; }
+}
 ```
 
 ### Registering Services
-Create a Service Collection and register singleton or transient type services to the collection.
 
+Create a Service Collection and register singleton or transient type services to the collection.
 ```csharp
 var serviceProvider = new ServiceCollection()
-    .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
-    .AddSingleton(typeof(IRootObject), typeof(RootObject))
+    .AddSingleton(typeof(ServiceObject))
+    .AddSingleton(typeof(RootObject))
     .BuildServiceProvider();
+```
+### Service Provider
+
+Create a Service Provider to access or update an object.
+
+```csharp
+var service = (RootObject)serviceProvider.GetService(typeof(RootObject));
+service.ServiceObject.Three = "3";
+```
+
+## Activator Utilities
+
+An instance of an object can be created by calling its constructor with any dependencies resolved through the service provider. Automatically instantiate a type with constructor arguments provided from an IServiceProvider without having to register the type with the DI Container.
+```csharp
+var instance = (RootObject)ActivatorUtilities.CreateInstance(
+                        serviceProvider, typeof(RootObject), 1, "2"
+                    );
+
+Debug.WriteLine($"One: {instance.One}");
+Debug.WriteLine($"Two: {instance.Two}");
+Debug.WriteLine($"Three: {instance.ServiceObject.Three}");
+Debug.WriteLine($"Name: {instance.ServiceObject.GetType().Name}");
 ```
 
 ###  Validate On Build 
-A check is performed to ensure that all services registered with the container can actually be created. Any exceptions are caught and added to a list wrapped inside an AggregateException at the end of the method. This check aims to ensure that all registrations are valid and all dependencies in the dependency graph can be constructed, with all of their arguments satisfied by the container.  Enabling ValidateOnBuild ensures that most exceptions from missing or faulty service registrations can be caught early, when an application starts, rather than randomly at runtime when services are first resolved. This can be particularly useful during development to fail fast and allow developers to fix the issue.  ValidateOnBuild are false by default.
+
+A check is performed to ensure that all services registered with the container can actually be created. This can be particularly useful during development to fail fast and allow developers to fix the issue. Validate on build is configured false by default.
 
 ```csharp
 var serviceProvider = new ServiceCollection()
     .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
     .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
-```
-
-### Service Provider
-Create a Service Provider to access an object.
-
-```csharp
- var service = (RootObject)serviceProvider.GetService(typeof(IRootObject));
-```
-
-## Activator Utilities
-An instance of an object can be created by calling its constructor with any dependencies resolved through the service provider. Automatically instantiate a type with constructor arguments provided from an IServiceProvider without having to register the type with the DI Container.
-
-```csharp
-var instance = (RootObject)ActivatorUtilities.CreateInstance(
-    serviceProvider,
-    typeof(RootObject),
-    "1",
-    "2");
-
-Debug.WriteLine(instance.One);
-Debug.WriteLine(instance.Two);
-Debug.WriteLine(instance.ServiceObject.ToString());
 ```
 
 ## Example Application Container
@@ -113,7 +114,7 @@ using nanoFramework.DependencyInjection;
 
 using Microsoft.Extensions.Logging;
 
-namespace DI
+nanoFramework.DiApplication
 {
     public class Program
     {
@@ -133,55 +134,64 @@ namespace DI
                 .AddSingleton(typeof(ILoggerFactory), typeof(DebugLoggerFactory))
                 .BuildServiceProvider();
         }
+    }
 
-        internal class Application
+    internal class Application
+    {
+        private readonly ILogger _logger;
+        private readonly IHardwareService _hardware;
+        private readonly IServiceProvider _provider;
+
+        public Application(IServiceProvider provider, IHardwareService hardware, ILoggerFactory loggerFactory)
         {
-            private readonly ILogger _logger;
-            private readonly IHardwareService _hardware;
-            private readonly IServiceProvider _provider;
+            _provider = provider;
+            _hardware = hardware;
+            _logger = loggerFactory.CreateLogger(nameof(Application));
 
-            public Application(
-                IServiceProvider provider,
-                IHardwareService hardware,
-                ILoggerFactory loggerFactory)
-            {
-                _provider = provider;
-                _hardware = hardware;
-                _logger = loggerFactory.CreateLogger(nameof(Application));
-
-                _logger.LogInformation("Initializing application...");
-            }
-
-            public void Run()
-            {
-                var ledPin = 23; // Set pin number to blink
-
-                _logger.LogInformation($"Started blinking led on pin {ledPin}.");
-                _hardware.StartBlinking(ledPin);
-            }
+            _logger.LogInformation("Initializing application...");
         }
 
-        internal interface IHardwareService
+        public void Run()
         {
-            public void StartBlinking(int ledPin) { }
+            var ledPin = 23; // Set pin number to blink 15=ESP32; 23=STM32
+
+            _logger.LogInformation($"Started blinking led on pin {ledPin}.");
+            _hardware.StartBlinking(ledPin);
+        }
+    }
+
+    internal interface IHardwareService
+    {
+        public void StartBlinking(int ledPin) { }
+    }
+
+    internal class HardwareService : IHardwareService, IDisposable
+    {
+        private Thread _thread;
+        private readonly ILogger _logger;
+        private readonly GpioController _gpioController;
+
+        public HardwareService()
+        {
+            _gpioController = new GpioController();
+
+            var loggerFactory = new DebugLoggerFactory();
+            _logger = loggerFactory.CreateLogger(nameof(HardwareService));
         }
 
-        internal class HardwareService : IHardwareService, IDisposable
+        public HardwareService(ILoggerFactory loggerFactory)
         {
-            private readonly ILogger _logger;
-            private readonly GpioController _gpioController;
+            _gpioController = new GpioController();
+            _logger = loggerFactory.CreateLogger(nameof(HardwareService));
+        }
 
-            public HardwareService(ILoggerFactory loggerFactory)
+        public void StartBlinking(int ledPin)
+        {
+            GpioPin led = _gpioController.OpenPin(ledPin, PinMode.Output);
+            led.Write(PinValue.Low);
+
+            _thread = new Thread(() =>
             {
-                _gpioController = new GpioController();
-                _logger = loggerFactory.CreateLogger(nameof(HardwareService));
-            }
-
-            public void StartBlinking(int ledPin)
-            {
-                GpioPin led = _gpioController.OpenPin(ledPin, PinMode.Output);
-                led.Write(PinValue.Low);
-
                 while (true)
                 {
                     Thread.Sleep(2000);
@@ -194,13 +204,14 @@ namespace DI
                     led.Write(PinValue.Low);
                     _logger.LogInformation("Led status: off");
                 }
+            });
 
-            }
+            _thread.Start();
+        }
 
-            public void Dispose()
-            {
-                _gpioController.Dispose();
-            }
+        public void Dispose()
+        {
+            _gpioController.Dispose();
         }
     }
 }

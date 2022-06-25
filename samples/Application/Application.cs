@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.Logging;
 
-namespace DI
+namespace nanoFramework.DiApplication
 {
     internal class Application
     {

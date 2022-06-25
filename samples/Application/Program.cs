@@ -1,10 +1,10 @@
+using System;
 using nanoFramework.Logging.Debug;
 using nanoFramework.DependencyInjection;
 
 using Microsoft.Extensions.Logging;
-using System;
 
-namespace DI
+namespace nanoFramework.DiApplication
 {
     public class Program
     {
@@ -14,7 +14,6 @@ namespace DI
             var application = (Application)services.GetRequiredService(typeof(Application));
 
             application.Run();
-
         }
 
         private static ServiceProvider ConfigureServices()
@@ -23,7 +22,7 @@ namespace DI
                 .AddSingleton(typeof(Application))
                 .AddSingleton(typeof(IHardwareService), typeof(HardwareService))
                 .AddSingleton(typeof(ILoggerFactory), typeof(DebugLoggerFactory))
-                .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
+                .BuildServiceProvider();
         }
     }
 }

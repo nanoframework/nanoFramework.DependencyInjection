@@ -6,7 +6,7 @@ using nanoFramework.Logging.Debug;
 
 using Microsoft.Extensions.Logging;
 
-namespace DI
+namespace nanoFramework.DiApplication
 {
     internal class HardwareService : IHardwareService, IDisposable
     {

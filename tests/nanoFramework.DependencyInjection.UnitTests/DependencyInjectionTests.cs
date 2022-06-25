@@ -102,8 +102,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(Service1), rootService.Service1.GetType());
             Assert.IsType(typeof(Service2), rootService.Service2.GetType());
-            Assert.Equal(2000, rootService.IntProperty);
-            Assert.Equal("default", rootService.StringProperty);
+            Assert.Equal(0, rootService.IntProperty);
+            Assert.Equal(null, rootService.StringProperty);
 
             var innerService = (Service3)serviceProvider.GetRequiredService(typeof(IService3));
             Assert.NotNull(innerService);
