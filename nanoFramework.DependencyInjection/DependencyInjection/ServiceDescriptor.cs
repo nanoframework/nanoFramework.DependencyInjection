@@ -18,6 +18,8 @@ namespace nanoFramework.DependencyInjection
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
         /// <param name="implementationType">The <see cref="Type"/> implementing the service.</param>
         /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the service.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="implementationType"/> can't be null</exception>
+        /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
         public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime)
             : this(serviceType, lifetime)
         {
@@ -33,7 +35,7 @@ namespace nanoFramework.DependencyInjection
 
             if (implementationType.IsAbstract || implementationType.IsInterface)
             {
-                throw new ArgumentException("Implementation type cannot be an abstract or interface class.");
+                throw new ArgumentException();
             }
 
             ImplementationType = implementationType;
@@ -45,6 +47,7 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
         /// <param name="instance">The instance implementing the service.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="instance"/> can't be null</exception>
         public ServiceDescriptor(Type serviceType, object instance)
             : this(serviceType, ServiceLifetime.Singleton)
         {

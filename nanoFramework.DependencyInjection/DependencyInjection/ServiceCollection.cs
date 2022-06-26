@@ -39,6 +39,7 @@ namespace nanoFramework.DependencyInjection
                     return (ServiceDescriptor)_descriptors[index];
                 }
             }
+
             set
             {
                 lock (_syncLock)

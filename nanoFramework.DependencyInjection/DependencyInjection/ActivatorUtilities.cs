@@ -14,10 +14,11 @@ namespace nanoFramework.DependencyInjection
         /// <summary>
         /// Instantiate a type with constructor arguments provided directly and/or from an <see cref="IServiceProvider"/>.
         /// </summary>
-        /// <param name="provider">The service provider used to resolve dependencies</param>
+        /// <param name="provider">The service provider used to resolve dependencies.</param>
         /// <param name="instanceType">The type to activate</param>
         /// <param name="parameters">Constructor arguments not provided by the <paramref name="provider"/>.</param>
-        /// <returns>An activated object of type instanceType</returns>
+        /// <returns>An activated object of type instanceType.</returns>
+        /// <exception cref="InvalidOperationException">A suitable constructor for type <paramref name="instanceType"/> could not be located. Ensure the type is concrete and all parameters of a public constructor are either registered as services or passed as arguments. Also ensure no extraneous arguments are provided.</exception>
         public static object CreateInstance(IServiceProvider provider, Type instanceType, params object[] parameters)
         {
             int bestLength = -1;
@@ -41,8 +42,7 @@ namespace nanoFramework.DependencyInjection
 
             if (bestLength == -1)
             {
-                string message = $"A suitable constructor for type '{instanceType}' could not be located. Ensure the type is concrete and all parameters of a public constructor are either registered as services or passed as arguments. Also ensure no extraneous arguments are provided.";
-                throw new InvalidOperationException(message);
+                throw new InvalidOperationException();
             }
 
             return bestMatcher.CreateInstance(provider);
@@ -51,9 +51,10 @@ namespace nanoFramework.DependencyInjection
         /// <summary>
         /// Retrieve an instance of the given type from the service provider. If one is not found then instantiate it directly.
         /// </summary>
-        /// <param name="provider">The service provider</param>
-        /// <param name="type">The type of the service</param>
-        /// <returns>The resolved service or created instance</returns>
+        /// <param name="provider">The service provider<./param>
+        /// <param name="type">The type of the service.</param>
+        /// <returns>The resolved service or created instance.</returns>
+        /// /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activatea constructor.</exception>
         public static object GetServiceOrCreateInstance(IServiceProvider provider, Type type)
         {
             return provider.GetService(type) ?? CreateInstance(provider, type);
@@ -116,7 +117,7 @@ namespace nanoFramework.DependencyInjection
                         object value = provider.GetService(_parameters[index].ParameterType);
                         if (value == null)
                         {
-                            throw new InvalidOperationException($"Unable to resolve service for type '{_parameters[index].ParameterType}' while attempting to activate '{_constructor.DeclaringType}'.");
+                            throw new InvalidOperationException($"'{_parameters[index].ParameterType}'->'{_constructor.DeclaringType}'.");
                         }
                         else
                         {

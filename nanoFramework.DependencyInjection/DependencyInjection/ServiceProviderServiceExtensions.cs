@@ -27,6 +27,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="provider">The <see cref="IServiceProvider"/> to retrieve the services from.</param>
         /// <param name="serviceType">An array of <paramref name="serviceType"/> object that specifies the type of service object to get.</param>
         /// <returns>An array of services of type <paramref name="serviceType"/>.</returns>
+        /// <exception cref="ArgumentNullException">'provider' or 'serviceType' can't be null.</exception>
         public static object[] GetServices(this IServiceProvider provider, Type[] serviceType)
         {
             if (provider == null)
@@ -49,6 +50,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
         /// <returns>A service object of type <paramref name="serviceType"/>.</returns>
         /// <exception cref="InvalidOperationException">There is no service of type <paramref name="serviceType"/>.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/> or <paramref name="serviceType"></paramref> can't be null.</exception>
         public static object GetRequiredService(this IServiceProvider provider, Type serviceType)
         {
             if (provider == null)
@@ -64,7 +66,7 @@ namespace nanoFramework.DependencyInjection
             object service = provider.GetService(serviceType);
             if (service == null)
             {
-                throw new InvalidOperationException($"No service for type '{serviceType}' has been registered.");
+                throw new InvalidOperationException();
             }
 
             return service;
