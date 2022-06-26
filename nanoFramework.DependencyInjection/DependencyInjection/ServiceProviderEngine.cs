@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Reflection;
+using System.Collections;
 
 namespace nanoFramework.DependencyInjection
 {
@@ -148,7 +148,8 @@ namespace nanoFramework.DependencyInjection
             if (constructorParameters == null)
             {
                 throw new InvalidOperationException(
-                    $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor.");
+                        $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor."
+                    );
             }
 
             if (constructorParameters.Length == 0)
@@ -176,7 +177,8 @@ namespace nanoFramework.DependencyInjection
                         if (service == null)
                         {
                             throw new InvalidOperationException(
-                                $"Unable to resolve service for type '{parameterType}' while attempting to activate.");
+                                    $"Unable to resolve service for type '{parameterType}' while attempting to activate."
+                                );
                         }
 
                         types[index] = parameterType;
@@ -210,8 +212,8 @@ namespace nanoFramework.DependencyInjection
                         == constructors[j + 1].GetParameters().Length)
                     {
                         throw new InvalidOperationException(
-                                        $"Multiple constructors accepting all given argument types have been found in type '{implementationType}'. There should only be one applicable constructor."
-                                  );
+                                $"Multiple constructors accepting all given argument types have been found in type '{implementationType}'. There should only be one applicable constructor."
+                            );
                     }
                 }
             }
@@ -238,23 +240,36 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         private static bool CanBindPrimitive(Type type)
         {
-            return type == typeof(string)
-                || type == typeof(bool)
-                || type == typeof(byte)
-                || type == typeof(byte[])
-                || type == typeof(sbyte)
-                || type == typeof(sbyte[])
-                || type == typeof(short)
-                || type == typeof(ushort)
+            return type == typeof(object)
+                || type == typeof(string)
                 || type == typeof(int)
                 || type == typeof(uint)
+                || type == typeof(bool)
+                || type == typeof(char)
+                || type == typeof(byte)
+                || type == typeof(sbyte)
+                || type == typeof(short)
+                || type == typeof(ushort)
                 || type == typeof(long)
                 || type == typeof(ulong)
                 || type == typeof(double)
-                || type == typeof(object)
                 || type == typeof(object[])
+                || type == typeof(string[])
+                || type == typeof(int[])
+                || type == typeof(uint[])
+                || type == typeof(bool[])
+                || type == typeof(char[])
+                || type == typeof(byte[])
+                || type == typeof(sbyte[])
+                || type == typeof(short[])
+                || type == typeof(ushort[])
+                || type == typeof(long[])
+                || type == typeof(ulong[])
+                || type == typeof(double[])
+                || type == typeof(Guid)
                 || type == typeof(DateTime)
                 || type == typeof(TimeSpan)
+                || type == typeof(Enum)
                 || type == typeof(Array)
                 || type == typeof(ArrayList);
         }
@@ -264,100 +279,38 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         private static object CreateDefaultPrimitive(Type type)
         {
-            if (type == typeof(string))
-            {
-                return default(string);
-            }
-
-            if (type == typeof(bool))
-            {
-                return default(bool);
-            }
-
-            if (type == typeof(byte))
-            {
-                return default(byte);
-            }
-
-            if (type == typeof(byte[]))
-            {
-                return default(byte[]);
-            }
-
-            if (type == typeof(sbyte))
-            {
-                return default(sbyte);
-            }
-
-            if (type == typeof(sbyte[]))
-            {
-                return default(sbyte[]);
-            }
-
-            if (type == typeof(short))
-            {
-                return default(short);
-            }
-
-            if (type == typeof(ushort))
-            {
-                return default(ushort);
-            }
-
-            if (type == typeof(int))
-            {
-                return default(int);
-            }
-
-            if (type == typeof(uint))
-            {
-                return default(uint);
-            }
-
-            if (type == typeof(long))
-            {
-                return default(long);
-            }
-
-            if (type == typeof(ulong))
-            {
-                return default(ulong);
-            }
-
-            if (type == typeof(double))
-            {
-                return default(double);
-            }
-
-            if (type == typeof(object))
-            {
-                return default(object);
-            }
-
-            if (type == typeof(object[]))
-            {
-                return default(object[]);
-            }
-
-            if (type == typeof(DateTime))
-            {
-                return default(DateTime);
-            }
-
-            if (type == typeof(TimeSpan))
-            {
-                return default(TimeSpan);
-            }
-
-            if (type == typeof(Array))
-            {
-                return default(Array);
-            }
-
-            if (type == typeof(ArrayList))
-            {
-                return default(ArrayList);
-            }
+            if (type == typeof(object))     return default;
+            if (type == typeof(string))     return default(string);
+            if (type == typeof(int))        return default(int);
+            if (type == typeof(uint))       return default(uint);
+            if (type == typeof(bool))       return default(bool);
+            if (type == typeof(bool))       return default(char);
+            if (type == typeof(byte))       return default(byte);
+            if (type == typeof(sbyte))      return default(sbyte);
+            if (type == typeof(short))      return default(short);
+            if (type == typeof(ushort))     return default(ushort);
+            if (type == typeof(long))       return default(long);
+            if (type == typeof(ulong))      return default(ulong);
+            if (type == typeof(double))     return default(double);
+            if (type == typeof(object[]))   return default(object[]);
+            if (type == typeof(string[]))   return default(string[]);
+            if (type == typeof(int[]))      return default(int[]);
+            if (type == typeof(uint[]))     return default(uint[]);
+            if (type == typeof(bool[]))     return default(bool[]);
+            if (type == typeof(char[]))     return default(char[]);
+            if (type == typeof(byte[]))     return default(byte[]);
+            if (type == typeof(sbyte[]))    return default(sbyte[]);
+            if (type == typeof(short[]))    return default(short[]);
+            if (type == typeof(ushort[]))   return default(ushort[]);
+            if (type == typeof(long[]))     return default(long[]);
+            if (type == typeof(ulong[]))    return default(ulong[]);
+            if (type == typeof(double[]))   return default(double[]);
+            if (type == typeof(Guid))       return default(Guid);
+            if (type == typeof(DateTime))   return default(DateTime);
+            if (type == typeof(TimeSpan))   return default(TimeSpan);
+            if (type == typeof(Enum))       return default(Enum);
+            if (type == typeof(Array))      return default(Array);
+            if (type == typeof(ArrayList))  return default(ArrayList);
 
             return null;
         }

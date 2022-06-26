@@ -142,7 +142,10 @@ nanoFramework.DiApplication
         private readonly IHardwareService _hardware;
         private readonly IServiceProvider _provider;
 
-        public Application(IServiceProvider provider, IHardwareService hardware, ILoggerFactory loggerFactory)
+        public Application(
+            IServiceProvider provider,
+            IHardwareService hardware, 
+            ILoggerFactory loggerFactory)
         {
             _provider = provider;
             _hardware = hardware;
