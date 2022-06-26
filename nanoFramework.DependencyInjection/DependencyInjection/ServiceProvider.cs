@@ -9,6 +9,7 @@ namespace nanoFramework.DependencyInjection
     /// <summary>
     /// The default <see cref="IServiceProvider"/>.
     /// </summary>
+    /// <exception cref="AggregateException">Some services are not able to be constructed.</exception>
     public sealed class ServiceProvider : IServiceProvider, IDisposable
     {
         internal ServiceProviderEngine _engine;
@@ -37,7 +38,7 @@ namespace nanoFramework.DependencyInjection
 
                 if (exceptions != null)
                 {
-                    throw new AggregateException("Some services are not able to be constructed.", exceptions);
+                    throw new AggregateException(string.Empty, exceptions);
                 }
             }
         }

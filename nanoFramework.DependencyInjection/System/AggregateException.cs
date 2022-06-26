@@ -43,6 +43,7 @@ namespace System
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">The exceptions that are the cause of the current exception.</param>
+        /// <exception cref="ArgumentNullException">One of the <paramref name="innerException"/> is null.</exception>
         public AggregateException(string message, params Exception[] innerException)
             : base(message)
         {
@@ -50,7 +51,7 @@ namespace System
             {
                 if (ex == null)
                 {
-                    throw new ArgumentNullException(nameof(innerException));
+                    throw new ArgumentNullException();
                 }
             }
             
@@ -63,6 +64,8 @@ namespace System
         /// </summary>
         /// <param name="message">The error message that explains the reason for the exception.</param>
         /// <param name="innerException">An arraylist of <see cref="Exception"/> object exceptions that is the cause of the current exception.</param>
+        /// <exception cref="ArgumentException">An element of innerExceptions not of Exception type.</exception>
+        /// <exception cref="ArgumentNullException">One of the <paramref name="innerException"/> is null.</exception>
         public AggregateException(string message, ArrayList innerException)
             : base(message)
         {
@@ -70,7 +73,7 @@ namespace System
             {
                 if (ex == null)
                 {
-                    throw new ArgumentNullException(nameof(innerException));
+                    throw new ArgumentNullException();
                 }
             }
 
@@ -80,7 +83,7 @@ namespace System
             }
             catch
             {
-                throw new ArgumentException("An element of innerExceptions not of Exception type.");                
+                throw new ArgumentException();                
             }
         }
 

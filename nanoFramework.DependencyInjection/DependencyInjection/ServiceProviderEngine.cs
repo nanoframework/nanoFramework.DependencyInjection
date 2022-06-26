@@ -63,6 +63,8 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null.</exception>
+        /// <exception cref="ArgumentException"><paramref name="serviceType"/> can't be empty.</exception>
         internal object[] GetService(Type[] serviceType)
         {
             if (serviceType == null)
@@ -140,6 +142,8 @@ namespace nanoFramework.DependencyInjection
         /// Resolve and activates the specified implementation type.
         /// </summary>
         /// <param name="implementationType">An object that specifies the implementation type of service object to get.</param>
+        /// <exception cref="InvalidOperationException">A suitable constructor for type <paramref name="implementationType"/> could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor.</exception>
+        /// <exception cref="InvalidOperationException">Unable to resolve service for type <paramref name="implementationType"/> while attempting to activate.</exception>
         private object Resolve(Type implementationType)
         {
             object instance;
@@ -147,9 +151,7 @@ namespace nanoFramework.DependencyInjection
             ParameterInfo[] constructorParameters = GetParameters(implementationType);
             if (constructorParameters == null)
             {
-                throw new InvalidOperationException(
-                        $"A suitable constructor for type '{implementationType}' could not be located. Ensure the type is concrete and services are registered for all parameters of a public constructor."
-                    );
+                throw new InvalidOperationException();
             }
 
             if (constructorParameters.Length == 0)
@@ -165,7 +167,7 @@ namespace nanoFramework.DependencyInjection
                 {
                     var parameterType = constructorParameters[index].ParameterType;
 
-                    // TODO: I can't figure out a better way to bind primitives or create defaults.  Any ideas are welcome?
+                    // TODO: I can't figure out a better way to bind primitives or create defaults. Any ideas are welcome?
                     if (CanBindPrimitive(parameterType))
                     {
                         types[index] = parameterType;
@@ -176,9 +178,7 @@ namespace nanoFramework.DependencyInjection
                         var service = GetService(parameterType);
                         if (service == null)
                         {
-                            throw new InvalidOperationException(
-                                    $"Unable to resolve service for type '{parameterType}' while attempting to activate."
-                                );
+                            throw new InvalidOperationException();
                         }
 
                         types[index] = parameterType;
@@ -196,6 +196,7 @@ namespace nanoFramework.DependencyInjection
         /// Gets the parameters from the constructor with the most parameters.
         /// </summary>
         /// <param name="implementationType">An object that specifies the implementation type of service object to get.</param>
+        /// <exception cref="InvalidOperationException">Multiple constructors accepting all given argument types have been found in type <paramref name="implementationType"/>. There should only be one applicable constructor.</exception>
         private ParameterInfo[] GetParameters(Type implementationType)
         {
             int bestLength = -1;
@@ -211,9 +212,7 @@ namespace nanoFramework.DependencyInjection
                     if (constructors[j].GetParameters().Length
                         == constructors[j + 1].GetParameters().Length)
                     {
-                        throw new InvalidOperationException(
-                                $"Multiple constructors accepting all given argument types have been found in type '{implementationType}'. There should only be one applicable constructor."
-                            );
+                        throw new InvalidOperationException();
                     }
                 }
             }
@@ -279,38 +278,38 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         private static object CreateDefaultPrimitive(Type type)
         {
-            if (type == typeof(object))     return default;
-            if (type == typeof(string))     return default(string);
-            if (type == typeof(int))        return default(int);
-            if (type == typeof(uint))       return default(uint);
-            if (type == typeof(bool))       return default(bool);
-            if (type == typeof(bool))       return default(char);
-            if (type == typeof(byte))       return default(byte);
-            if (type == typeof(sbyte))      return default(sbyte);
-            if (type == typeof(short))      return default(short);
-            if (type == typeof(ushort))     return default(ushort);
-            if (type == typeof(long))       return default(long);
-            if (type == typeof(ulong))      return default(ulong);
-            if (type == typeof(double))     return default(double);
-            if (type == typeof(object[]))   return default(object[]);
-            if (type == typeof(string[]))   return default(string[]);
-            if (type == typeof(int[]))      return default(int[]);
-            if (type == typeof(uint[]))     return default(uint[]);
-            if (type == typeof(bool[]))     return default(bool[]);
-            if (type == typeof(char[]))     return default(char[]);
-            if (type == typeof(byte[]))     return default(byte[]);
-            if (type == typeof(sbyte[]))    return default(sbyte[]);
-            if (type == typeof(short[]))    return default(short[]);
-            if (type == typeof(ushort[]))   return default(ushort[]);
-            if (type == typeof(long[]))     return default(long[]);
-            if (type == typeof(ulong[]))    return default(ulong[]);
-            if (type == typeof(double[]))   return default(double[]);
-            if (type == typeof(Guid))       return default(Guid);
-            if (type == typeof(DateTime))   return default(DateTime);
-            if (type == typeof(TimeSpan))   return default(TimeSpan);
-            if (type == typeof(Enum))       return default(Enum);
-            if (type == typeof(Array))      return default(Array);
-            if (type == typeof(ArrayList))  return default(ArrayList);
+            if (type == typeof(object)) return default;
+            if (type == typeof(string)) return default(string);
+            if (type == typeof(int)) return default(int);
+            if (type == typeof(uint)) return default(uint);
+            if (type == typeof(bool)) return default(bool);
+            if (type == typeof(bool)) return default(char);
+            if (type == typeof(byte)) return default(byte);
+            if (type == typeof(sbyte)) return default(sbyte);
+            if (type == typeof(short)) return default(short);
+            if (type == typeof(ushort)) return default(ushort);
+            if (type == typeof(long)) return default(long);
+            if (type == typeof(ulong)) return default(ulong);
+            if (type == typeof(double)) return default(double);
+            if (type == typeof(object[])) return default(object[]);
+            if (type == typeof(string[])) return default(string[]);
+            if (type == typeof(int[])) return default(int[]);
+            if (type == typeof(uint[])) return default(uint[]);
+            if (type == typeof(bool[])) return default(bool[]);
+            if (type == typeof(char[])) return default(char[]);
+            if (type == typeof(byte[])) return default(byte[]);
+            if (type == typeof(sbyte[])) return default(sbyte[]);
+            if (type == typeof(short[])) return default(short[]);
+            if (type == typeof(ushort[])) return default(ushort[]);
+            if (type == typeof(long[])) return default(long[]);
+            if (type == typeof(ulong[])) return default(ulong[]);
+            if (type == typeof(double[])) return default(double[]);
+            if (type == typeof(Guid)) return default(Guid);
+            if (type == typeof(DateTime)) return default(DateTime);
+            if (type == typeof(TimeSpan)) return default(TimeSpan);
+            if (type == typeof(Enum)) return default(Enum);
+            if (type == typeof(Array)) return default(Array);
+            if (type == typeof(ArrayList)) return default(ArrayList);
 
             return null;
         }

@@ -3,6 +3,7 @@
 -----
 
 # Welcome to the .NET nanoFramework Dependency Injection Library repository
+
 Provides Dependency Injection (DI) for Inversion of Control (IoC) between classes and their dependencies built for .NET nanoFramework.
 
 ## Build status
@@ -16,21 +17,26 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 [Dependency Injection Sample](https://github.com/nanoframework/Samples/tree/main/samples/DependencyInjection)
 
 ## Dependency Injection Container
-A Dependency Injection (DI) Container provides functionality and automates many of the tasks involved in Object Composition, Interception, and Lifetime Management. It’s an engine that resolves and manages object graphs. These DI Containers depend on the static information compiled into all classes. Then using reflection they can analyze the requested class and figure out which Dependencies are required.
+
+A Dependency Injection (DI) Container provides functionality and automates many of the tasks involved in Object Composition, Interception, and Lifetime Management. It's an engine that resolves and manages object graphs. These DI Containers depend on the static information compiled into all classes. Then using reflection they can analyze the requested class and figure out which Dependencies are required.
 
 This API mirrors as close as possible the official .NET 
 [DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
+
 ## Usage
 
 ### Service Collection
-Creating a dependency injection container required three basic components. 
+
+Creating a dependency injection container required three basic components.
+
  * Object Composition - A object composition defining a set of objects to create and couple.
  * Registering Services - Define an instance of the ServiceCollection and register the object composition with a specific service lifetime.
- * Service Provider - Creating a service provider to retrive the object. 
+ * Service Provider - Creating a service provider to retrieve the object. 
 
 ### Object Composition
 
 Define an object composition to create and couple.
+
 ```csharp
 public class RootObject
 {
@@ -63,6 +69,7 @@ public class ServiceObject
 ### Registering Services
 
 Create a Service Collection and register singleton or transient type services to the collection.
+
 ```csharp
 var serviceProvider = new ServiceCollection()
     .AddSingleton(typeof(ServiceObject))
@@ -81,6 +88,7 @@ service.ServiceObject.Three = "3";
 ## Activator Utilities
 
 An instance of an object can be created by calling its constructor with any dependencies resolved through the service provider. Automatically instantiate a type with constructor arguments provided from an IServiceProvider without having to register the type with the DI Container.
+
 ```csharp
 var instance = (RootObject)ActivatorUtilities.CreateInstance(
                         serviceProvider, typeof(RootObject), 1, "2"
