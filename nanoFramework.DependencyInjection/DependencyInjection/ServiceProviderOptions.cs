@@ -1,5 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
 
@@ -14,7 +16,7 @@ namespace nanoFramework.DependencyInjection
         internal static readonly ServiceProviderOptions Default = new ServiceProviderOptions();
 
         /// <summary>
-        /// <c>true</c> to perform check verifying that all services can be created during <c>BuildServiceProvider</c> call; otherwise <c>false</c>. Defaults to <c>false</c>.
+        /// <see langword="true"/> to perform check verifying that all services can be created during BuildServiceProvider call; otherwise <see langword="false"/>. Defaults to <see langword="false"/>.
         /// NOTE: this check doesn't verify open generics services.
         /// </summary>
         public bool ValidateOnBuild { get; set; }

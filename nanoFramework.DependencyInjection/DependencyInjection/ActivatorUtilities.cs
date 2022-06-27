@@ -1,5 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
 using System.Reflection;
@@ -15,9 +17,9 @@ namespace nanoFramework.DependencyInjection
         /// Instantiate a type with constructor arguments provided directly and/or from an <see cref="IServiceProvider"/>.
         /// </summary>
         /// <param name="provider">The service provider used to resolve dependencies.</param>
-        /// <param name="instanceType">The type to activate</param>
+        /// <param name="instanceType">The type to activate.</param>
         /// <param name="parameters">Constructor arguments not provided by the <paramref name="provider"/>.</param>
-        /// <returns>An activated object of type instanceType.</returns>
+        /// <returns>An activated object of type <paramref name="instanceType"/>.</returns>
         /// <exception cref="InvalidOperationException">A suitable constructor for type <paramref name="instanceType"/> could not be located. Ensure the type is concrete and all parameters of a public constructor are either registered as services or passed as arguments. Also ensure no extraneous arguments are provided.</exception>
         public static object CreateInstance(IServiceProvider provider, Type instanceType, params object[] parameters)
         {
@@ -51,10 +53,10 @@ namespace nanoFramework.DependencyInjection
         /// <summary>
         /// Retrieve an instance of the given type from the service provider. If one is not found then instantiate it directly.
         /// </summary>
-        /// <param name="provider">The service provider<./param>
+        /// <param name="provider">The service provider.</param>
         /// <param name="type">The type of the service.</param>
         /// <returns>The resolved service or created instance.</returns>
-        /// /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activatea constructor.</exception>
+        /// /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activate a constructor.</exception>
         public static object GetServiceOrCreateInstance(IServiceProvider provider, Type type)
         {
             return provider.GetService(type) ?? CreateInstance(provider, type);
@@ -77,6 +79,7 @@ namespace nanoFramework.DependencyInjection
             {
                 int applyIndexStart = 0;
                 int applyExactLength = 0;
+
                 for (int givenIndex = 0; givenIndex != givenParameters.Length; givenIndex++)
                 {
                     Type givenType = givenParameters[givenIndex].GetType();
@@ -84,14 +87,16 @@ namespace nanoFramework.DependencyInjection
 
                     for (int applyIndex = applyIndexStart; givenMatched == false && applyIndex != _parameters.Length; ++applyIndex)
                     {
-                        if (_parameterValues[applyIndex] == null &&
-                            _parameters[applyIndex].ParameterType.Equals(givenType))  //TODO: Type.IsAssignableFrom?
+                        if (_parameterValues[applyIndex] == null
+                            && _parameters[applyIndex].ParameterType.Equals(givenType))  //TODO: Type.IsAssignableFrom?
                         {
                             givenMatched = true;
                             _parameterValues[applyIndex] = givenParameters[givenIndex];
+
                             if (applyIndexStart == applyIndex)
                             {
                                 applyIndexStart++;
+
                                 if (applyIndex == givenIndex)
                                 {
                                     applyExactLength = applyIndex;
@@ -115,6 +120,7 @@ namespace nanoFramework.DependencyInjection
                     if (_parameterValues[index] == null)
                     {
                         object value = provider.GetService(_parameters[index].ParameterType);
+
                         if (value == null)
                         {
                             throw new InvalidOperationException($"'{_parameters[index].ParameterType}'->'{_constructor.DeclaringType}'.");

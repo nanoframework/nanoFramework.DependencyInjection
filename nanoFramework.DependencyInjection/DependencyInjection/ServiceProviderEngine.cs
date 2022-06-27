@@ -1,4 +1,9 @@
-﻿using System;
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
+
+using System;
 using System.Reflection;
 using System.Collections;
 
@@ -50,6 +55,7 @@ namespace nanoFramework.DependencyInjection
         internal object GetService(Type serviceType)
         {
             var services = GetServiceObjects(serviceType);
+
             if (services.Length == 0)
             {
                 return null;
@@ -63,7 +69,7 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="serviceType"/> can't be empty.</exception>
         internal object[] GetService(Type[] serviceType)
         {
@@ -81,6 +87,7 @@ namespace nanoFramework.DependencyInjection
             if (serviceType.Length == 1)
             {
                 var services = GetServiceObjects(serviceType[0]);
+
                 if (services.Length > 0)
                 {
                     return services;
@@ -91,14 +98,18 @@ namespace nanoFramework.DependencyInjection
 
             // multiple service type items 
             object[] array = new object[0];
+
             foreach (Type type in serviceType)
             {
                 var services = GetServiceObjects(type);
+
                 if (services.Length > 0)
                 {
                     var newArray = new object[array.Length + services.Length];
+
                     Array.Copy(array, newArray, array.Length);
                     Array.Copy(services, 0, newArray, array.Length, services.Length);
+
                     array = newArray;
                 }
             }
@@ -149,6 +160,7 @@ namespace nanoFramework.DependencyInjection
             object instance;
 
             ParameterInfo[] constructorParameters = GetParameters(implementationType);
+
             if (constructorParameters == null)
             {
                 throw new InvalidOperationException();
@@ -176,6 +188,7 @@ namespace nanoFramework.DependencyInjection
                     else
                     {
                         var service = GetService(parameterType);
+
                         if (service == null)
                         {
                             throw new InvalidOperationException();
@@ -204,20 +217,19 @@ namespace nanoFramework.DependencyInjection
             ParameterInfo[] bestParameters = null;
             ConstructorInfo[] constructors = implementationType.GetConstructors();
 
-            // step 1: check for multiple consturctors with same number of arguments
+            // step 1: check for multiple constructors with same number of arguments
             for (int i = 0; i < constructors.Length; i++)
             {
                 for (int j = i; j < constructors.Length - 1; j++)
                 {
-                    if (constructors[j].GetParameters().Length
-                        == constructors[j + 1].GetParameters().Length)
+                    if (constructors[j].GetParameters().Length == constructors[j + 1].GetParameters().Length)
                     {
                         throw new InvalidOperationException();
                     }
                 }
             }
 
-            // setp 2: get the constructor with the most parameters
+            // step 2: get the constructor with the most parameters
             foreach (ConstructorInfo constructor in constructors)
             {
                 ParameterInfo[] parameters = constructor.GetParameters();
