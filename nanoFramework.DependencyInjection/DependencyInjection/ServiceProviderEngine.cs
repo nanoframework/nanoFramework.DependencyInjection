@@ -130,7 +130,7 @@ namespace nanoFramework.DependencyInjection
                 if (descriptor.ServiceType == serviceType)
                 {
                     if (descriptor.Lifetime == ServiceLifetime.Singleton
-                      & descriptor.ImplementationInstance != null)
+                        && descriptor.ImplementationInstance != null)
                     {
                         services.Add(descriptor.ImplementationInstance);
                     }
@@ -295,7 +295,7 @@ namespace nanoFramework.DependencyInjection
             if (type == typeof(int)) return default(int);
             if (type == typeof(uint)) return default(uint);
             if (type == typeof(bool)) return default(bool);
-            if (type == typeof(bool)) return default(char);
+            if (type == typeof(char)) return default(char);
             if (type == typeof(byte)) return default(byte);
             if (type == typeof(sbyte)) return default(sbyte);
             if (type == typeof(short)) return default(short);
