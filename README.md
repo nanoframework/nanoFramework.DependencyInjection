@@ -1,3 +1,5 @@
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.DependencyInjection&metric=alert_status)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.DependencyInjection) [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=nanoframework_nanoFramework.DependencyInjection&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=nanoframework_nanoFramework.DependencyInjection) [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE) [![NuGet](https://img.shields.io/nuget/dt/nanoFramework.DependencyInjection.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.DependencyInjection/) [![#yourfirstpr](https://img.shields.io/badge/first--timers--only-friendly-blue.svg)](https://github.com/nanoframework/Home/blob/main/CONTRIBUTING.md) [![Discord](https://img.shields.io/discord/478725473862549535.svg?logo=discord&logoColor=white&label=Discord&color=7289DA)](https://discord.gg/gCyBu8T)
+
 ![nanoFramework logo](https://raw.githubusercontent.com/nanoframework/Home/main/resources/logo/nanoFramework-repo-logo.png)
 
 -----
@@ -10,7 +12,7 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 
 | Component | Build Status | NuGet Package |
 |:-|---|---|
-| nanoFramework.DependencyInjection | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.DependencyInjection/_apis/build/status/nanoframework.DependencyInjection?repoName=nanoframework%2FnanoFramework.DependencyInjection&branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.DependencyInjection/_build/latest?definitionId=56&repoName=nanoframework%2FnanoFramework.DependencyInjection&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.DependencyInjection.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.DependencyInjection/) |
+| nanoFramework.DependencyInjection | [![Build Status](https://dev.azure.com/nanoframework/nanoFramework.DependencyInjection/_apis/build/status/nanoFramework.DependencyInjection?branchName=main)](https://dev.azure.com/nanoframework/nanoFramework.DependencyInjection/_build/latest?definitionId=95&branchName=main) | [![NuGet](https://img.shields.io/nuget/v/nanoFramework.DependencyInjection.svg?label=NuGet&style=flat&logo=nuget)](https://www.nuget.org/packages/nanoFramework.DependencyInjection/) |
 
 ## Samples
 

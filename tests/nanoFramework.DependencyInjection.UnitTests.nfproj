@@ -64,13 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="mscorlib">
-      <HintPath>..\..\packages\nanoFramework.CoreLibrary.1.12.0\lib\mscorlib.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.CoreLibrary.1.12.0\lib\mscorlib.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.TestFramework">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.TestFramework.dll</HintPath>
+      <HintPath>..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.TestFramework.dll</HintPath>
     </Reference>
     <Reference Include="nanoFramework.UnitTestLauncher">
-      <HintPath>..\..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
+      <HintPath>..\packages\nanoFramework.TestFramework.1.0.209\lib\nanoFramework.UnitTestLauncher.exe</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -78,11 +78,11 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\nanoFramework.DependencyInjection\nanoFramework.DependencyInjection.nfproj" />
+    <ProjectReference Include="..\nanoFramework.DependencyInjection\nanoFramework.DependencyInjection.nfproj" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->
-  <Import Project="..\packages\nanoFramework.TestFramework.1.0.189\build\nanoFramework.TestFramework.targets" Condition="Exists('..\packages\nanoFramework.TestFramework.1.0.189\build\nanoFramework.TestFramework.targets')" />
+  <Import Project="..\packages\nanoFramework.TestFramework.1.0.209\build\nanoFramework.TestFramework.targets" Condition="Exists('..\packages\nanoFramework.TestFramework.1.0.209\build\nanoFramework.TestFramework.targets')" />
   <ProjectExtensions>
     <ProjectCapabilities>
       <ProjectConfigurationsDeclaredAsItems />
@@ -92,6 +92,6 @@
     <PropertyGroup>
       <WarningText>Update the Import path in nfproj to the correct nanoFramework.TestFramework NuGet package folder.</WarningText>
     </PropertyGroup>
-    <Warning Condition="!Exists('..\packages\nanoFramework.TestFramework.1.0.189\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
+    <Warning Condition="!Exists('..\packages\nanoFramework.TestFramework.1.0.209\build\nanoFramework.TestFramework.targets')" Text="'$(WarningText)'" />
   </Target>
 </Project>
