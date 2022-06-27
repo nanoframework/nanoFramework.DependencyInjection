@@ -85,7 +85,7 @@ namespace nanoFramework.DependencyInjection
                     Type givenType = givenParameters[givenIndex].GetType();
                     bool givenMatched = false;
 
-                    for (int applyIndex = applyIndexStart; givenMatched == false && applyIndex != _parameters.Length; ++applyIndex)
+                    for (int applyIndex = applyIndexStart; !givenMatched && applyIndex != _parameters.Length; ++applyIndex)
                     {
                         if (_parameterValues[applyIndex] == null
                             && _parameters[applyIndex].ParameterType.Equals(givenType))  //TODO: Type.IsAssignableFrom?
@@ -105,7 +105,7 @@ namespace nanoFramework.DependencyInjection
                         }
                     }
 
-                    if (givenMatched == false)
+                    if (!givenMatched)
                     {
                         return -1;
                     }
