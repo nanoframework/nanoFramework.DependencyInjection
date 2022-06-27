@@ -1,5 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 namespace System
 {
@@ -38,7 +40,7 @@ namespace System
         /// </summary>
         /// <param name="type">The type of object to create.</param>
         /// <param name="args">An array of arguments that match in number, order, and type the parameters of the constructor to invoke. 
-        /// If args is an empty array or null, the constructor that takes no parameters (the parameterless constructor) is invoked.</param>
+        /// If <paramref name="args"/> is an empty array or null, the constructor that takes no parameters (the parameterless constructor) is invoked.</param>
         public static object CreateInstance(Type type, params object[] args)
         {
             Type[] types = args != null ? new Type[args.Length] : new Type[] { };
@@ -58,8 +60,8 @@ namespace System
         /// <param name="types">An array of Type objects representing the number, order, and type of the parameters for the desired constructor.
         /// If types is an empty array or null, to get constructor that takes no parameters.</param>
         /// <param name="args">An array of arguments that match in number, order, and type the parameters of the constructor to invoke. 
-        /// If args is an empty array or null, the constructor that takes no parameters (the parameterless constructor) is invoked.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="type"/> cn't be null</exception>
+        /// If <paramref name="args"/> is an empty array or null, the constructor that takes no parameters (the parameterless constructor) is invoked.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> can't be null</exception>
         public static object CreateInstance(Type type, Type[] types, params object[] args)
         {
             if (type == null)

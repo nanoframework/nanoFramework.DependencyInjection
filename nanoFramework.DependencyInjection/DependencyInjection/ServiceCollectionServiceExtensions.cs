@@ -1,11 +1,16 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
 using System.Collections;
 
 namespace nanoFramework.DependencyInjection
 {
+    /// <summary>
+    /// Extensions for <see cref="ServiceCollection"/>.
+    /// </summary>
     public static class ServiceCollectionServiceExtensions
     {
         /// <summary>
@@ -18,7 +23,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="implementationType">The implementation type of the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton"/>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be nul.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, Type implementationType)
         {
             if (services == null)
@@ -40,7 +45,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton"/>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType)
         {
             if (services == null)
@@ -61,7 +66,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="implementationInstance">The instance of the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Singleton"/>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, object implementationInstance)
         {
             if (services == null)
@@ -71,6 +76,7 @@ namespace nanoFramework.DependencyInjection
 
             var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance);
             services.Add(serviceDescriptor);
+
             return services;
         }
 
@@ -84,7 +90,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="implementationType">The implementation type of the service.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient"/>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, Type implementationType)
         {
             if (services == null)
@@ -106,7 +112,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
         /// <returns>A reference to this instance after the operation has completed.</returns>
         /// <seealso cref="ServiceLifetime.Transient"/>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType)
         {
             if (services == null)
@@ -123,7 +129,7 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="descriptor">The <see cref="ServiceDescriptor"/> to add.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="collection"/> or <paramref name="descriptor"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> or <paramref name="descriptor"/> can't be <see langword="null"/>.</exception>
         public static void TryAdd(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)
@@ -137,6 +143,7 @@ namespace nanoFramework.DependencyInjection
             }
 
             int count = collection.Count;
+
             for (int index = 0; index < count; index++)
             {
                 if (collection[index].ServiceType == descriptor.ServiceType)
@@ -167,7 +174,7 @@ namespace nanoFramework.DependencyInjection
         /// of multiple implementation types.
         /// </remarks>
         /// <exception cref="ArgumentException">Implementation type cannot be 'implementationType' because it is indistinguishable from other services registered for 'descriptor.ServiceType'.</exception>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> or <paramref name="descriptor"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> or <paramref name="descriptor"/> can't be <see langword="null"/>.</exception>
         public static void TryAddEnumerable(this IServiceCollection services, ServiceDescriptor descriptor)
         {
             if (services == null)
@@ -182,18 +189,20 @@ namespace nanoFramework.DependencyInjection
 
             Type implementationType = descriptor.GetImplementationType();
 
-            if (implementationType == typeof(object) ||
-                implementationType == descriptor.ServiceType)
+            if (implementationType == typeof(object)
+                || implementationType == descriptor.ServiceType)
             {
                 throw new ArgumentException();
             }
 
             int count = services.Count;
+
             for (int index = 0; index < count; index++)
             {
                 ServiceDescriptor service = services[index];
-                if (service.ServiceType == descriptor.ServiceType &&
-                    service.GetImplementationType() == implementationType)
+
+                if (service.ServiceType == descriptor.ServiceType
+                    && service.GetImplementationType() == implementationType)
                 {
                     // Already added
                     return;
@@ -220,7 +229,7 @@ namespace nanoFramework.DependencyInjection
         /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
         /// of multiple implementation types.
         /// </remarks>
-        /// <exception cref="ArgumentNullException"><paramref name="services"/> or <paramref name="descriptors"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> or <paramref name="descriptors"/> can't be <see langword="null"/>.</exception>
         public static void TryAddEnumerable(this IServiceCollection services, IEnumerable descriptors)
         {
             if (services == null)
@@ -246,7 +255,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="descriptor">The <see cref="ServiceDescriptor"/> to replace with.</param>
         /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="collection"/> or <paramref name="descriptor"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="collection"/> or <paramref name="descriptor"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
             if (collection == null)
@@ -261,6 +270,7 @@ namespace nanoFramework.DependencyInjection
 
             // Remove existing
             int count = collection.Count;
+
             for (int index = 0; index < count; index++)
             {
                 if (collection[index].ServiceType == descriptor.ServiceType)
@@ -271,6 +281,7 @@ namespace nanoFramework.DependencyInjection
             }
 
             collection.Add(descriptor);
+
             return collection;
         }
 
@@ -280,7 +291,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="collection">The <see cref="IServiceCollection"/>.</param>
         /// <param name="serviceType">The service type to remove.</param>
         /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null.</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be <see langword="null"/>.</exception>
         public static IServiceCollection RemoveAll(this IServiceCollection collection, Type serviceType)
         {
             if (serviceType == null)
@@ -291,6 +302,7 @@ namespace nanoFramework.DependencyInjection
             for (int index = collection.Count - 1; index >= 0; index--)
             {
                 ServiceDescriptor descriptor = collection[index];
+
                 if (descriptor.ServiceType == serviceType)
                 {
                     collection.RemoveAt(index);

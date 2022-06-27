@@ -1,8 +1,9 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
-
 using nanoFramework.TestFramework;
 using nanoFramework.DependencyInjection.UnitTests.Fakes;
 
@@ -32,9 +33,9 @@ namespace nanoFramework.DependencyInjection.UnitTests
                .BuildServiceProvider();
 
             var instance = (AnotherClassAcceptingData)ActivatorUtilities.CreateInstance(
-                serviceProvider, 
+                serviceProvider,
                 typeof(AnotherClassAcceptingData),
-                "1", 
+                "1",
                 "2");
 
             Assert.NotNull(instance.FakeService);
@@ -256,7 +257,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
             var expectedMessage = "Unable to resolve service for type 'nanoFramework.DependencyInjection.UnitTests.Fakes.IFakeService' while attempting to activate 'nanoFramework.DependencyInjection.UnitTests.Fakes.CreationCountFakeService'.";
-            
+
             Assert.Throws(typeof(InvalidOperationException),
                    () =>
                    {

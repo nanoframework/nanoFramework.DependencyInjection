@@ -1,5 +1,7 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+﻿//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System.Collections;
 
@@ -14,10 +16,10 @@ namespace nanoFramework.DependencyInjection
         private static readonly object _syncLock = new object();
         private readonly ArrayList _descriptors = new ArrayList();
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool IsReadOnly => false;
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int Count
         {
             get
@@ -29,7 +31,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public ServiceDescriptor this[int index]
         {
             get
@@ -49,7 +51,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int Add(ServiceDescriptor item)
         {
             lock (_syncLock)
@@ -58,7 +60,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Clear()
         {
             lock (_syncLock)
@@ -67,7 +69,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public bool Contains(ServiceDescriptor item)
         {
             lock (_syncLock)
@@ -76,7 +78,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void CopyTo(ServiceDescriptor[] array, int arrayIndex)
         {
             lock (_syncLock)
@@ -85,7 +87,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Remove(ServiceDescriptor item)
         {
             lock (_syncLock)
@@ -94,7 +96,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public IEnumerator GetEnumerator()
         {
             lock (_syncLock)
@@ -103,7 +105,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public int IndexOf(ServiceDescriptor item)
         {
             lock (_syncLock)
@@ -112,7 +114,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void Insert(int index, ServiceDescriptor item)
         {
             lock (_syncLock)
@@ -121,7 +123,7 @@ namespace nanoFramework.DependencyInjection
             }
         }
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         public void RemoveAt(int index)
         {
             lock (_syncLock)

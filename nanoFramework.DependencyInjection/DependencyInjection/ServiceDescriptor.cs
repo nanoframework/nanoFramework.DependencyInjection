@@ -1,5 +1,7 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
+//
+// Copyright (c) .NET Foundation and Contributors
+// See LICENSE file in the project root for full license information.
+//
 
 using System;
 using System.Diagnostics;
@@ -47,7 +49,7 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
         /// <param name="instance">The instance implementing the service.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="instance"/> can't be null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="instance"/> can't be <see langword="null"/></exception>
         public ServiceDescriptor(Type serviceType, object instance)
             : this(serviceType, ServiceLifetime.Singleton)
         {
