@@ -38,12 +38,14 @@ namespace nanoFramework.DependencyInjection
         {
             foreach (ServiceDescriptor descriptor in Services)
             {
-                if (descriptor.ServiceType != typeof(IServiceProvider))
+                if (descriptor.ServiceType == typeof(IServiceProvider))
                 {
-                    if (descriptor.ImplementationInstance is IDisposable instance)
-                    {
-                        instance.Dispose();
-                    }
+                    continue;
+                }
+
+                if (descriptor.ImplementationInstance is IDisposable instance)
+                {
+                    instance.Dispose();
                 }
             }
         }
@@ -75,12 +77,12 @@ namespace nanoFramework.DependencyInjection
         {
             if (serviceType == null)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                throw new ArgumentNullException();
             }
 
             if (serviceType.Length == 0)
             {
-                throw new ArgumentException(nameof(serviceType));
+                throw new ArgumentException();
             }
 
             // optimized for single item service type
@@ -179,11 +181,10 @@ namespace nanoFramework.DependencyInjection
                 {
                     var parameterType = constructorParameters[index].ParameterType;
 
-                    // TODO: I can't figure out a better way to bind primitives or create defaults. Any ideas are welcome?
-                    if (CanBindPrimitive(parameterType))
+                    if (TryBindToPrimitive(parameterType, out object defaultType))
                     {
                         types[index] = parameterType;
-                        parameters[index] = CreateDefaultPrimitive(parameterType);
+                        parameters[index] = defaultType;
                     }
                     else
                     {
@@ -247,10 +248,30 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <summary>
-        /// Attempts to bind to a primitive.
+        /// Try and bind to a primitive type.
         /// </summary>
-        private static bool CanBindPrimitive(Type type)
+        private static bool TryBindToPrimitive(Type type, out object defaultType)
         {
+            defaultType = null;
+
+            // This list dosn't match the binding list below because 
+            // we only check for items we know are not null by default 
+            if (type == typeof(object)) defaultType = default;
+            if (type == typeof(int)) defaultType = default(int);
+            if (type == typeof(uint)) defaultType = default(uint);
+            if (type == typeof(bool)) defaultType = default(bool);
+            if (type == typeof(char)) defaultType = default(char);
+            if (type == typeof(byte)) defaultType = default(byte);
+            if (type == typeof(sbyte)) defaultType = default(sbyte);
+            if (type == typeof(short)) defaultType = default(short);
+            if (type == typeof(ushort)) defaultType = default(ushort);
+            if (type == typeof(long)) defaultType = default(long);
+            if (type == typeof(ulong)) defaultType = default(ulong);
+            if (type == typeof(double)) defaultType = default(double);
+            if (type == typeof(Guid)) defaultType = default(Guid);
+            if (type == typeof(DateTime)) defaultType = default(DateTime);
+            if (type == typeof(TimeSpan)) defaultType = default(TimeSpan);
+
             return type == typeof(object)
                 || type == typeof(string)
                 || type == typeof(int)
@@ -264,66 +285,12 @@ namespace nanoFramework.DependencyInjection
                 || type == typeof(long)
                 || type == typeof(ulong)
                 || type == typeof(double)
-                || type == typeof(object[])
-                || type == typeof(string[])
-                || type == typeof(int[])
-                || type == typeof(uint[])
-                || type == typeof(bool[])
-                || type == typeof(char[])
-                || type == typeof(byte[])
-                || type == typeof(sbyte[])
-                || type == typeof(short[])
-                || type == typeof(ushort[])
-                || type == typeof(long[])
-                || type == typeof(ulong[])
-                || type == typeof(double[])
                 || type == typeof(Guid)
                 || type == typeof(DateTime)
                 || type == typeof(TimeSpan)
                 || type == typeof(Enum)
                 || type == typeof(Array)
                 || type == typeof(ArrayList);
-        }
-
-        /// <summary>
-        /// Bind to a primitive using default values.
-        /// </summary>
-        private static object CreateDefaultPrimitive(Type type)
-        {
-            if (type == typeof(object)) return default;
-            if (type == typeof(string)) return default(string);
-            if (type == typeof(int)) return default(int);
-            if (type == typeof(uint)) return default(uint);
-            if (type == typeof(bool)) return default(bool);
-            if (type == typeof(char)) return default(char);
-            if (type == typeof(byte)) return default(byte);
-            if (type == typeof(sbyte)) return default(sbyte);
-            if (type == typeof(short)) return default(short);
-            if (type == typeof(ushort)) return default(ushort);
-            if (type == typeof(long)) return default(long);
-            if (type == typeof(ulong)) return default(ulong);
-            if (type == typeof(double)) return default(double);
-            if (type == typeof(object[])) return default(object[]);
-            if (type == typeof(string[])) return default(string[]);
-            if (type == typeof(int[])) return default(int[]);
-            if (type == typeof(uint[])) return default(uint[]);
-            if (type == typeof(bool[])) return default(bool[]);
-            if (type == typeof(char[])) return default(char[]);
-            if (type == typeof(byte[])) return default(byte[]);
-            if (type == typeof(sbyte[])) return default(sbyte[]);
-            if (type == typeof(short[])) return default(short[]);
-            if (type == typeof(ushort[])) return default(ushort[]);
-            if (type == typeof(long[])) return default(long[]);
-            if (type == typeof(ulong[])) return default(ulong[]);
-            if (type == typeof(double[])) return default(double[]);
-            if (type == typeof(Guid)) return default(Guid);
-            if (type == typeof(DateTime)) return default(DateTime);
-            if (type == typeof(TimeSpan)) return default(TimeSpan);
-            if (type == typeof(Enum)) return default(Enum);
-            if (type == typeof(Array)) return default(Array);
-            if (type == typeof(ArrayList)) return default(ArrayList);
-
-            return null;
         }
     }
 }

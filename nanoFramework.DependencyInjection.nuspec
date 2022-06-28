@@ -22,11 +22,11 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="WebSockets.Server\bin\Release\nanoFramework.DependencyInjection.dll" target="lib\nanoFramework.DependencyInjection.dll" />
-    <file src="WebSockets.Server\bin\Release\nanoFramework.DependencyInjection.pdb" target="lib\nanoFramework.DependencyInjection.pdb" />
-    <file src="WebSockets.Server\bin\Release\nanoFramework.DependencyInjection.pdbx" target="lib\nanoFramework.DependencyInjection.pdbx" />
-    <file src="WebSockets.Server\bin\Release\nanoFramework.DependencyInjection.pe" target="lib\nanoFramework.DependencyInjection.pe" />
-    <file src="WebSockets.Server\bin\Release\nanoFramework.DependencyInjection.xml" target="lib\nanoFramework.DependencyInjection.xml" />
+    <file src="nanoFramework.DependencyInjection\bin\Release\nanoFramework.DependencyInjection.dll" target="lib\nanoFramework.DependencyInjection.dll" />
+    <file src="nanoFramework.DependencyInjection\bin\Release\nanoFramework.DependencyInjection.pdb" target="lib\nanoFramework.DependencyInjection.pdb" />
+    <file src="nanoFramework.DependencyInjection\bin\Release\nanoFramework.DependencyInjection.pdbx" target="lib\nanoFramework.DependencyInjection.pdbx" />
+    <file src="nanoFramework.DependencyInjection\bin\Release\nanoFramework.DependencyInjection.pe" target="lib\nanoFramework.DependencyInjection.pe" />
+    <file src="nanoFramework.DependencyInjection\bin\Release\nanoFramework.DependencyInjection.xml" target="lib\nanoFramework.DependencyInjection.xml" />
     <file src="assets\readme.txt" target="" />
     <file src="README.md" target="docs\" />
     <file src="assets\nf-logo.png" target="images\" />

@@ -167,7 +167,7 @@ namespace nanoFramework.DependencyInjection
         /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registering a service implementation of a
         /// service type that
         /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(ServiceDescriptor)"/> is not idempotent and can add
+        /// <see cref="IServiceCollection.Add(ServiceDescriptor)"/> is not idempotent and can add
         /// duplicate
         /// <see cref="ServiceDescriptor"/> instances if called twice. Using
         /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
@@ -223,7 +223,7 @@ namespace nanoFramework.DependencyInjection
         /// Use <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> when registering a service
         /// implementation of a service type that
         /// supports multiple registrations of the same service type. Using
-        /// <see cref="Add(ServiceDescriptor)"/> is not idempotent and can add
+        /// <see cref="IServiceCollection.Add(ServiceDescriptor)"/> is not idempotent and can add
         /// duplicate
         /// <see cref="ServiceDescriptor"/> instances if called twice. Using
         /// <see cref="TryAddEnumerable(IServiceCollection, ServiceDescriptor)"/> will prevent registration
@@ -242,9 +242,9 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException();
             }
 
-            foreach (ServiceDescriptor d in descriptors)
+            foreach (ServiceDescriptor descriptor in descriptors)
             {
-                services.TryAddEnumerable(d);
+                services.TryAddEnumerable(descriptor);
             }
         }
 

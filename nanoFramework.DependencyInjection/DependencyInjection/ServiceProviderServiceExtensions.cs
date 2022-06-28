@@ -34,12 +34,12 @@ namespace nanoFramework.DependencyInjection
         {
             if (provider == null)
             {
-                throw new ArgumentNullException(nameof(provider));
+                throw new ArgumentNullException();
             }
 
             if (serviceType == null)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                throw new ArgumentNullException();
             }
 
             return provider.GetService(serviceType);
@@ -57,12 +57,12 @@ namespace nanoFramework.DependencyInjection
         {
             if (provider == null)
             {
-                throw new ArgumentNullException(nameof(provider));
+                throw new ArgumentNullException();
             }
 
             if (serviceType == null)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                throw new ArgumentNullException();
             }
 
             object service = provider.GetService(serviceType);

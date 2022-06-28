@@ -18,6 +18,8 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 
 [Dependency Injection Sample](https://github.com/nanoframework/Samples/tree/main/samples/DependencyInjection)
 
+[Dependency Injection Unit Tests](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/main/tests)
+
 ## Dependency Injection Container
 
 A Dependency Injection (DI) Container provides functionality and automates many of the tasks involved in Object Composition, Interception, and Lifetime Management. It's an engine that resolves and manages object graphs. These DI Containers depend on the static information compiled into all classes. Then using reflection they can analyze the requested class and figure out which Dependencies are required.
@@ -38,6 +40,8 @@ Creating a dependency injection container required three basic components.
 ### Object Composition
 
 Define an object composition to create and couple.
+
+Note:  You can not currently define your objects as 'struct' or include array type parameters (ie. byte[] bytes) as constructor parameters.  Doing so will create a null execption when trying to activate object. 
 
 ```csharp
 public class RootObject
