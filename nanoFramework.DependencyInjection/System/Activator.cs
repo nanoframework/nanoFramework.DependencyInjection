@@ -47,7 +47,6 @@ namespace System
 
             for (int index = types.Length - 1; index >= 0; index--)
             {
-                //types[index] = args[index]?.GetType();
                 types[index] = args?[index]?.GetType();
             }
 
