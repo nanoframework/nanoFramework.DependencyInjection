@@ -33,30 +33,11 @@ namespace nanoFramework.DependencyInjection.UnitTests
         [TestMethod]
         public void GetRequiredServiceThrowsWhenNoServiceRegistered()
         {
-            Assert.SkipTest("Test failing. Ignoring for now.");
-
             var serviceProvider = CreateTestServiceProvider(0);
 
             var expectedMessage = $"No service for type 'nanoFramework.DependencyInjection.UnitTests.ServiceProviderExtensionsTest+IFoo' has been registered.";
             Assert.Throws(typeof(InvalidOperationException),
-                () =>
-                {
-                    try
-                    {
-                        serviceProvider.GetRequiredService(typeof(IFoo));
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        if (string.Equals(expectedMessage, ex.Message))
-                        {
-                            throw new InvalidOperationException();
-                        }
-                        else
-                        {
-                            throw new Exception();
-                        }
-                    }
-                }
+                () => serviceProvider.GetRequiredService(typeof(IFoo))
             );
         }
 

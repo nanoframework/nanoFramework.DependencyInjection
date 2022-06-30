@@ -121,55 +121,16 @@ namespace nanoFramework.DependencyInjection.UnitTests
         [TestMethod]
         public void TypeActivatorRequiresAllArgumentsCanBeAccepted()
         {
-            Assert.SkipTest("Test failing. Ignoring for now.");
-
-
             var serviceProvider = new ServiceCollection()
               .AddTransient(typeof(IFakeService), typeof(FakeService))
               .BuildServiceProvider();
 
-            var expectedMessage = "A suitable constructor for type 'nanoFramework.DependencyInjection.UnitTests.Fakes.AnotherClassAcceptingData' could not be located. Ensure the type is concrete and all parameters of a public constructor are either registered as services or passed as arguments. Also ensure no extraneous arguments are provided.";
-
             Assert.Throws(typeof(InvalidOperationException),
-                () =>
-                {
-                    try
-                    {
-                        ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), "1", "2", "3");
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        if (string.Equals(expectedMessage, ex.Message))
-                        {
-                            throw new InvalidOperationException();
-                        }
-                        else
-                        {
-                            throw new Exception();
-                        }
-                    }
-                }
+                () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), "1", "2", "3")
             );
 
             Assert.Throws(typeof(InvalidOperationException),
-                () =>
-                {
-                    try
-                    {
-                        ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), 1, 2);
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        if (string.Equals(expectedMessage, ex.Message))
-                        {
-                            throw new InvalidOperationException();
-                        }
-                        else
-                        {
-                            throw new Exception();
-                        }
-                    }
-                }
+                () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), 1, 2)
             );
         }
 
@@ -250,33 +211,12 @@ namespace nanoFramework.DependencyInjection.UnitTests
         [TestMethod]
         public void UnRegisteredServiceAsConstructorParameterThrowsException()
         {
-            Assert.SkipTest("Test failing. Ignoring for now.");
-
             var serviceProvider = new ServiceCollection()
                 .AddSingleton(typeof(CreationCountFakeService))
                 .BuildServiceProvider();
 
-            var expectedMessage = "Unable to resolve service for type 'nanoFramework.DependencyInjection.UnitTests.Fakes.IFakeService' while attempting to activate 'nanoFramework.DependencyInjection.UnitTests.Fakes.CreationCountFakeService'.";
-
             Assert.Throws(typeof(InvalidOperationException),
-                   () =>
-                   {
-                       try
-                       {
-                           ActivatorUtilities.CreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                       }
-                       catch (InvalidOperationException ex)
-                       {
-                           if (string.Equals(expectedMessage, ex.Message))
-                           {
-                               throw new InvalidOperationException();
-                           }
-                           else
-                           {
-                               throw new Exception();
-                           }
-                       }
-                   }
+                   () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(CreationCountFakeService))
                );
         }
     }

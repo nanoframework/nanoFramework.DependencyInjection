@@ -56,7 +56,7 @@ namespace nanoFramework.DependencyInjection
         /// <param name="provider">The service provider.</param>
         /// <param name="type">The type of the service.</param>
         /// <returns>The resolved service or created instance.</returns>
-        /// /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activate a constructor.</exception>
+        /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activate a constructor.</exception>
         public static object GetServiceOrCreateInstance(IServiceProvider provider, Type type)
         {
             return provider.GetService(type) ?? CreateInstance(provider, type);
@@ -88,7 +88,7 @@ namespace nanoFramework.DependencyInjection
                     for (int applyIndex = applyIndexStart; !givenMatched && applyIndex != _parameters.Length; ++applyIndex)
                     {
                         if (_parameterValues[applyIndex] == null
-                            && _parameters[applyIndex].ParameterType.Equals(givenType))  //TODO: Type.IsAssignableFrom?
+                            && _parameters[applyIndex].ParameterType.Equals(givenType))
                         {
                             givenMatched = true;
                             _parameterValues[applyIndex] = givenParameters[givenIndex];

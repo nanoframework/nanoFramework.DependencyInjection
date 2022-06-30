@@ -18,6 +18,16 @@ namespace nanoFramework.DependencyInjection
 
         internal ServiceProvider(IServiceCollection services, ServiceProviderOptions options)
         {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (options == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             _engine = GetEngine();
             _engine.Services = services;
             _engine.Services.Add(new ServiceDescriptor(typeof(IServiceProvider), this));

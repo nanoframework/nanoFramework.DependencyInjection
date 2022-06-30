@@ -27,12 +27,12 @@ namespace nanoFramework.DependencyInjection
         {
             if (serviceType == null)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                throw new ArgumentNullException();
             }
 
             if (implementationType == null)
             {
-                throw new ArgumentNullException(nameof(implementationType));
+                throw new ArgumentNullException();
             }
 
             if (implementationType.IsAbstract || implementationType.IsInterface)
@@ -55,12 +55,12 @@ namespace nanoFramework.DependencyInjection
         {
             if (serviceType == null)
             {
-                throw new ArgumentNullException(nameof(serviceType));
+                throw new ArgumentNullException();
             }
 
             if (instance == null)
             {
-                throw new ArgumentNullException(nameof(instance));
+                throw new ArgumentNullException();
             }
 
             ImplementationInstance = instance;

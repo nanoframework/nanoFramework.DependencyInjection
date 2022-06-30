@@ -47,7 +47,7 @@ namespace System
 
             for (int index = types.Length - 1; index >= 0; index--)
             {
-                types[index] = args[index]?.GetType();
+                types[index] = args?[index]?.GetType();
             }
 
             return CreateInstance(type, types, args);
@@ -61,7 +61,7 @@ namespace System
         /// If types is an empty array or null, to get constructor that takes no parameters.</param>
         /// <param name="args">An array of arguments that match in number, order, and type the parameters of the constructor to invoke. 
         /// If <paramref name="args"/> is an empty array or null, the constructor that takes no parameters (the parameterless constructor) is invoked.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="type"/> can't be null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="type"/> can't be null.</exception>
         public static object CreateInstance(Type type, Type[] types, params object[] args)
         {
             if (type == null)
