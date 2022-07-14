@@ -16,7 +16,7 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 
 ## Samples
 
-[Dependency Injection Sample](https://github.com/nanoframework/Samples/tree/main/samples/DependencyInjection)
+[Dependency Injection Samples](https://github.com/nanoframework/Samples/tree/main/samples/DependencyInjection)
 
 [Dependency Injection Unit Tests](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/main/tests)
 
