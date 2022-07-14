@@ -2,7 +2,15 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/cd621ea3e1b6198ac9c4fdb42ef082d60ae3d4e1...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.0.11...HEAD)
+
+**Implemented enhancements:**
+
+- Resolved issue where service provider did not dispose correctly [\#8](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/8)
+
+## [v1.0.0.11](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/v1.0.0.11) (2022-06-30)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/cd621ea3e1b6198ac9c4fdb42ef082d60ae3d4e1...v1.0.0.11)
 
 **Implemented enhancements:**
 
