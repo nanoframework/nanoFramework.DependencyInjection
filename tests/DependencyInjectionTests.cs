@@ -227,6 +227,20 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
+        public void SelfResolveAndDisposeThrowsObjectDisposedException()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+            serviceProvider.Dispose();
+
+            Assert.Throws(typeof(ObjectDisposedException),
+                () => serviceProvider.GetService(typeof(IServiceProvider)));
+        }
+
+
+        [TestMethod]
         public void SafelyDisposeNestedProviderReferences()
         {
             var serviceProvider = new ServiceCollection()
@@ -236,7 +250,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service = (IDisposable)serviceProvider.GetService(typeof(ClassWithNestedReferencesToProvider));
 
             Assert.NotNull(service);
-            //service.Dispose();  //TODO: Not working throwing memory error 
+            service.Dispose();
         }
 
 

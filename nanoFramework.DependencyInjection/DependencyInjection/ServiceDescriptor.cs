@@ -119,7 +119,7 @@ namespace nanoFramework.DependencyInjection
                 return ImplementationInstance.GetType();
             }
 
-            Debug.Assert(false, "ImplementationType, ImplementationInstance or ImplementationFactory must be non null");
+            Debug.Assert(false, "ImplementationType and ImplementationInstance must be non null");
 
             return null;
         }

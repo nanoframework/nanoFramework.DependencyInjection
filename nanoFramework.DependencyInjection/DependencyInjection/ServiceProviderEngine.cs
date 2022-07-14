@@ -36,16 +36,11 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         internal void DisposeServices()
         {
-            foreach (ServiceDescriptor descriptor in Services)
+            for (int i = Services.Count - 1; i >= 0; i--)
             {
-                if (descriptor.ServiceType == typeof(IServiceProvider))
+                if (Services[i].ImplementationInstance is IDisposable disposable)
                 {
-                    continue;
-                }
-
-                if (descriptor.ImplementationInstance is IDisposable instance)
-                {
-                    instance.Dispose();
+                    disposable.Dispose();
                 }
             }
         }
@@ -192,7 +187,7 @@ namespace nanoFramework.DependencyInjection
 
                         if (service == null)
                         {
-                            throw new InvalidOperationException();
+                            throw new InvalidOperationException($"'{implementationType}'->'{parameterType}'.");
                         }
 
                         types[index] = parameterType;

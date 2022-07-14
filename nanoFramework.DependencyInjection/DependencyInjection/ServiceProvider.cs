@@ -14,6 +14,7 @@ namespace nanoFramework.DependencyInjection
     /// <exception cref="AggregateException">Some services are not able to be constructed.</exception>
     public sealed class ServiceProvider : IServiceProvider, IDisposable
     {
+        private bool _disposed;
         internal ServiceProviderEngine _engine;
 
         internal ServiceProvider(IServiceCollection services, ServiceProviderOptions options)
@@ -59,18 +60,34 @@ namespace nanoFramework.DependencyInjection
         /// <inheritdoc/>
         public object GetService(Type serviceType)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException();
+            }
+
             return _engine.GetService(serviceType);
         }
 
         /// <inheritdoc/>
         public object[] GetService(Type[] serviceType)
         {
+            if (_disposed)
+            {
+                throw new ObjectDisposedException();
+            }
+
             return _engine.GetService(serviceType);
         }
 
         /// <inheritdoc/>
         public void Dispose()
         {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _disposed = true;
             _engine.DisposeServices();
         }
 
