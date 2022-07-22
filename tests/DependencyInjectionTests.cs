@@ -43,9 +43,6 @@ namespace nanoFramework.DependencyInjection.UnitTests
         //    Assert.IsType(typeof(StructFakeService), service.GetType());
         //}
 
-        //TODO: Reflection is not resolving with the IsArray flag
-        // https://github.com/nanoframework/Home/issues/1086
-
         [TestMethod]
         public void ServiceInstanceWithPrimitiveBinding()
         {
@@ -55,13 +52,28 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (ClassWithPrimitiveBinding)serviceProvider.GetService(typeof(ClassWithPrimitiveBinding));
 
-            Assert.Null(service.Obj);
             Assert.Null(service.Str);
-            Assert.Equal(0, service.Integer);
-            Assert.Equal(false, service.Boolean);
-            //Assert.Null(service.Characters); // array is not resolving correctly
+            Assert.Null(service.Obj);
             Assert.NotNull(service.Guid);
-            Assert.NotNull(service.Time);
+
+            Assert.True(service.Boolean == false);   
+            Assert.True(service.Short == 0);
+            Assert.True(service.Ushort == 0);
+            Assert.True(service.Int == 0);
+            Assert.True(service.UInt == 0);
+            Assert.True(service.Long == 0);
+            Assert.True(service.Ulong == 0);
+            Assert.True(service.Double == 0);
+            Assert.True(service.Float == 0);
+            Assert.True(service.Byte == new byte());
+            Assert.True(service.SByte == new sbyte());
+            Assert.True(service.DateTime == new DateTime());
+            Assert.True(service.TimeSpan == new TimeSpan());
+            Assert.True(service.Array == default);
+            Assert.True(service.ArrayList == default);
+
+            //TODO: Add array types - reflection is not resolving with the IsArray flag
+            // https://github.com/nanoframework/Home/issues/1086
         }
 
         [TestMethod]
@@ -210,6 +222,19 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.Throws(typeof(InvalidOperationException),
                 () => serviceProvider.GetService(typeof(ClassWithAmbiguousCtors))
             );
+        }
+
+        [TestMethod]
+        public void IngoreUnresolvedMultipleConstructorMatches()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IFakeService), typeof(FakeService))
+                .AddSingleton(typeof(ClassWithMultipleCtors))
+                .BuildServiceProvider();
+
+            var service = (ClassWithMultipleCtors)serviceProvider.GetService(typeof(ClassWithMultipleCtors));
+
+            Assert.Equal(2, service.CtorUsed);
         }
 
         [TestMethod]

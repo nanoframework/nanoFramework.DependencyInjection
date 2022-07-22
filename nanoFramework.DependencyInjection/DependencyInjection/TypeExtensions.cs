@@ -25,6 +25,7 @@ namespace nanoFramework.DependencyInjection
                 || type == typeof(long)
                 || type == typeof(ulong)
                 || type == typeof(double)
+                || type == typeof(float)
                 || type == typeof(object)
                 || type == typeof(DateTime)
                 || type == typeof(TimeSpan)

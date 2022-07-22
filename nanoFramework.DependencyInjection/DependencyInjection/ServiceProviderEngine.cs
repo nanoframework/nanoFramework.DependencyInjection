@@ -222,7 +222,8 @@ namespace nanoFramework.DependencyInjection
                 {
                     if (constructors[j].GetParameters().Length == constructors[j + 1].GetParameters().Length)
                     {
-                        throw new InvalidOperationException();
+                        throw new InvalidOperationException(
+                             $"Multiple constructors found in type '{implementationType}'. There should only be one applicable constructor.");
                     }
                 }
             }
@@ -278,6 +279,7 @@ namespace nanoFramework.DependencyInjection
             if (type == typeof(long)) return default(long);
             if (type == typeof(ulong)) return default(ulong);
             if (type == typeof(double)) return default(double);
+            if (type == typeof(float)) return default(float);
             if (type == typeof(Guid)) return default(Guid);
             if (type == typeof(DateTime)) return default(DateTime);
             if (type == typeof(TimeSpan)) return default(TimeSpan);
