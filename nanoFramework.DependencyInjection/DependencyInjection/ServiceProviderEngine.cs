@@ -161,7 +161,7 @@ namespace nanoFramework.DependencyInjection
             if (constructorParameters == null)
             {
                 throw new InvalidOperationException(
-                    $"A suitable constructor for type '{implementationType}' could not be located.");
+                    $"Constructor for '{implementationType}' could not be located.");
             }
 
             if (constructorParameters.Length == 0)
@@ -189,7 +189,7 @@ namespace nanoFramework.DependencyInjection
                         if (service == null)
                         {
                             throw new InvalidOperationException(
-                                $"Unable to resolve service for type '{parameterType}' while attempting to activate.");
+                                $"Unable to resolve service for '{parameterType}'.");
                         }
 
                         types[index] = parameterType;
@@ -223,7 +223,7 @@ namespace nanoFramework.DependencyInjection
                     if (constructors[j].GetParameters().Length == constructors[j + 1].GetParameters().Length)
                     {
                         throw new InvalidOperationException(
-                             $"Multiple constructors found in type '{implementationType}'. There should only be one applicable constructor.");
+                             $"Multiple constructors found in '{implementationType}'.");
                     }
                 }
             }
