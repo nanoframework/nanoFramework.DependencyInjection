@@ -108,7 +108,10 @@ namespace nanoFramework.DependencyInjection
             return lifetime + $"{nameof(ImplementationInstance)}: {ImplementationInstance}";
         }
 
-        internal Type GetImplementationType()
+        /// <summary>
+        /// Returns the <see cref="Type"/> implementing the instance.
+        /// </summary>
+        public Type GetImplementationType()
         {
             if (ImplementationType != null)
             {
