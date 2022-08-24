@@ -7,6 +7,7 @@ Project("{11A8DD76-328B-46DF-9F39-F559912D0360}") = "nanoFramework.DependencyInj
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5CA8DDDF-50C5-4044-A78C-170228780423}"
 	ProjectSection(SolutionItems) = preProject
+		.runsettings = .runsettings
 		nanoframework.DependencyInjection.nuspec = nanoframework.DependencyInjection.nuspec
 		README.md = README.md
 		version.json = version.json

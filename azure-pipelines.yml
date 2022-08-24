@@ -50,7 +50,7 @@ steps:
   parameters:
     sonarCloudProject: 'nanoframework_nanoFramework.DependencyInjection'
     runUnitTests: true
-    unitTestRunsettings: '$(System.DefaultWorkingDirectory)\tests\nano.runsettings'
+    unitTestRunsettings: '$(System.DefaultWorkingDirectory)\.runsettings'
 
 # step from template @ nf-tools repo
 # report error
