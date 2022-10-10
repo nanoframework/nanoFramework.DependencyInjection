@@ -55,11 +55,12 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         /// <param name="provider">The service provider.</param>
         /// <param name="type">The type of the service.</param>
+        /// <param name="parameters">Constructor arguments not provided by the <paramref name="provider"/>.</param>
         /// <returns>The resolved service or created instance.</returns>
         /// <exception cref="InvalidOperationException">Unable to resolve a service while attempting to activate a constructor.</exception>
-        public static object GetServiceOrCreateInstance(IServiceProvider provider, Type type)
+        public static object GetServiceOrCreateInstance(IServiceProvider provider, Type type, params object[] parameters)
         {
-            return provider.GetService(type) ?? CreateInstance(provider, type);
+            return provider.GetService(type) ?? CreateInstance(provider, type, parameters);
         }
 
         private struct ConstructorMatcher
