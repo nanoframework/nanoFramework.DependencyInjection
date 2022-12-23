@@ -2,7 +2,22 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.5...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.12...HEAD)
+
+**Documentation and other chores:**
+
+- Update 2 NuGet dependencies [\#22](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/22)
+- Update 1 NuGet dependencies [\#21](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/21)
+- Update 1 NuGet dependencies [\#20](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/20)
+- Update 1 NuGet dependencies [\#19](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/19)
+- Update 1 NuGet dependencies [\#18](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/18)
+- Update 1 NuGet dependencies [\#17](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/17)
+- Update 1 NuGet dependencies [\#16](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/16)
+- Update 1 NuGet dependencies [\#15](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/15)
+
+## [v1.0.12](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/v1.0.12) (2022-10-12)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.5...v1.0.12)
 
 **Fixed bugs:**
 
