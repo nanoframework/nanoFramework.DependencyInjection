@@ -33,6 +33,7 @@
     <Compile Include="DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="DependencyInjection\IServiceCollection.cs" />
     <Compile Include="DependencyInjection\ServiceProviderEngine.cs" />
+    <Compile Include="DependencyInjection\ServiceProviderScope.cs" />
     <Compile Include="DependencyInjection\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DependencyInjection\ServiceCollection.cs" />

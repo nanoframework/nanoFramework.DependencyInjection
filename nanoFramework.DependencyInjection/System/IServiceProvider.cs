@@ -27,5 +27,11 @@ namespace System
         /// A service object array of type <paramref name="serviceType"/>. -or- array empty if there is no service object of type <paramref name="serviceType"/>.
         /// </returns>
         object[] GetService(Type[] serviceType);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IServiceProvider CreateScope();
     }
 }

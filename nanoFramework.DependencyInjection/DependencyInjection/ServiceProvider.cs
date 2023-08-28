@@ -79,6 +79,12 @@ namespace nanoFramework.DependencyInjection
             return _engine.GetService(serviceType);
         }
 
+        /// <inheritdoc />
+        public IServiceProvider CreateScope()
+        {
+            return new ServiceProviderScope(this);
+        }
+
         /// <inheritdoc/>
         public void Dispose()
         {
