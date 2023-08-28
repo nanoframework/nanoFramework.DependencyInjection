@@ -134,7 +134,10 @@ namespace nanoFramework.DependencyInjection
                     else
                     {
                         var instance = Resolve(descriptor.ImplementationType);
-                        descriptor.ImplementationInstance = instance;
+                        if (descriptor.Lifetime != ServiceLifetime.Transient)
+                        {
+                            descriptor.ImplementationInstance = instance;
+                        }
 
                         services.Add(instance);
                     }
