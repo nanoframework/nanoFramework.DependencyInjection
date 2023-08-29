@@ -90,7 +90,7 @@ namespace nanoFramework.DependencyInjection
 #pragma warning disable S3966
                     //services must be disposed explicitly, otherwise ServiceRegisteredWithScopeIsDisposedWhenScopeIsDisposed test fails
                     disposable.Dispose();
-#pragma warning enable S3966
+#pragma warning restore S3966
                 }
             }
         }
