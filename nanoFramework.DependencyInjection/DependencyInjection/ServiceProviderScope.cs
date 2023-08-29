@@ -3,14 +3,10 @@ using System;
 
 namespace nanoFramework.DependencyInjection
 {
-    public interface IServiceProviderScope : IServiceProvider, IDisposable
-    {
-    }
-
     /// <summary>
-    /// 
+    /// Default implementation if <see cref="IServiceProviderScope"/>.
     /// </summary>
-    public class ServiceProviderScope : IServiceProviderScope
+    internal sealed class ServiceProviderScope : IServiceProviderScope
     {
         private bool _disposed;
         private readonly ServiceProvider _rootProvider;
@@ -18,10 +14,10 @@ namespace nanoFramework.DependencyInjection
         private readonly IServiceCollection _scopeServices = new ServiceCollection();
 
         /// <summary>
-        /// 
+        /// Creates instance of <see cref="ServiceProviderScope"/>.
         /// </summary>
         /// <param name="rootProvider"></param>
-        public ServiceProviderScope(ServiceProvider rootProvider)
+        internal ServiceProviderScope(ServiceProvider rootProvider)
         {
             _rootProvider = rootProvider;
 

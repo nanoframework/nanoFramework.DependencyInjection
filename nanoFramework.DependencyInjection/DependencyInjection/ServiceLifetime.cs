@@ -21,7 +21,7 @@ namespace nanoFramework.DependencyInjection
         Transient,
 
         /// <summary>
-        /// 
+        /// Specifies that a single instance of the service will be created within a scope.
         /// </summary>
         Scoped
     }

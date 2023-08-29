@@ -3,8 +3,6 @@
 // See LICENSE file in the project root for full license information.
 //
 
-using nanoFramework.DependencyInjection;
-
 namespace System
 {
     /// <summary>
@@ -31,9 +29,9 @@ namespace System
         object[] GetService(Type[] serviceType);
 
         /// <summary>
-        /// 
+        /// Creates a scope for resolving services with Scoped lifetime.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A service provider scope.</returns>
         IServiceProviderScope CreateScope();
     }
 }

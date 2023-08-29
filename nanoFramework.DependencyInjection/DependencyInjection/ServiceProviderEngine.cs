@@ -49,7 +49,7 @@ namespace nanoFramework.DependencyInjection
         /// Gets the last added service object of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <param name="scopeServices"></param>
+        /// <param name="scopeServices">Services collection from current scope.</param>
         internal object GetService(Type serviceType, IServiceCollection scopeServices = null)
         {
             var services = GetServiceObjects(serviceType, scopeServices);
@@ -67,7 +67,7 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <param name="scopeServices"></param>
+        /// <param name="scopeServices">Services collection from current scope.</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="serviceType"/> can't be empty.</exception>
         internal object[] GetService(Type[] serviceType, IServiceCollection scopeServices = null)
@@ -120,7 +120,7 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <param name="scopeServices"></param>
+        /// <param name="scopeServices">Services collection from current scope.</param>
         private object[] GetServiceObjects(Type serviceType, IServiceCollection scopeServices)
         {
             ArrayList services = new ArrayList();

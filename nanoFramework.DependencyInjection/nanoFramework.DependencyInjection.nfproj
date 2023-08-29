@@ -32,6 +32,7 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="System\IServiceProviderScope.cs" />
     <Compile Include="DependencyInjection\ServiceProviderEngine.cs" />
     <Compile Include="DependencyInjection\ServiceProviderScope.cs" />
     <Compile Include="DependencyInjection\TypeExtensions.cs" />
