@@ -3,6 +3,8 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using nanoFramework.DependencyInjection;
+
 namespace System
 {
     /// <summary>
@@ -32,6 +34,6 @@ namespace System
         /// 
         /// </summary>
         /// <returns></returns>
-        IServiceProvider CreateScope();
+        IServiceProviderScope CreateScope();
     }
 }

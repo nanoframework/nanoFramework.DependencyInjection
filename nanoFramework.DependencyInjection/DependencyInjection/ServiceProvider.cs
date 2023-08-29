@@ -80,7 +80,7 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <inheritdoc />
-        public IServiceProvider CreateScope()
+        public IServiceProviderScope CreateScope()
         {
             return new ServiceProviderScope(this);
         }

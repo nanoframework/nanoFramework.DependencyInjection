@@ -3,10 +3,14 @@ using System;
 
 namespace nanoFramework.DependencyInjection
 {
+    public interface IServiceProviderScope : IServiceProvider, IDisposable
+    {
+    }
+
     /// <summary>
     /// 
     /// </summary>
-    public class ServiceProviderScope : IServiceProvider, IDisposable
+    public class ServiceProviderScope : IServiceProviderScope
     {
         private bool _disposed;
         private readonly ServiceProvider _rootProvider;
@@ -48,7 +52,7 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <inheritdoc />
-        public IServiceProvider CreateScope()
+        public IServiceProviderScope CreateScope()
         {
             return new ServiceProviderScope(_rootProvider);
         }
@@ -69,10 +73,10 @@ namespace nanoFramework.DependencyInjection
         {
             foreach (ServiceDescriptor descriptor in _rootProvider._engine.Services)
             {
-                if (descriptor.Lifetime == ServiceLifetime.Scope)
+                if (descriptor.Lifetime == ServiceLifetime.Scoped)
                 {
                     _scopeServices.Add(new ServiceDescriptor(descriptor.ServiceType, descriptor.ImplementationType,
-                        ServiceLifetime.Scope));
+                        ServiceLifetime.Scoped));
                 }
             }
         }

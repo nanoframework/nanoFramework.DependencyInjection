@@ -20,6 +20,9 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         Transient,
 
-        Scope
+        /// <summary>
+        /// 
+        /// </summary>
+        Scoped
     }
 }

@@ -152,7 +152,7 @@ namespace nanoFramework.DependencyInjection
                             services.Add(Resolve(descriptor.ImplementationType));
                             break;
 
-                        case ServiceLifetime.Scope:
+                        case ServiceLifetime.Scoped:
                             if (scopeServices == null) //no scope, just behave as Transient
                             {
                                 services.Add(Resolve(descriptor.ImplementationType));

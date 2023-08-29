@@ -290,5 +290,59 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.Null(service);
         }
+
+        [TestMethod]
+        public void ServiceRegisteredWithScopeReturnsSameInstanceWithinScope()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+
+            using var scope = serviceProvider.CreateScope();
+            var service1 = scope.GetService(typeof(IFakeService));
+            var service2 = scope.GetService(typeof(IFakeService));
+
+            Assert.AreSame(service1, service2);
+
+        }
+
+        [TestMethod]
+        public void ServiceRegisteredWithScopeReturnsDifferentInstanceOutsideScope()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+
+            using var scope1 = serviceProvider.CreateScope();
+            using var scope2 = serviceProvider.CreateScope();
+            var service1 = scope1.GetService(typeof(IFakeService));
+            var service2 = scope2.GetService(typeof(IFakeService));
+
+            Assert.AreNotSame(service1, service2);
+        }
+
+        [TestMethod]
+        public void ServiceRegisteredWithScopeIsDisposedWhenScopeIsDisposed()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+
+            FakeService service1, service2;
+            using (var scope1 = serviceProvider.CreateScope())
+            {
+                using (var scope2 = serviceProvider.CreateScope())
+                {
+                    service1 = (FakeService)scope1.GetService(typeof(IFakeService));
+                    service2 = (FakeService)scope2.GetService(typeof(IFakeService));
+                }
+
+                Assert.IsTrue(service2.Disposed);
+                Assert.IsFalse(service1.Disposed);
+            }
+        }
     }
 }
