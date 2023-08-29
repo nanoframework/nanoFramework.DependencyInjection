@@ -8,7 +8,7 @@ using System;
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
-    /// Default implementation if <see cref="IServiceProviderScope"/>.
+    /// Default implementation of <see cref="IServiceProviderScope"/>.
     /// </summary>
     internal sealed class ServiceProviderScope : IServiceProviderScope
     {
