@@ -129,36 +129,32 @@ namespace nanoFramework.DependencyInjection
             {
                 foreach (ServiceDescriptor descriptor in scopeServices)
                 {
-                    if (descriptor.ServiceType == serviceType)
-                    {
-                        descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
-                            services.Add(descriptor.ImplementationInstance);
-                    }
+                    if (descriptor.ServiceType != serviceType) continue;
+                    descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
+                    services.Add(descriptor.ImplementationInstance);
                 }
             }
 
             foreach (ServiceDescriptor descriptor in Services)
             {
-                if (descriptor.ServiceType == serviceType)
+                if (descriptor.ServiceType != serviceType) continue;
+                switch (descriptor.Lifetime)
                 {
-                    switch (descriptor.Lifetime)
-                    {
-                        case ServiceLifetime.Singleton:
-                            descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
-                            services.Add(descriptor.ImplementationInstance);
-                            break;
-                        
-                        case ServiceLifetime.Transient:
-                            services.Add(Resolve(descriptor.ImplementationType));
-                            break;
+                    case ServiceLifetime.Singleton:
+                        descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
+                        services.Add(descriptor.ImplementationInstance);
+                        break;
 
-                        case ServiceLifetime.Scoped:
-                            if (scopeServices == null) //no scope, just behave as Transient
-                            {
-                                services.Add(Resolve(descriptor.ImplementationType));
-                            }
-                            break;    
-                    }
+                    case ServiceLifetime.Transient:
+                        services.Add(Resolve(descriptor.ImplementationType));
+                        break;
+
+                    case ServiceLifetime.Scoped:
+                        if (scopeServices == null) //no scope, just behave as Transient
+                        {
+                            services.Add(Resolve(descriptor.ImplementationType));
+                        }
+                        break;
                 }
             }
 
