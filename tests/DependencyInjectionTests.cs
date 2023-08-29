@@ -344,5 +344,19 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 Assert.IsFalse(service1.Disposed);
             }
         }
+
+        [TestMethod]
+        public void ServiceRegisteredWithScopeBehavesAsTransientWhenNoScope()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+
+            var service1 = serviceProvider.GetService(typeof(IFakeService));
+            var service2 = serviceProvider.GetService(typeof(IFakeService));
+
+            Assert.AreNotSame(service1, service2);
+        }
     }
 }
