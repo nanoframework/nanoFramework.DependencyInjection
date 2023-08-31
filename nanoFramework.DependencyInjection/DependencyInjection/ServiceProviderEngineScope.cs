@@ -8,9 +8,9 @@ using System;
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
-    /// Default implementation of <see cref="IServiceProviderScope"/>.
+    /// Default implementation of <see cref="IServiceScope"/>.
     /// </summary>
-    internal sealed class ServiceProviderScope : IServiceProviderScope
+    internal sealed class ServiceProviderEngineScope : IServiceScope
     {
         private bool _disposed;
         private readonly ServiceProvider _rootProvider;
@@ -18,10 +18,10 @@ namespace nanoFramework.DependencyInjection
         private readonly IServiceCollection _scopeServices = new ServiceCollection();
 
         /// <summary>
-        /// Creates instance of <see cref="ServiceProviderScope"/>.
+        /// Creates instance of <see cref="ServiceProviderEngineScope"/>.
         /// </summary>
         /// <param name="rootProvider"></param>
-        internal ServiceProviderScope(ServiceProvider rootProvider)
+        internal ServiceProviderEngineScope(ServiceProvider rootProvider)
         {
             _rootProvider = rootProvider;
 
@@ -52,9 +52,9 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <inheritdoc />
-        public IServiceProviderScope CreateScope()
+        public IServiceScope CreateScope()
         {
-            return new ServiceProviderScope(_rootProvider);
+            return new ServiceProviderEngineScope(_rootProvider);
         }
 
         /// <inheritdoc/>

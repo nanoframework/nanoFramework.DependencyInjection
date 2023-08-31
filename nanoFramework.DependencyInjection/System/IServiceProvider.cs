@@ -32,6 +32,6 @@ namespace System
         /// Creates a scope for resolving services with Scoped lifetime.
         /// </summary>
         /// <returns>A service provider scope.</returns>
-        IServiceProviderScope CreateScope();
+        IServiceScope CreateScope();
     }
 }
