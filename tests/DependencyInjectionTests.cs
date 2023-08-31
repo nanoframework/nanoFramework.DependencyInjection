@@ -300,8 +300,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
 
             using var scope = serviceProvider.CreateScope();
-            var service1 = scope.GetService(typeof(IFakeService));
-            var service2 = scope.GetService(typeof(IFakeService));
+            var service1 = scope.ServiceProvider.GetService(typeof(IFakeService));
+            var service2 = scope.ServiceProvider.GetService(typeof(IFakeService));
 
             Assert.AreSame(service1, service2);
 
@@ -317,8 +317,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             using var scope1 = serviceProvider.CreateScope();
             using var scope2 = serviceProvider.CreateScope();
-            var service1 = scope1.GetService(typeof(IFakeService));
-            var service2 = scope2.GetService(typeof(IFakeService));
+            var service1 = scope1.ServiceProvider.GetService(typeof(IFakeService));
+            var service2 = scope2.ServiceProvider.GetService(typeof(IFakeService));
 
             Assert.AreNotSame(service1, service2);
         }
@@ -336,8 +336,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             {
                 using (var scope2 = serviceProvider.CreateScope())
                 {
-                    service1 = (FakeService)scope1.GetService(typeof(IFakeService));
-                    service2 = (FakeService)scope2.GetService(typeof(IFakeService));
+                    service1 = (FakeService)scope1.ServiceProvider.GetService(typeof(IFakeService));
+                    service2 = (FakeService)scope2.ServiceProvider.GetService(typeof(IFakeService));
                 }
 
                 Assert.IsTrue(service2.Disposed);
@@ -379,7 +379,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
 
             using var scope = serviceProvider.CreateScope();
-            var services = scope.GetServices(typeof(IFakeService));
+            var services = scope.ServiceProvider.GetServices(typeof(IFakeService));
 
             Assert.AreEqual(1, services.Length);
         }

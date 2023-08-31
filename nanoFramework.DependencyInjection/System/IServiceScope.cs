@@ -8,7 +8,11 @@ namespace System
     /// <summary>
     /// Defines scope for <see cref="IServiceProvider"/>.
     /// </summary>
-    public interface IServiceScope : IServiceProvider, IDisposable
+    public interface IServiceScope : IDisposable
     {
+        /// <summary>
+        /// The <see cref="IServiceProvider"/> used to resolve dependencies from the scope.
+        /// </summary>
+        IServiceProvider ServiceProvider { get; }
     }
 }

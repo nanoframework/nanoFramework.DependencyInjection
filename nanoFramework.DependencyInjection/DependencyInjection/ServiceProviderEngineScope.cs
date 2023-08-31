@@ -8,9 +8,11 @@ using System;
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
-    /// Default implementation of <see cref="IServiceScope"/>.
+    /// The <see cref="System.IDisposable.Dispose"/> method ends the scope lifetime. Once Dispose
+    /// is called, any scoped services that have been resolved from
+    /// <see cref="IServiceProvider"/> will be disposed.
     /// </summary>
-    internal sealed class ServiceProviderEngineScope : IServiceScope
+    internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvider
     {
         private bool _disposed;
         private readonly ServiceProvider _rootProvider;
@@ -27,6 +29,8 @@ namespace nanoFramework.DependencyInjection
 
             CloneScopeServices();
         }
+
+        public IServiceProvider ServiceProvider => this;
 
 
         /// <inheritdoc/>
