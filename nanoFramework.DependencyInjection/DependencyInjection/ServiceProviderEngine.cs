@@ -24,6 +24,11 @@ namespace nanoFramework.DependencyInjection
         internal IServiceCollection Services { get; set; }
 
         /// <summary>
+        /// ServiceProvider Options instance
+        /// </summary>
+        internal ServiceProviderOptions Options { get; set; }
+
+        /// <summary>
         /// Validate service by attempting to activate all dependent services.
         /// </summary>
         internal void ValidateService(ServiceDescriptor descriptor)
@@ -150,10 +155,7 @@ namespace nanoFramework.DependencyInjection
                         break;
 
                     case ServiceLifetime.Scoped:
-                        if (scopeServices == null) //no scope, just behave as Transient
-                        {
-                            services.Add(Resolve(descriptor.ImplementationType));
-                        }
+                        if (scopeServices == null && Options.ValidateScopes) throw new InvalidOperationException();
                         break;
                 }
             }

@@ -32,6 +32,7 @@ namespace nanoFramework.DependencyInjection
             _engine = GetEngine();
             _engine.Services = services;
             _engine.Services.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
+            _engine.Options = options;
 
             if (options.ValidateOnBuild)
             {

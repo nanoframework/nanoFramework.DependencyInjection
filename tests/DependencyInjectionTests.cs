@@ -292,7 +292,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void ServiceRegisteredWithScopeReturnsSameInstanceWithinScope()
+        public void ServiceRegisteredWithScopedReturnsSameInstanceWithinScope()
         {
             var serviceProvider = new ServiceCollection()
                 .AddScoped(typeof(IFakeService), typeof(FakeService))
@@ -308,7 +308,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void ServiceRegisteredWithScopeReturnsDifferentInstanceOutsideScope()
+        public void ServiceRegisteredWithScopedReturnsDifferentInstanceOutsideScope()
         {
             var serviceProvider = new ServiceCollection()
                 .AddScoped(typeof(IFakeService), typeof(FakeService))
@@ -324,7 +324,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void ServiceRegisteredWithScopeIsDisposedWhenScopeIsDisposed()
+        public void ServiceRegisteredWithScopedIsDisposedWhenScopeIsDisposed()
         {
             var serviceProvider = new ServiceCollection()
                 .AddScoped(typeof(IFakeService), typeof(FakeService))
@@ -346,17 +346,42 @@ namespace nanoFramework.DependencyInjection.UnitTests
         }
 
         [TestMethod]
-        public void ServiceRegisteredWithScopeBehavesAsTransientWhenNoScope()
+        public void ServiceRegisteredWithScopedReturnsNullWhenNoScope()
         {
             var serviceProvider = new ServiceCollection()
                 .AddScoped(typeof(IFakeService), typeof(FakeService))
                 .BuildServiceProvider();
 
 
-            var service1 = serviceProvider.GetService(typeof(IFakeService));
-            var service2 = serviceProvider.GetService(typeof(IFakeService));
+            var service = serviceProvider.GetService(typeof(IFakeService));
 
-            Assert.AreNotSame(service1, service2);
+            Assert.IsNull(service);
+        }
+
+        [TestMethod]
+        public void ServiceRegisteredWithScopedThrowsExceptionWhenValidateScopesEnabledAndNoScope()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider(new ServiceProviderOptions{ValidateScopes = true});
+
+
+            Assert.ThrowsException(typeof(InvalidOperationException),
+                () => serviceProvider.GetService(typeof(IFakeService)));
+        }
+
+        [TestMethod]
+        public void NoDuplicateServiceRegisteredWithScoped()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddScoped(typeof(IFakeService), typeof(FakeService))
+                .BuildServiceProvider();
+
+
+            using var scope = serviceProvider.CreateScope();
+            var services = scope.GetServices(typeof(IFakeService));
+
+            Assert.AreEqual(1, services.Length);
         }
     }
 }
