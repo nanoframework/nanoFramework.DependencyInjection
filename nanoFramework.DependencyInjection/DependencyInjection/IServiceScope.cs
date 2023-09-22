@@ -3,7 +3,9 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace System
+using System;
+
+namespace nanoFramework.DependencyInjection
 {
     /// <summary>
     /// Defines scope for <see cref="IServiceProvider"/>.

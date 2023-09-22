@@ -15,23 +15,29 @@ namespace nanoFramework.DependencyInjection
     internal sealed class ServiceProviderEngineScope : IServiceScope, IServiceProvider
     {
         private bool _disposed;
-        private readonly ServiceProvider _rootProvider;
 
         private readonly IServiceCollection _scopeServices = new ServiceCollection();
 
         /// <summary>
+        /// The root service provider used to resolve dependencies from the scope.
+        /// </summary>
+        internal ServiceProvider RootProvider { get; }
+        
+        /// <summary>
         /// Creates instance of <see cref="ServiceProviderEngineScope"/>.
         /// </summary>
-        /// <param name="rootProvider"></param>
-        internal ServiceProviderEngineScope(ServiceProvider rootProvider)
+        /// <param name="provider">The root service provider used to resolve dependencies from the scope.</param>
+        internal ServiceProviderEngineScope(ServiceProvider provider)
         {
-            _rootProvider = rootProvider;
+            RootProvider = provider;
 
             CloneScopeServices();
         }
 
+        /// <summary>
+        /// The <see cref="IServiceProvider"/> resolved from the scope.
+        /// </summary>
         public IServiceProvider ServiceProvider => this;
-
 
         /// <inheritdoc/>
         public object GetService(Type serviceType)
@@ -41,7 +47,7 @@ namespace nanoFramework.DependencyInjection
                 throw new ObjectDisposedException();
             }
 
-            return _rootProvider._engine.GetService(serviceType, _scopeServices);
+            return RootProvider.Engine.GetService(serviceType, _scopeServices);
         }
 
         /// <inheritdoc/>
@@ -52,13 +58,13 @@ namespace nanoFramework.DependencyInjection
                 throw new ObjectDisposedException();
             }
 
-            return _rootProvider._engine.GetService(serviceType, _scopeServices);
+            return RootProvider.Engine.GetService(serviceType, _scopeServices);
         }
 
         /// <inheritdoc />
         public IServiceScope CreateScope()
         {
-            return new ServiceProviderEngineScope(_rootProvider);
+            return new ServiceProviderEngineScope(RootProvider);
         }
 
         /// <inheritdoc/>
@@ -75,12 +81,12 @@ namespace nanoFramework.DependencyInjection
 
         private void CloneScopeServices()
         {
-            foreach (ServiceDescriptor descriptor in _rootProvider._engine.Services)
+            foreach (ServiceDescriptor descriptor in RootProvider.Engine.Services)
             {
                 if (descriptor.Lifetime == ServiceLifetime.Scoped)
                 {
-                    _scopeServices.Add(new ServiceDescriptor(descriptor.ServiceType, descriptor.ImplementationType,
-                        ServiceLifetime.Scoped));
+                    _scopeServices.Add(new ServiceDescriptor(
+                        descriptor.ServiceType, descriptor.ImplementationType, ServiceLifetime.Scoped));
                 }
             }
         }
@@ -91,10 +97,7 @@ namespace nanoFramework.DependencyInjection
             {
                 if (_scopeServices[index].ImplementationInstance is IDisposable disposable)
                 {
-#pragma warning disable S3966
-                    //services must be disposed explicitly, otherwise ServiceRegisteredWithScopeIsDisposedWhenScopeIsDisposed test fails
                     disposable.Dispose();
-#pragma warning restore S3966
                 }
             }
         }

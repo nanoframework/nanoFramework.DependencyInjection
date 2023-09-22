@@ -32,7 +32,8 @@
   <ItemGroup>
     <Compile Include="DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="DependencyInjection\IServiceCollection.cs" />
-    <Compile Include="System\IServiceScope.cs" />
+    <Compile Include="DependencyInjection\ServiceScope.cs" />
+    <Compile Include="DependencyInjection\IServiceScope.cs" />
     <Compile Include="DependencyInjection\ServiceProviderEngine.cs" />
     <Compile Include="DependencyInjection\ServiceProviderEngineScope.cs" />
     <Compile Include="DependencyInjection\TypeExtensions.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="System\IServiceProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
