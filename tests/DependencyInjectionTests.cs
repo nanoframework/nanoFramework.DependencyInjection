@@ -291,6 +291,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             Assert.Null(service);
         }
 
+
         [TestMethod]
         public void ServiceRegisteredWithScopedReturnsSameInstanceWithinScope()
         {

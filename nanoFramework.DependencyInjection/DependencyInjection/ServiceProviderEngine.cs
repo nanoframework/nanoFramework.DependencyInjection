@@ -135,6 +135,7 @@ namespace nanoFramework.DependencyInjection
                 foreach (ServiceDescriptor descriptor in scopeServices)
                 {
                     if (descriptor.ServiceType != serviceType) continue;
+
                     descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
                     services.Add(descriptor.ImplementationInstance);
                 }
@@ -143,6 +144,7 @@ namespace nanoFramework.DependencyInjection
             foreach (ServiceDescriptor descriptor in Services)
             {
                 if (descriptor.ServiceType != serviceType) continue;
+                
                 switch (descriptor.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
@@ -155,7 +157,8 @@ namespace nanoFramework.DependencyInjection
                         break;
 
                     case ServiceLifetime.Scoped:
-                        if (scopeServices == null && Options.ValidateScopes) throw new InvalidOperationException();
+                        if (scopeServices == null && Options.ValidateScopes)
+                            throw new InvalidOperationException();
                         break;
                 }
             }

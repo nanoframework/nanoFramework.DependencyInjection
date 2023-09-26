@@ -27,18 +27,5 @@ namespace System
         /// A service object array of type <paramref name="serviceType"/>. -or- array empty if there is no service object of type <paramref name="serviceType"/>.
         /// </returns>
         object[] GetService(Type[] serviceType);
-
-        /// <summary>
-        /// Create an <see cref="IServiceScope"/> which
-        /// contains an <see cref="System.IServiceProvider"/> used to resolve dependencies from a
-        /// newly created scope.
-        /// </summary>
-        /// <returns>
-        /// An <see cref="IServiceScope"/> controlling the
-        /// lifetime of the scope. Once this is disposed, any scoped services that have been resolved
-        /// from the <see cref="IServiceScope.ServiceProvider"/>
-        /// will also be disposed.
-        /// </returns>
-        IServiceScope CreateScope();
     }
 }

@@ -9,7 +9,7 @@ using System.Collections;
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
-    /// Extensions for <see cref="ServiceCollection"/>.
+    /// Extensions for <see cref="IServiceCollection"/>.
     /// </summary>
     public static class ServiceCollectionServiceExtensions
     {

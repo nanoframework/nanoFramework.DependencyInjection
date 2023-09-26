@@ -27,6 +27,8 @@ A Dependency Injection (DI) Container provides functionality and automates many 
 This API mirrors as close as possible the official .NET 
 [DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
 
+The .NET nanoFramework [Generic Host](https://github.com/nanoframework/nanoFramework.Hosting) provides convenience methods for creating dependency injection (DI) application containers with preconfigured defaults.
+
 ## Usage
 
 ### Service Collection
@@ -91,6 +93,20 @@ var service = (RootObject)serviceProvider.GetService(typeof(RootObject));
 service.ServiceObject.Three = "3";
 ```
 
+Create a scoped Service Provider providing convient access to crate and distroy scoped object.
+
+```csharp
+var serviceProvider = new ServiceCollection()
+    .AddScoped(typeof(typeof(ServiceObject))
+    .BuildServiceProvider();
+
+using (var scope = serviceProvider.CreateScope())
+{
+    var service = scope.ServiceProvider.GetServices(typeof(ServiceObject));
+    service.ServiceObject.Three = "3";
+}
+```
+
 ## Activator Utilities
 
 An instance of an object can be created by calling its constructor with any dependencies resolved through the service provider. Automatically instantiate a type with constructor arguments provided from an IServiceProvider without having to register the type with the DI Container.
@@ -115,6 +131,18 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
     .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
 ```
+
+
+###  Validate Scopes
+
+A check verifying that scoped services never gets resolved from root provider. Validate on build is configured false by default.
+
+```csharp
+var serviceProvider = new ServiceCollection()
+    .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
+    .BuildServiceProvider(new ServiceProviderOptions() { ValidateScopes = true });
+```
+
 
 ## Example Application Container
 

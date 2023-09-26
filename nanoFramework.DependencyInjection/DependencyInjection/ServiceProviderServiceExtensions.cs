@@ -20,6 +20,11 @@ namespace nanoFramework.DependencyInjection
         /// <returns>An array of services of type <paramref name="serviceType"/>.</returns>
         public static object[] GetServices(this IServiceProvider provider, Type serviceType)
         {
+            if (provider == null)
+            {
+                throw new ArgumentNullException();
+            }
+
             return provider.GetService(new Type[] { serviceType });
         }
 
@@ -73,6 +78,16 @@ namespace nanoFramework.DependencyInjection
             }
 
             return service;
+        }
+
+        /// <summary>
+        /// Creates a new <see cref="ServiceScope"/> that can be used to resolve scoped services.
+        /// </summary>
+        /// <param name="provider">The <see cref="IServiceProvider"/> to create the scope from.</param>
+        /// <returns>An <see cref="ServiceScope"/> that can be used to resolve scoped services.</returns>
+        public static IServiceScope CreateScope(this IServiceProvider provider)
+        {
+            return new ServiceScope(provider.CreateScope());
         }
     }
 }
