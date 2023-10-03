@@ -97,7 +97,9 @@ namespace nanoFramework.DependencyInjection
             {
                 if (_scopeServices[index].ImplementationInstance is IDisposable disposable)
                 {
+#pragma warning disable S3966 //services must be disposed explicitly, otherwise ServiceRegisteredWithScopeIsDisposedWhenScopeIsDisposed test fails
                     disposable.Dispose();
+#pragma warning restore S3966
                 }
             }
         }

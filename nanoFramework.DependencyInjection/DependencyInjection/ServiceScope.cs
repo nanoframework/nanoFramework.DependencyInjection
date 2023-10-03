@@ -12,7 +12,7 @@ namespace nanoFramework.DependencyInjection
     /// An <see cref="IServiceScope" /> implementation that implements <see cref="IDisposable" />.
     /// </summary>
     [DebuggerDisplay("{ServiceProvider,nq}")]
-    public readonly struct ServiceScope : IServiceScope, IDisposable
+    public readonly struct ServiceScope : IServiceScope
     {
         private readonly IServiceScope _serviceScope;
 
