@@ -384,5 +384,16 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.AreEqual(1, services.Length);
         }
+
+        [TestMethod]
+        public void IServiceProviderCreateScopeReturnsNewScope()
+        {
+            IServiceProvider serviceProvider = new ServiceCollection()
+                .BuildServiceProvider();
+
+            using var scope = serviceProvider.CreateScope();
+
+            Assert.IsNotNull(scope);
+        }
     }
 }
