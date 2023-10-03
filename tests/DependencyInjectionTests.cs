@@ -24,7 +24,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(FakeService), service1.GetType());
             Assert.IsType(typeof(FakeService), service2.GetType());
-            Assert.NotSame(service1, service2);
+            Assert.AreNotSame(service1, service2);
         }
 
         // TODO:  typeof(StructFakeService).GetConstructor() is failing to create struct correctly.
@@ -52,25 +52,25 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (ClassWithPrimitiveBinding)serviceProvider.GetService(typeof(ClassWithPrimitiveBinding));
 
-            Assert.Null(service.Str);
-            Assert.Null(service.Obj);
-            Assert.NotNull(service.Guid);
+            Assert.IsNull(service.Str);
+            Assert.IsNull(service.Obj);
+            Assert.IsNotNull(service.Guid);
 
-            Assert.True(service.Boolean == false);   
-            Assert.True(service.Short == 0);
-            Assert.True(service.Ushort == 0);
-            Assert.True(service.Int == 0);
-            Assert.True(service.UInt == 0);
-            Assert.True(service.Long == 0);
-            Assert.True(service.Ulong == 0);
-            Assert.True(service.Double == 0);
-            Assert.True(service.Float == 0);
-            Assert.True(service.Byte == new byte());
-            Assert.True(service.SByte == new sbyte());
-            Assert.True(service.DateTime == new DateTime());
-            Assert.True(service.TimeSpan == new TimeSpan());
-            Assert.True(service.Array == default);
-            Assert.True(service.ArrayList == default);
+            Assert.IsTrue(service.Boolean == false);   
+            Assert.IsTrue(service.Short == 0);
+            Assert.IsTrue(service.Ushort == 0);
+            Assert.IsTrue(service.Int == 0);
+            Assert.IsTrue(service.UInt == 0);
+            Assert.IsTrue(service.Long == 0);
+            Assert.IsTrue(service.Ulong == 0);
+            Assert.IsTrue(service.Double == 0);
+            Assert.IsTrue(service.Float == 0);
+            Assert.IsTrue(service.Byte == new byte());
+            Assert.IsTrue(service.SByte == new sbyte());
+            Assert.IsTrue(service.DateTime == new DateTime());
+            Assert.IsTrue(service.TimeSpan == new TimeSpan());
+            Assert.IsTrue(service.Array == default);
+            Assert.IsTrue(service.ArrayList == default);
 
             //TODO: Add array types - reflection is not resolving with the IsArray flag
             // https://github.com/nanoframework/Home/issues/1086
@@ -88,7 +88,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(FakeService), service1.GetType());
             Assert.IsType(typeof(FakeService), service2.GetType());
-            Assert.NotSame(service1, service2);
+            Assert.AreNotSame(service1, service2);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(FakeService), service1.GetType());
             Assert.IsType(typeof(FakeService), service2.GetType());
-            Assert.Same(service1, service2);
+            Assert.AreSame(service1, service2);
         }
 
         [TestMethod]
@@ -118,7 +118,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(FakeService), service1.GetType());
             Assert.IsType(typeof(FakeService), service2.GetType());
-            Assert.Same(service1, service2);
+            Assert.AreSame(service1, service2);
         }
 
         [TestMethod]
@@ -135,11 +135,11 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsType(typeof(Service1), rootService.Service1.GetType());
             Assert.IsType(typeof(Service2), rootService.Service2.GetType());
-            Assert.Equal(0, rootService.IntProperty);
-            Assert.Equal(null, rootService.StringProperty);
+            Assert.AreEqual(0, rootService.IntProperty);
+            Assert.AreEqual(null, rootService.StringProperty);
 
             var innerService = (Service3)serviceProvider.GetRequiredService(typeof(IService3));
-            Assert.NotNull(innerService);
+            Assert.IsNotNull(innerService);
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service = serviceProvider.GetService(typeof(IFakeService));
 
             Assert.IsType(typeof(FakeService), service.GetType());
-            Assert.Same(instance, service);
+            Assert.AreSame(instance, service);
         }
 
         [TestMethod]
@@ -180,9 +180,9 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(IFakeService));
             var service2 = serviceProvider.GetService(typeof(IFakeService));
 
-            Assert.NotNull(service1);
-            Assert.NotNull(service2);
-            Assert.NotSame(service1, service2);
+            Assert.IsNotNull(service1);
+            Assert.IsNotNull(service2);
+            Assert.AreNotSame(service1, service2);
         }
 
         [TestMethod]
@@ -194,8 +194,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             object[] service = serviceProvider.GetService(new Type[] { typeof(IFakeService) });
 
-            Assert.NotNull(service);
-            Assert.Equal(1, service.Length);
+            Assert.IsNotNull(service);
+            Assert.AreEqual(1, service.Length);
             Assert.IsType(typeof(FakeService), service[0].GetType());
         }
 
@@ -208,7 +208,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             object[] service = serviceProvider.GetService(new Type[] { typeof(INonexistentService) });
 
-            Assert.Empty(service);
+            CollectionAssert.Empty(service);
         }
 
         [TestMethod]
@@ -219,7 +219,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .AddSingleton(typeof(ClassWithAmbiguousCtors))
                 .BuildServiceProvider();
 
-            Assert.Throws(typeof(InvalidOperationException),
+            Assert.ThrowsException(typeof(InvalidOperationException),
                 () => serviceProvider.GetService(typeof(ClassWithAmbiguousCtors))
             );
         }
@@ -234,7 +234,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (ClassWithMultipleCtors)serviceProvider.GetService(typeof(ClassWithMultipleCtors));
 
-            Assert.Equal(2, service.CtorUsed);
+            Assert.AreEqual(2, service.CtorUsed);
         }
 
         [TestMethod]
@@ -246,7 +246,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (IDisposable)serviceProvider.GetService(typeof(IServiceProvider));
 
-            Assert.NotNull(service);
+            Assert.IsNotNull(service);
 
             serviceProvider.Dispose();
         }
@@ -260,7 +260,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             serviceProvider.Dispose();
 
-            Assert.Throws(typeof(ObjectDisposedException),
+            Assert.ThrowsException(typeof(ObjectDisposedException),
                 () => serviceProvider.GetService(typeof(IServiceProvider)));
         }
 
@@ -274,7 +274,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (IDisposable)serviceProvider.GetService(typeof(ClassWithNestedReferencesToProvider));
 
-            Assert.NotNull(service);
+            Assert.IsNotNull(service);
             service.Dispose();
         }
 
@@ -288,7 +288,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = serviceProvider.GetService(typeof(INonexistentService));
 
-            Assert.Null(service);
+            Assert.IsNull(service);
         }
 
 

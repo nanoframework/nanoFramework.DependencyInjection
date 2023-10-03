@@ -21,7 +21,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var instance = (AnotherClass)ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClass));
 
-            Assert.NotNull(instance.FakeService);
+            Assert.IsNotNull(instance.FakeService);
         }
 
 
@@ -38,9 +38,9 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 "1",
                 "2");
 
-            Assert.NotNull(instance.FakeService);
-            Assert.Equal("1", instance.One);
-            Assert.Equal("2", instance.Two);
+            Assert.IsNotNull(instance.FakeService);
+            Assert.AreEqual("1", instance.One);
+            Assert.AreEqual("2", instance.Two);
         }
 
         [TestMethod]
@@ -52,10 +52,10 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var instance = (ClassWithAmbiguousCtors)ActivatorUtilities.CreateInstance(serviceProvider, typeof(ClassWithAmbiguousCtors), "1", 2);
 
-            Assert.NotNull(instance);
-            Assert.NotNull(instance.FakeService);
-            Assert.Equal("1", instance.Data1);
-            Assert.Equal(2, instance.Data2);
+            Assert.IsNotNull(instance);
+            Assert.IsNotNull(instance.FakeService);
+            Assert.AreEqual("1", instance.Data1);
+            Assert.AreEqual(2, instance.Data2);
         }
 
         [TestMethod]
@@ -69,13 +69,13 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var instance = (ClassWithAmbiguousCtors)ActivatorUtilities.CreateInstance(serviceProvider, typeof(ClassWithAmbiguousCtors), value);
 
-            Assert.Equal(ctor, instance.CtorUsed);
+            Assert.AreEqual(ctor, instance.CtorUsed);
         }
 
         [TestMethod]
         public void TypeActivatorRethrowsOriginalExceptionFromConstructor()
         {
-            Assert.Throws(typeof(Exception),
+            Assert.ThrowsException(typeof(Exception),
                 () =>
                 {
                     try
@@ -96,7 +96,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 }
             );
 
-            Assert.Throws(typeof(Exception),
+            Assert.ThrowsException(typeof(Exception),
                 () =>
                 {
                     try
@@ -125,11 +125,11 @@ namespace nanoFramework.DependencyInjection.UnitTests
               .AddTransient(typeof(IFakeService), typeof(FakeService))
               .BuildServiceProvider();
 
-            Assert.Throws(typeof(InvalidOperationException),
+            Assert.ThrowsException(typeof(InvalidOperationException),
                 () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), "1", "2", "3")
             );
 
-            Assert.Throws(typeof(InvalidOperationException),
+            Assert.ThrowsException(typeof(InvalidOperationException),
                 () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(AnotherClassAcceptingData), 1, 2)
             );
         }
@@ -148,14 +148,14 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
                 var service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(1, service.InstanceId);
-                Assert.Equal(1, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(1, service.InstanceId);
+                Assert.AreEqual(1, CreationCountFakeService.InstanceCount);
 
                 service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(2, service.InstanceId);
-                Assert.Equal(2, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(2, service.InstanceId);
+                Assert.AreEqual(2, CreationCountFakeService.InstanceCount);
             }
         }
 
@@ -173,14 +173,14 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
                 var service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(1, service.InstanceId);
-                Assert.Equal(1, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(1, service.InstanceId);
+                Assert.AreEqual(1, CreationCountFakeService.InstanceCount);
 
                 service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(1, service.InstanceId);
-                Assert.Equal(1, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(1, service.InstanceId);
+                Assert.AreEqual(1, CreationCountFakeService.InstanceCount);
             }
         }
 
@@ -197,14 +197,14 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .BuildServiceProvider();
 
                 var service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(1, service.InstanceId);
-                Assert.Equal(1, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(1, service.InstanceId);
+                Assert.AreEqual(1, CreationCountFakeService.InstanceCount);
 
                 service = (CreationCountFakeService)ActivatorUtilities.GetServiceOrCreateInstance(serviceProvider, typeof(CreationCountFakeService));
-                Assert.NotNull(service);
-                Assert.Equal(2, service.InstanceId);
-                Assert.Equal(2, CreationCountFakeService.InstanceCount);
+                Assert.IsNotNull(service);
+                Assert.AreEqual(2, service.InstanceId);
+                Assert.AreEqual(2, CreationCountFakeService.InstanceCount);
             }
         }
 
@@ -215,7 +215,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
                 .AddSingleton(typeof(CreationCountFakeService))
                 .BuildServiceProvider();
 
-            Assert.Throws(typeof(InvalidOperationException),
+            Assert.ThrowsException(typeof(InvalidOperationException),
                    () => ActivatorUtilities.CreateInstance(serviceProvider, typeof(CreationCountFakeService))
                );
         }
