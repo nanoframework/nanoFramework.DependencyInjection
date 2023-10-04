@@ -9,7 +9,7 @@ using System.Collections;
 namespace nanoFramework.DependencyInjection
 {
     /// <summary>
-    /// Extensions for <see cref="ServiceCollection"/>.
+    /// Extensions for <see cref="IServiceCollection"/>.
     /// </summary>
     public static class ServiceCollectionServiceExtensions
     {
@@ -121,6 +121,49 @@ namespace nanoFramework.DependencyInjection
             }
 
             return services.AddTransient(serviceType, serviceType);
+        }
+
+        /// <summary>
+        /// Adds a scoped service of the type specified in <paramref name="serviceType"/> with an
+        /// implementation of the type specified in <paramref name="implementationType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="implementationType">The implementation type of the service.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Scoped"/>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
+        public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType, Type implementationType)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var descriptor = new ServiceDescriptor(serviceType, implementationType, ServiceLifetime.Scoped);
+            services.Add(descriptor);
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds a scoped service of the type specified in <paramref name="serviceType"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register and the implementation to use.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Scoped"/>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
+        public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            return services.AddScoped(serviceType, serviceType);
         }
 
         /// <summary>
