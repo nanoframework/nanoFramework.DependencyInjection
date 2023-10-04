@@ -18,6 +18,11 @@ namespace nanoFramework.DependencyInjection
         /// <summary>
         /// Specifies that a new instance of the service will be created every time it is requested.
         /// </summary>
-        Transient
+        Transient,
+
+        /// <summary>
+        /// Specifies that a single instance of the service will be created within a scope.
+        /// </summary>
+        Scoped
     }
 }

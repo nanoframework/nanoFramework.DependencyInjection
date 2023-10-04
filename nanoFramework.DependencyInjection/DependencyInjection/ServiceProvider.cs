@@ -15,7 +15,8 @@ namespace nanoFramework.DependencyInjection
     public sealed class ServiceProvider : IServiceProvider, IDisposable
     {
         private bool _disposed;
-        internal ServiceProviderEngine _engine;
+
+        internal ServiceProviderEngine Engine { get; }
 
         internal ServiceProvider(IServiceCollection services, ServiceProviderOptions options)
         {
@@ -29,9 +30,10 @@ namespace nanoFramework.DependencyInjection
                 throw new ArgumentNullException();
             }
 
-            _engine = GetEngine();
-            _engine.Services = services;
-            _engine.Services.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
+            Engine = GetEngine();
+            Engine.Services = services;
+            Engine.Services.Add(new ServiceDescriptor(typeof(IServiceProvider), this));
+            Engine.Options = options;
 
             if (options.ValidateOnBuild)
             {
@@ -41,7 +43,7 @@ namespace nanoFramework.DependencyInjection
                 {
                     try
                     {
-                        _engine.ValidateService(descriptor);
+                        Engine.ValidateService(descriptor);
                     }
                     catch (Exception ex)
                     {
@@ -65,7 +67,7 @@ namespace nanoFramework.DependencyInjection
                 throw new ObjectDisposedException();
             }
 
-            return _engine.GetService(serviceType);
+            return Engine.GetService(serviceType);
         }
 
         /// <inheritdoc/>
@@ -76,7 +78,13 @@ namespace nanoFramework.DependencyInjection
                 throw new ObjectDisposedException();
             }
 
-            return _engine.GetService(serviceType);
+            return Engine.GetService(serviceType);
+        }
+
+        /// <inheritdoc />
+        public IServiceScope CreateScope()
+        {
+            return new ServiceProviderEngineScope(this);
         }
 
         /// <inheritdoc/>
@@ -88,7 +96,7 @@ namespace nanoFramework.DependencyInjection
             }
 
             _disposed = true;
-            _engine.DisposeServices();
+            Engine.DisposeServices();
         }
 
         private ServiceProviderEngine GetEngine()

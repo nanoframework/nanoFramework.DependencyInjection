@@ -24,6 +24,11 @@ namespace nanoFramework.DependencyInjection
         internal IServiceCollection Services { get; set; }
 
         /// <summary>
+        /// ServiceProvider Options instance
+        /// </summary>
+        internal ServiceProviderOptions Options { get; set; }
+
+        /// <summary>
         /// Validate service by attempting to activate all dependent services.
         /// </summary>
         internal void ValidateService(ServiceDescriptor descriptor)
@@ -49,9 +54,10 @@ namespace nanoFramework.DependencyInjection
         /// Gets the last added service object of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        internal object GetService(Type serviceType)
+        /// <param name="scopeServices">Services collection from current scope.</param>
+        internal object GetService(Type serviceType, IServiceCollection scopeServices = null)
         {
-            var services = GetServiceObjects(serviceType);
+            var services = GetServiceObjects(serviceType, scopeServices);
 
             if (services.Length == 0)
             {
@@ -66,9 +72,10 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
+        /// <param name="scopeServices">Services collection from current scope.</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be <see langword="null"/>.</exception>
         /// <exception cref="ArgumentException"><paramref name="serviceType"/> can't be empty.</exception>
-        internal object[] GetService(Type[] serviceType)
+        internal object[] GetService(Type[] serviceType, IServiceCollection scopeServices = null)
         {
             if (serviceType == null)
             {
@@ -83,7 +90,7 @@ namespace nanoFramework.DependencyInjection
             // optimized for single item service type
             if (serviceType.Length == 1)
             {
-                var services = GetServiceObjects(serviceType[0]);
+                var services = GetServiceObjects(serviceType[0], scopeServices);
 
                 if (services.Length > 0)
                 {
@@ -98,7 +105,7 @@ namespace nanoFramework.DependencyInjection
 
             foreach (Type type in serviceType)
             {
-                var services = GetServiceObjects(type);
+                var services = GetServiceObjects(type, scopeServices);
 
                 if (services.Length > 0)
                 {
@@ -118,29 +125,41 @@ namespace nanoFramework.DependencyInjection
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        private object[] GetServiceObjects(Type serviceType)
+        /// <param name="scopeServices">Services collection from current scope.</param>
+        private object[] GetServiceObjects(Type serviceType, IServiceCollection scopeServices)
         {
             ArrayList services = new ArrayList();
 
+            if (scopeServices != null)
+            {
+                foreach (ServiceDescriptor descriptor in scopeServices)
+                {
+                    if (descriptor.ServiceType != serviceType) continue;
+
+                    descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
+                    services.Add(descriptor.ImplementationInstance);
+                }
+            }
+
             foreach (ServiceDescriptor descriptor in Services)
             {
-                if (descriptor.ServiceType == serviceType)
+                if (descriptor.ServiceType != serviceType) continue;
+                
+                switch (descriptor.Lifetime)
                 {
-                    if (descriptor.Lifetime == ServiceLifetime.Singleton
-                        && descriptor.ImplementationInstance != null)
-                    {
+                    case ServiceLifetime.Singleton:
+                        descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
                         services.Add(descriptor.ImplementationInstance);
-                    }
-                    else
-                    {
-                        var instance = Resolve(descriptor.ImplementationType);
-                        if (descriptor.Lifetime != ServiceLifetime.Transient)
-                        {
-                            descriptor.ImplementationInstance = instance;
-                        }
+                        break;
 
-                        services.Add(instance);
-                    }
+                    case ServiceLifetime.Transient:
+                        services.Add(Resolve(descriptor.ImplementationType));
+                        break;
+
+                    case ServiceLifetime.Scoped:
+                        if (scopeServices == null && Options.ValidateScopes)
+                            throw new InvalidOperationException();
+                        break;
                 }
             }
 
