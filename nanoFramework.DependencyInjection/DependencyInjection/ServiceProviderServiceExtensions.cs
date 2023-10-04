@@ -85,9 +85,17 @@ namespace nanoFramework.DependencyInjection
         /// </summary>
         /// <param name="provider">The <see cref="IServiceProvider"/> to create the scope from.</param>
         /// <returns>An <see cref="ServiceScope"/> that can be used to resolve scoped services.</returns>
+        /// <exception cref="ArgumentNullException"><paramref name="provider"/>can't be <see langword="null"/>.</exception>
         public static IServiceScope CreateScope(this IServiceProvider provider)
         {
-            return new ServiceScope(provider.CreateScope());
+            if (provider == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var service = (ServiceProvider)provider.GetRequiredService(typeof(IServiceProvider));
+
+            return new ServiceScope(service.CreateScope());
         }
     }
 }
