@@ -2,7 +2,27 @@
 
 ## [**Changes available only in 'Preview' NuGet packages:**](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/HEAD)
 
-[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.12...HEAD)
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.22...HEAD)
+
+**Implemented enhancements:**
+
+- Add support for "Scoped" lifetime [\#31](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/31)
+- Instance references aren't stored in ServiceDescriptor if lifetime is Transient [\#30](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/30)
+
+**Documentation and other chores:**
+
+- Eliminate deprecated asserts in test cases [\#32](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/32)
+- Update 1 NuGet dependencies [\#29](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/29)
+- Update 1 NuGet dependencies [\#28](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/28)
+- Update 2 NuGet dependencies [\#27](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/27)
+- Update 1 NuGet dependencies [\#26](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/26)
+- Update 1 NuGet dependencies [\#25](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/25)
+- Update 1 NuGet dependencies [\#24](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/24)
+- Update 1 NuGet dependencies [\#23](https://github.com/nanoframework/nanoFramework.DependencyInjection/pull/23)
+
+## [v1.0.22](https://github.com/nanoframework/nanoFramework.DependencyInjection/tree/v1.0.22) (2022-12-23)
+
+[Full Changelog](https://github.com/nanoframework/nanoFramework.DependencyInjection/compare/v1.0.12...v1.0.22)
 
 **Documentation and other chores:**
 
