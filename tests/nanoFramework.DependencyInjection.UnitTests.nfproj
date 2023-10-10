@@ -31,6 +31,8 @@
     <Compile Include="DependencyInjectionTests.cs" />
     <Compile Include="Fakes\ClassWithMultipleCtors.cs" />
     <Compile Include="Fakes\ClassWithPrimitiveBinding.cs" />
+    <Compile Include="Fakes\InstanceCountServices\SingletonInstanceCountService.cs" />
+    <Compile Include="Fakes\InstanceCountServices\TransientInstanceCountService.cs" />
     <Compile Include="Fakes\CreationCountFakeService.cs" />
     <Compile Include="Fakes\ClassWithThrowingEmptyCtor.cs" />
     <Compile Include="Fakes\ClassWithThrowingCtor.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="Fakes\Service3.cs" />
     <Compile Include="Fakes\FakeTwoMultipleService.cs" />
     <Compile Include="Fakes\StructFakeService.cs" />
+    <Compile Include="ServiceProviderTests.cs" />
     <Compile Include="ServiceProviderExtensionsTests.cs" />
     <Compile Include="ServiceCollectionTests.cs" />
     <Compile Include="AggregateExceptionTests.cs" />
