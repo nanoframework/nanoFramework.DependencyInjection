@@ -121,6 +121,44 @@ namespace nanoFramework.DependencyInjection
             return array.Length != 0 ? array : new object[0];
         }
 
+        private ServiceDescriptor[] GetServiceDescriptors(Type serviceType, IServiceCollection scopeServices = null)
+        {
+            var descriptors = new ArrayList();
+
+            if (scopeServices is not null)
+            {
+                foreach (ServiceDescriptor descriptor in scopeServices)
+                {
+                    if (descriptor.ServiceType != serviceType) continue;
+
+                    descriptors.Add(descriptor);
+                }
+            }
+
+            foreach (ServiceDescriptor descriptor in Services)
+            {
+                if (descriptor.ServiceType != serviceType) continue;
+
+                switch (descriptor.Lifetime)
+                {
+                    case ServiceLifetime.Singleton:
+                        descriptors.Add(descriptor);
+                        break;
+
+                    case ServiceLifetime.Transient:
+                        descriptors.Add(descriptor);
+                        break;
+
+                    case ServiceLifetime.Scoped:
+                        if (scopeServices == null && Options.ValidateScopes)
+                            throw new InvalidOperationException();
+                        break;
+                }
+            }
+
+            return (ServiceDescriptor[])descriptors.ToArray(typeof(ServiceDescriptor));
+        }
+
         /// <summary>
         /// Gets the service objects of the specified type.
         /// </summary>
@@ -144,7 +182,7 @@ namespace nanoFramework.DependencyInjection
             foreach (ServiceDescriptor descriptor in Services)
             {
                 if (descriptor.ServiceType != serviceType) continue;
-                
+
                 switch (descriptor.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
@@ -224,7 +262,7 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <summary>
-        /// Gets the parameters from the constructor with the most parameters.
+        /// Gets the parameters from the constructor with the most parameters that can be resolved.
         /// </summary>
         /// <param name="implementationType">An object that specifies the implementation type of service object to get.</param>
         /// <exception cref="InvalidOperationException">Multiple constructors accepting all given argument types have been found in type <paramref name="implementationType"/>. There should only be one applicable constructor.</exception>
@@ -263,10 +301,16 @@ namespace nanoFramework.DependencyInjection
                     {
                         // check for simple binding first
                     }
-                    else if (GetService(type) == null)
+                    else
                     {
-                        // binding could not be resolved ingore constructor
-                        length = -1;
+                        var serviceDescriptors = GetServiceDescriptors(type);
+                        if (serviceDescriptors is null || serviceDescriptors.Length <= 0)
+                        {
+                            // binding could not be resolved ignore constructor
+                            length = -1;
+                            break;
+                        }
+
                     }
                 }
 
