@@ -121,6 +121,13 @@ namespace nanoFramework.DependencyInjection
             return array.Length != 0 ? array : new object[0];
         }
 
+        /// <summary>
+        /// Gets the <see cref="ServiceDescriptor"/> that have been registered for the specified type.
+        /// </summary>
+        /// <param name="serviceType">An object that specifies the type of service object to get.</param>
+        /// <param name="scopeServices">Services collection from current scope.</param>
+        /// <returns>A list of <see cref="ServiceDescriptor"/> that have been registered for the specified type.</returns>
+        /// <exception cref="InvalidOperationException">If <see cref="ServiceProviderOptions.ValidateScopes"/> is true and <see cref="scopeServices"/> is null.</exception>
         private ServiceDescriptor[] GetServiceDescriptors(Type serviceType, IServiceCollection scopeServices = null)
         {
             var descriptors = new ArrayList();
