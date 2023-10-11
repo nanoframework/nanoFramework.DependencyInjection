@@ -5,7 +5,6 @@
 
 using System;
 using System.Collections;
-using nanoFramework.DependencyInjection.System;
 
 namespace nanoFramework.DependencyInjection
 {
