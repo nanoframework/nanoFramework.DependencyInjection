@@ -49,6 +49,7 @@
     <Compile Include="System\Activator.cs" />
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\IServiceProvider.cs" />
+    <Compile Include="System\IServiceProviderIsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

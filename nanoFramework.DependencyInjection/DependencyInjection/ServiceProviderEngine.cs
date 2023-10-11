@@ -122,50 +122,6 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <summary>
-        /// Gets the <see cref="ServiceDescriptor"/> that have been registered for the specified type.
-        /// </summary>
-        /// <param name="serviceType">An object that specifies the type of service object to get.</param>
-        /// <param name="scopeServices">Services collection from current scope.</param>
-        /// <returns>A list of <see cref="ServiceDescriptor"/> that have been registered for the specified type.</returns>
-        /// <exception cref="InvalidOperationException">If <see cref="ServiceProviderOptions.ValidateScopes"/> is true and <see cref="scopeServices"/> is null.</exception>
-        private ServiceDescriptor[] GetServiceDescriptors(Type serviceType, IServiceCollection scopeServices = null)
-        {
-            var descriptors = new ArrayList();
-
-            if (scopeServices is not null)
-            {
-                foreach (ServiceDescriptor descriptor in scopeServices)
-                {
-                    if (descriptor.ServiceType != serviceType) continue;
-
-                    descriptors.Add(descriptor);
-                }
-            }
-
-            foreach (ServiceDescriptor descriptor in Services)
-            {
-                if (descriptor.ServiceType != serviceType) continue;
-
-                switch (descriptor.Lifetime)
-                {
-                    case ServiceLifetime.Singleton:
-                    case ServiceLifetime.Transient:
-                        descriptors.Add(descriptor);
-                        break;
-
-                    case ServiceLifetime.Scoped:
-                        if (scopeServices == null && Options.ValidateScopes)
-                        {
-                            throw new InvalidOperationException();
-                        }
-                        break;
-                }
-            }
-
-            return (ServiceDescriptor[])descriptors.ToArray(typeof(ServiceDescriptor));
-        }
-
-        /// <summary>
         /// Gets the service objects of the specified type.
         /// </summary>
         /// <param name="serviceType">An object that specifies the type of service object to get.</param>
@@ -311,8 +267,7 @@ namespace nanoFramework.DependencyInjection
                     }
                     else
                     {
-                        var serviceDescriptors = GetServiceDescriptors(type);
-                        if (serviceDescriptors is null || serviceDescriptors.Length <= 0)
+                        if (!IsService(type))
                         {
                             // binding could not be resolved ignore constructor
                             length = -1;
@@ -357,6 +312,24 @@ namespace nanoFramework.DependencyInjection
             if (type == typeof(TimeSpan)) return default(TimeSpan);
 
             return null;
+        }
+
+        /// <summary>
+        /// Determines if the specified service type is available from the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="serviceType">An object that specifies the type of service object to test.</param>
+        /// <returns>true if the specified service is a available, false if it is not.</returns>
+        internal bool IsService(Type serviceType)
+        {
+            foreach (ServiceDescriptor descriptor in Services)
+            {
+                if (descriptor.ServiceType == serviceType)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }
