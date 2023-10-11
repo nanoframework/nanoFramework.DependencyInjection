@@ -149,16 +149,15 @@ namespace nanoFramework.DependencyInjection
                 switch (descriptor.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
-                        descriptors.Add(descriptor);
-                        break;
-
                     case ServiceLifetime.Transient:
                         descriptors.Add(descriptor);
                         break;
 
                     case ServiceLifetime.Scoped:
                         if (scopeServices == null && Options.ValidateScopes)
+                        {
                             throw new InvalidOperationException();
+                        }
                         break;
                 }
             }
@@ -203,7 +202,9 @@ namespace nanoFramework.DependencyInjection
 
                     case ServiceLifetime.Scoped:
                         if (scopeServices == null && Options.ValidateScopes)
+                        {
                             throw new InvalidOperationException();
+                        }
                         break;
                 }
             }
