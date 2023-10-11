@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace nanoFramework.DependencyInjection.System
+﻿namespace System
 {
     /// <summary>
     /// Optional service used to determine if the specified type is available from the <see cref="IServiceProvider"/>.
