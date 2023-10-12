@@ -6,7 +6,7 @@
 using System;
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// The default <see cref="IServiceProvider"/>.

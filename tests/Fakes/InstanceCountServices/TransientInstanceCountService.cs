@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace nanoFramework.DependencyInjection.UnitTests.Fakes.InstanceCountServices
+﻿namespace nanoFramework.DependencyInjection.UnitTests.Fakes.InstanceCountServices
 {
     internal interface ITransientInstanceCountService
     {

@@ -1,4 +1,5 @@
-﻿using nanoFramework.TestFramework;
+﻿using Microsoft.Extensions.DependencyInjection;
+using nanoFramework.TestFramework;
 using nanoFramework.DependencyInjection.UnitTests.Fakes.InstanceCountServices;
 
 namespace nanoFramework.DependencyInjection.UnitTests

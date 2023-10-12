@@ -5,10 +5,10 @@
 
 using System;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
-    /// The <see cref="System.IDisposable.Dispose"/> method ends the scope lifetime. Once Dispose
+    /// The <see cref="IDisposable.Dispose"/> method ends the scope lifetime. Once Dispose
     /// is called, any scoped services that have been resolved from
     /// <see cref="IServiceProvider"/> will be disposed.
     /// </summary>
@@ -22,7 +22,7 @@ namespace nanoFramework.DependencyInjection
         /// The root service provider used to resolve dependencies from the scope.
         /// </summary>
         internal ServiceProvider RootProvider { get; }
-        
+
         /// <summary>
         /// Creates instance of <see cref="ServiceProviderEngineScope"/>.
         /// </summary>
@@ -75,7 +75,7 @@ namespace nanoFramework.DependencyInjection
                 return;
             }
 
-            _disposed = true; 
+            _disposed = true;
             DisposeServices();
         }
 

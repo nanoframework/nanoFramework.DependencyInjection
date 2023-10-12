@@ -13,7 +13,6 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <FileAlignment>512</FileAlignment>
-    <RootNamespace>nanoFramework.DependencyInjection</RootNamespace>
     <AssemblyName>nanoFramework.DependencyInjection</AssemblyName>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
@@ -30,26 +29,26 @@
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <ItemGroup>
-    <Compile Include="DependencyInjection\ActivatorUtilities.cs" />
-    <Compile Include="DependencyInjection\IServiceCollection.cs" />
-    <Compile Include="DependencyInjection\ServiceScope.cs" />
-    <Compile Include="DependencyInjection\IServiceScope.cs" />
-    <Compile Include="DependencyInjection\ServiceProviderEngine.cs" />
-    <Compile Include="DependencyInjection\ServiceProviderEngineScope.cs" />
-    <Compile Include="DependencyInjection\TypeExtensions.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ActivatorUtilities.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceScope.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceScope.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderEngine.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderEngineScope.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DependencyInjection\ServiceCollection.cs" />
-    <Compile Include="DependencyInjection\ServiceCollectionContainerBuilderExtensions.cs" />
-    <Compile Include="DependencyInjection\ServiceCollectionServiceExtensions.cs" />
-    <Compile Include="DependencyInjection\ServiceDescriptor.cs" />
-    <Compile Include="DependencyInjection\ServiceLifetime.cs" />
-    <Compile Include="DependencyInjection\ServiceProvider.cs" />
-    <Compile Include="DependencyInjection\ServiceProviderOptions.cs" />
-    <Compile Include="DependencyInjection\ServiceProviderServiceExtensions.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollection.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollectionContainerBuilderExtensions.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollectionServiceExtensions.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceDescriptor.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceLifetime.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProvider.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderOptions.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderServiceExtensions.cs" />
     <Compile Include="System\Activator.cs" />
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\IServiceProvider.cs" />
-    <Compile Include="System\IServiceProviderIsService.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceProviderIsService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />

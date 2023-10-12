@@ -6,7 +6,7 @@
 using System;
 using System.Reflection;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Helper code for the various activator services.

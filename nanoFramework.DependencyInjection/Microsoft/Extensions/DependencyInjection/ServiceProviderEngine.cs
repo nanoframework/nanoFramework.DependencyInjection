@@ -7,7 +7,7 @@ using System;
 using System.Reflection;
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Defines an engine for managing <see cref="IServiceCollection"/> services that provides custom support to other objects.

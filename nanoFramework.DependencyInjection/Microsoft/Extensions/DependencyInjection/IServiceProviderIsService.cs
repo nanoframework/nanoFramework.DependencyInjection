@@ -1,4 +1,6 @@
-﻿namespace System
+﻿using System;
+
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Optional service used to determine if the specified type is available from the <see cref="IServiceProvider"/>.

@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Specifies the lifetime of a service in an <see cref="IServiceCollection"/>.

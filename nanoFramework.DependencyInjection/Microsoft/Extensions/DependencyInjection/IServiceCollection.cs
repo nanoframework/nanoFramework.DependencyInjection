@@ -5,7 +5,7 @@
 
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Default implementation of IServiceCollection.

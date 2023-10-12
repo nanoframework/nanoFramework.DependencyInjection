@@ -6,7 +6,7 @@
 using System;
 using System.Diagnostics;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// An <see cref="IServiceScope" /> implementation that implements <see cref="IDisposable" />.
