@@ -6,13 +6,13 @@
 using System;
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// The default <see cref="IServiceProvider"/>.
     /// </summary>
     /// <exception cref="AggregateException">Some services are not able to be constructed.</exception>
-    public sealed class ServiceProvider : IServiceProvider, IDisposable
+    public sealed class ServiceProvider : IServiceProvider, IServiceProviderIsService, IDisposable
     {
         private bool _disposed;
 
@@ -102,6 +102,12 @@ namespace nanoFramework.DependencyInjection
         private ServiceProviderEngine GetEngine()
         {
             return ServiceProviderEngine.Instance;
+        }
+
+        /// <inheritdoc  />
+        public bool IsService(Type serviceType)
+        {
+            return Engine.IsService(serviceType);
         }
     }
 }

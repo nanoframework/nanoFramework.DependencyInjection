@@ -7,7 +7,7 @@ using System;
 using System.Reflection;
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Defines an engine for managing <see cref="IServiceCollection"/> services that provides custom support to other objects.
@@ -144,7 +144,7 @@ namespace nanoFramework.DependencyInjection
             foreach (ServiceDescriptor descriptor in Services)
             {
                 if (descriptor.ServiceType != serviceType) continue;
-                
+
                 switch (descriptor.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
@@ -158,7 +158,9 @@ namespace nanoFramework.DependencyInjection
 
                     case ServiceLifetime.Scoped:
                         if (scopeServices == null && Options.ValidateScopes)
+                        {
                             throw new InvalidOperationException();
+                        }
                         break;
                 }
             }
@@ -224,7 +226,7 @@ namespace nanoFramework.DependencyInjection
         }
 
         /// <summary>
-        /// Gets the parameters from the constructor with the most parameters.
+        /// Gets the parameters from the constructor with the most parameters that can be resolved.
         /// </summary>
         /// <param name="implementationType">An object that specifies the implementation type of service object to get.</param>
         /// <exception cref="InvalidOperationException">Multiple constructors accepting all given argument types have been found in type <paramref name="implementationType"/>. There should only be one applicable constructor.</exception>
@@ -263,10 +265,15 @@ namespace nanoFramework.DependencyInjection
                     {
                         // check for simple binding first
                     }
-                    else if (GetService(type) == null)
+                    else
                     {
-                        // binding could not be resolved ingore constructor
-                        length = -1;
+                        if (!IsService(type))
+                        {
+                            // binding could not be resolved ignore constructor
+                            length = -1;
+                            break;
+                        }
+
                     }
                 }
 
@@ -305,6 +312,24 @@ namespace nanoFramework.DependencyInjection
             if (type == typeof(TimeSpan)) return default(TimeSpan);
 
             return null;
+        }
+
+        /// <summary>
+        /// Determines if the specified service type is available from the <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="serviceType">An object that specifies the type of service object to test.</param>
+        /// <returns>true if the specified service is a available, false if it is not.</returns>
+        internal bool IsService(Type serviceType)
+        {
+            foreach (ServiceDescriptor descriptor in Services)
+            {
+                if (descriptor.ServiceType == serviceType)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

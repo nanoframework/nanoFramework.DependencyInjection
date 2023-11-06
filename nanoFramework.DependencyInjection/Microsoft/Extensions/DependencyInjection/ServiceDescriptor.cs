@@ -6,7 +6,7 @@
 using System;
 using System.Diagnostics;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Describes a service with its service type, implementation, and lifetime.

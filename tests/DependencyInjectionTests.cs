@@ -3,6 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
+using Microsoft.Extensions.DependencyInjection;
 using nanoFramework.DependencyInjection.UnitTests.Fakes;
 using nanoFramework.TestFramework;
 using System;

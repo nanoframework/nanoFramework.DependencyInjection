@@ -5,7 +5,7 @@
 
 using System;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extension methods for getting services from an <see cref="IServiceProvider" />.

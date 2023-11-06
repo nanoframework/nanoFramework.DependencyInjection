@@ -3,7 +3,7 @@
 // See LICENSE file in the project root for full license information.
 //
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Extension methods for building a <see cref="ServiceProvider"/> from an <see cref="IServiceCollection"/>.
@@ -17,7 +17,7 @@ namespace nanoFramework.DependencyInjection
         /// <returns>The <see cref="ServiceProvider"/>.</returns>
         public static ServiceProvider BuildServiceProvider(this IServiceCollection services)
         {
-            return BuildServiceProvider(services, ServiceProviderOptions.Default);
+            return services.BuildServiceProvider(ServiceProviderOptions.Default);
         }
 
         /// <summary>

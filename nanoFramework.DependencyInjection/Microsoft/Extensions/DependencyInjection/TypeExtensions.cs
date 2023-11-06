@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Contains extension methods for <see cref="Type"/>.

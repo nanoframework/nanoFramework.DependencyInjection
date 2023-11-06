@@ -5,7 +5,7 @@
 
 using System;
 
-namespace nanoFramework.DependencyInjection
+namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
     /// Defines scope for <see cref="IServiceProvider"/>.

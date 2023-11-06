@@ -6,6 +6,7 @@
 using System;
 using nanoFramework.TestFramework;
 using nanoFramework.DependencyInjection.UnitTests.Fakes;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace nanoFramework.DependencyInjection.UnitTests
 {
