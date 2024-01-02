@@ -81,6 +81,30 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// Adds a singleton service of the type specified in <paramref name="serviceType"/>
+        /// with the specified <paramref name="factory"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="factory">A factory used for creating service instances.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Singleton"/>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
+        public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate factory)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var serviceDescriptor = new ServiceDescriptor(serviceType, factory, ServiceLifetime.Singleton);
+            services.Add(serviceDescriptor);
+
+            return services;
+        }
+
+        /// <summary>
         /// Adds a transient service of the type specified in <paramref name="serviceType"/> with an
         /// implementation of the type specified in <paramref name="implementationType"/> to the
         /// specified <see cref="IServiceCollection"/>.
@@ -124,6 +148,30 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
+        /// Adds a transient service of the type specified in <paramref name="serviceType"/>
+        /// with the specified <paramref name="factory"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="factory">A factory used for creating service instances.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Transient"/>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
+        public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate factory)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var descriptor = new ServiceDescriptor(serviceType, factory, ServiceLifetime.Transient);
+            services.Add(descriptor);
+
+            return services;
+        }
+
+        /// <summary>
         /// Adds a scoped service of the type specified in <paramref name="serviceType"/> with an
         /// implementation of the type specified in <paramref name="implementationType"/> to the
         /// specified <see cref="IServiceCollection"/>.
@@ -164,6 +212,30 @@ namespace Microsoft.Extensions.DependencyInjection
             }
 
             return services.AddScoped(serviceType, serviceType);
+        }
+
+        /// <summary>
+        /// Adds a scoped service of the type specified in <paramref name="serviceType"/>
+        /// with the specified <paramref name="factory"/> to the
+        /// specified <see cref="IServiceCollection"/>.
+        /// </summary>
+        /// <param name="services">The <see cref="IServiceCollection"/> to add the service to.</param>
+        /// <param name="serviceType">The type of the service to register.</param>
+        /// <param name="factory">A factory used for creating service instances.</param>
+        /// <returns>A reference to this instance after the operation has completed.</returns>
+        /// <seealso cref="ServiceLifetime.Scoped"/>
+        /// <exception cref="ArgumentNullException"><paramref name="services"/> can't be <see langword="null"/>.</exception>
+        public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate factory)
+        {
+            if (services == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var descriptor = new ServiceDescriptor(serviceType, factory, ServiceLifetime.Scoped);
+            services.Add(descriptor);
+
+            return services;
         }
 
         /// <summary>

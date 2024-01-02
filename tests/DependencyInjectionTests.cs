@@ -396,5 +396,94 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsNotNull(scope);
         }
+
+        [TestMethod]
+        public void ServicesRegisteredWithFactoryForTransientServices()
+        {
+            IServiceProvider factoryServiceProvider = null;
+
+            var serviceProvider = new ServiceCollection()
+                .AddTransient(typeof(IFakeService), sp =>
+                {
+                    factoryServiceProvider = sp;
+                    return new FakeService();
+                })
+                .BuildServiceProvider();
+
+            var service1 = serviceProvider.GetService(typeof(IFakeService));
+
+            Assert.IsNotNull(factoryServiceProvider);
+            Assert.IsType(typeof(FakeService), service1.GetType());
+        }
+
+        [TestMethod]
+        public void ServicesRegisteredWithFactoryForTransientServicesCalledEveryTime()
+        {
+            int timesCalled = 0;
+
+            var serviceProvider = new ServiceCollection()
+                .AddTransient(typeof(IFakeService), sp =>
+                {
+                    timesCalled++;
+                    return new FakeService();
+                })
+                .BuildServiceProvider();
+
+            var service1 = serviceProvider.GetService(typeof(IFakeService));
+            var service2 = serviceProvider.GetService(typeof(IFakeService));
+
+            Assert.AreEqual(2, timesCalled);
+        }
+
+        [TestMethod]
+        public void ServicesRegisteredWithFactoryForSingleton()
+        {
+            IServiceProvider factoryServiceProvider = null;
+
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IFakeService), factory: sp =>
+                {
+                    factoryServiceProvider = sp;
+                    return new FakeService();
+                })
+                .BuildServiceProvider();
+
+            var service1 = serviceProvider.GetService(typeof(IFakeService));
+
+            Assert.IsNotNull(factoryServiceProvider);
+            Assert.IsType(typeof(FakeService), service1.GetType());
+        }
+
+        [TestMethod]
+        public void ServicesRegisteredWithFactoryForSingletonCalledOnce()
+        {
+            int timesCalled = 0;
+
+            var serviceProvider = new ServiceCollection()
+                .AddSingleton(typeof(IFakeService), sp =>
+                {
+                    timesCalled++;
+                    return new FakeService();
+                })
+                .BuildServiceProvider();
+
+            var service1 = serviceProvider.GetService(typeof(IFakeService));
+            var service2 = serviceProvider.GetService(typeof(IFakeService));
+
+            Assert.AreEqual(1, timesCalled);
+        }
+
+        [TestMethod]
+        public void ServicesRegisteredWithFactoryInvokingServiceProvider()
+        {
+            var serviceProvider = new ServiceCollection()
+                .AddTransient(typeof(IService3), typeof(Service3))
+                .AddTransient(typeof(IService2), sp => new Service2((IService3)sp.GetService(typeof(IService3))))
+                .BuildServiceProvider();
+
+            var service2 = (IService2)serviceProvider.GetService(typeof(IService2));
+            
+            Assert.IsNotNull(service2.Service3);
+        }
     }
 }
