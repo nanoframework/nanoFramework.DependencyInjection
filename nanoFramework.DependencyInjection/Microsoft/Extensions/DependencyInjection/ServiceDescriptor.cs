@@ -78,7 +78,7 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
         /// <param name="factory">A factory used for creating service instances.</param>
         /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the service.</param>
-        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="implementationType"/> can't be null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null</exception>
         /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
         public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate factory, ServiceLifetime lifetime)
             : this(serviceType, lifetime)
