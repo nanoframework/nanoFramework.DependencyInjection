@@ -73,14 +73,15 @@ namespace Microsoft.Extensions.DependencyInjection
         }
 
         /// <summary>
-        /// Initializes a new instance of <see cref="ServiceDescriptor"/> with the specified <paramref name="factory"/>.
+        /// Initializes a new instance of <see cref="ServiceDescriptor"/> with the specified <paramref name="implementationFactory"/>.
         /// </summary>
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
-        /// <param name="factory">A factory used for creating service instances.</param>
+        /// <param name="implementationFactory">A factory used for creating service instances.</param>
         /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the service.</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="implementationFactory"/> can't be null</exception>
         /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
-        public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate factory, ServiceLifetime lifetime)
+        public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate implementationFactory, ServiceLifetime lifetime)
             : this(serviceType, lifetime)
         {
             if (serviceType == null)
@@ -88,7 +89,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 throw new ArgumentNullException();
             }
 
-            ImplementationFactory = factory ?? throw new ArgumentNullException();
+            ImplementationFactory = implementationFactory ?? throw new ArgumentNullException();
         }
 
         private ServiceDescriptor(Type serviceType, ServiceLifetime lifetime)

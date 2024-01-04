@@ -441,7 +441,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             IServiceProvider factoryServiceProvider = null;
 
             var serviceProvider = new ServiceCollection()
-                .AddSingleton(typeof(IFakeService), factory: sp =>
+                .AddSingleton(typeof(IFakeService), implementationFactory: sp =>
                 {
                     factoryServiceProvider = sp;
                     return new FakeService();
