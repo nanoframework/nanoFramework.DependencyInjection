@@ -136,7 +136,9 @@ namespace Microsoft.Extensions.DependencyInjection
                 {
                     if (descriptor.ServiceType != serviceType) continue;
 
-                    descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
+                    descriptor.ImplementationInstance ??= 
+                        descriptor.ImplementationFactory?.Invoke((IServiceProvider)GetService(typeof(IServiceProvider))) 
+                        ?? Resolve(descriptor.ImplementationType);
                     services.Add(descriptor.ImplementationInstance);
                 }
             }
@@ -148,12 +150,15 @@ namespace Microsoft.Extensions.DependencyInjection
                 switch (descriptor.Lifetime)
                 {
                     case ServiceLifetime.Singleton:
-                        descriptor.ImplementationInstance ??= Resolve(descriptor.ImplementationType);
+                        descriptor.ImplementationInstance ??= 
+                            descriptor.ImplementationFactory?.Invoke((IServiceProvider)GetService(typeof(IServiceProvider))) 
+                            ?? Resolve(descriptor.ImplementationType);
                         services.Add(descriptor.ImplementationInstance);
                         break;
 
                     case ServiceLifetime.Transient:
-                        services.Add(Resolve(descriptor.ImplementationType));
+                        services.Add(descriptor.ImplementationFactory?.Invoke((IServiceProvider)GetService(typeof(IServiceProvider))) 
+                                     ?? Resolve(descriptor.ImplementationType));
                         break;
 
                     case ServiceLifetime.Scoped:

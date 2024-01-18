@@ -9,6 +9,11 @@ using System.Diagnostics;
 namespace Microsoft.Extensions.DependencyInjection
 {
     /// <summary>
+    /// Service Factory method delegate
+    /// </summary>
+    public delegate object ImplementationFactoryDelegate(IServiceProvider serviceProvider);
+
+    /// <summary>
     /// Describes a service with its service type, implementation, and lifetime.
     /// </summary>
     [DebuggerDisplay("Lifetime = {Lifetime}, ServiceType = {ServiceType}, ImplementationType = {ImplementationType}")]
@@ -67,6 +72,26 @@ namespace Microsoft.Extensions.DependencyInjection
             ImplementationType = GetImplementationType();
         }
 
+        /// <summary>
+        /// Initializes a new instance of <see cref="ServiceDescriptor"/> with the specified <paramref name="implementationFactory"/>.
+        /// </summary>
+        /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
+        /// <param name="implementationFactory">A factory used for creating service instances.</param>
+        /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the service.</param>
+        /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null</exception>
+        /// <exception cref="ArgumentNullException"><paramref name="implementationFactory"/> can't be null</exception>
+        /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
+        public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate implementationFactory, ServiceLifetime lifetime)
+            : this(serviceType, lifetime)
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            ImplementationFactory = implementationFactory ?? throw new ArgumentNullException();
+        }
+
         private ServiceDescriptor(Type serviceType, ServiceLifetime lifetime)
         {
             ServiceType = serviceType;
@@ -92,6 +117,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// The instance of the implementation.
         /// </summary>
         public object ImplementationInstance { get; set; }
+
+        /// <summary>
+        /// Gets the factory used for creating service instances.
+        /// </summary>
+        public ImplementationFactoryDelegate ImplementationFactory { get; set; }
 
         /// <summary>
         /// Returns a string that represents the current object.
