@@ -7,8 +7,8 @@ name: Keep repository active
 
 on:
   schedule:
-  # every 1st day of the month at 00:00 UTC
-    - cron:  '0 0 1 * *'
+    # every 2 weeks at 00:00 UTC
+    - cron:  '0 0 */2 * *'
   repository_dispatch:
     types: keep-repo-active
 
