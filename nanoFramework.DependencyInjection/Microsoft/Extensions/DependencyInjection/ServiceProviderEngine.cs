@@ -211,7 +211,9 @@ namespace Microsoft.Extensions.DependencyInjection
                     }
                     else
                     {
-                        var service = GetService(parameterType);
+                        var service = parameterType.IsArray ? 
+                            GetServiceObjects(parameterType.GetElementType(), null) :
+                            GetService(parameterType);
 
                         if (service == null)
                         {
@@ -326,6 +328,11 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>true if the specified service is a available, false if it is not.</returns>
         internal bool IsService(Type serviceType)
         {
+            if (serviceType.IsArray)
+            {
+                serviceType = serviceType.GetElementType();
+            }
+
             foreach (ServiceDescriptor descriptor in Services)
             {
                 if (descriptor.ServiceType == serviceType)
