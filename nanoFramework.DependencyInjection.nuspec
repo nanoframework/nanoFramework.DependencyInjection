@@ -18,7 +18,8 @@
     <description>This package includes the nanoFramework.DependencyInjection assembly for .NET nanoFramework C# projects.</description>
     <tags>nanoFramework C# csharp netmf netnf dependencyinjection</tags>
     <dependencies>
-      <dependency id="nanoFramework.CoreLibrary" version="1.15.5" />
+	  <dependency id="nanoFramework.CoreLibrary" version="1.15.5" />
+	  <dependency id="nanoFramework.System.Runtime" version="1.0.27" />
     </dependencies>
   </metadata>
   <files>

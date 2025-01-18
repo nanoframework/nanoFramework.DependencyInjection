@@ -27,18 +27,10 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="lifetime">The <see cref="ServiceLifetime"/> of the service.</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="implementationType"/> can't be null</exception>
         /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
-        public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime)
-            : this(serviceType, lifetime)
+        public ServiceDescriptor(Type serviceType, Type implementationType, ServiceLifetime lifetime): this(serviceType, lifetime)
         {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (implementationType == null)
-            {
-                throw new ArgumentNullException();
-            }
+            ThrowHelper.ThrowIfNull(serviceType);
+            ThrowHelper.ThrowIfNull(implementationType);
 
             if (implementationType.IsAbstract || implementationType.IsInterface)
             {
@@ -55,21 +47,13 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="serviceType">The <see cref="Type"/> of the service.</param>
         /// <param name="instance">The instance implementing the service.</param>
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> or <paramref name="instance"/> can't be <see langword="null"/></exception>
-        public ServiceDescriptor(Type serviceType, object instance)
-            : this(serviceType, ServiceLifetime.Singleton)
+        public ServiceDescriptor(Type serviceType, object instance): this(serviceType, ServiceLifetime.Singleton)
         {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException();
-            }
-
-            if (instance == null)
-            {
-                throw new ArgumentNullException();
-            }
+            ThrowHelper.ThrowIfNull(serviceType);
+            ThrowHelper.ThrowIfNull(instance);
 
             ImplementationInstance = instance;
-            ImplementationType = GetImplementationType();
+            ImplementationType = instance.GetType();
         }
 
         /// <summary>
@@ -81,15 +65,12 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <exception cref="ArgumentNullException"><paramref name="serviceType"/> can't be null</exception>
         /// <exception cref="ArgumentNullException"><paramref name="implementationFactory"/> can't be null</exception>
         /// <exception cref="ArgumentException">Implementation type cannot be an abstract or interface class.</exception>
-        public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate implementationFactory, ServiceLifetime lifetime)
-            : this(serviceType, lifetime)
+        public ServiceDescriptor(Type serviceType, ImplementationFactoryDelegate implementationFactory, ServiceLifetime lifetime): this(serviceType, lifetime)
         {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException();
-            }
+            ThrowHelper.ThrowIfNull(serviceType);
+            ThrowHelper.ThrowIfNull(implementationFactory);
 
-            ImplementationFactory = implementationFactory ?? throw new ArgumentNullException();
+            ImplementationFactory = implementationFactory;
         }
 
         private ServiceDescriptor(Type serviceType, ServiceLifetime lifetime)
@@ -151,6 +132,18 @@ namespace Microsoft.Extensions.DependencyInjection
             {
                 return ImplementationInstance.GetType();
             }
+            // TODO: This case is not currently handled which means we cannot currently support factories in the TryAdd methods.
+            // A possible solution would be to require the implementation type to be supplied with the factory.
+            /*
+            else if (ImplementationFactory != null)
+            {
+                Type[]? typeArguments = ImplementationFactory.GetType().GenericTypeArguments;
+
+                Debug.Assert(typeArguments.Length == 2);
+
+                return typeArguments[1];
+            }
+            */
 
             Debug.Assert(false, "ImplementationType and ImplementationInstance must be non null");
 
@@ -168,7 +161,105 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
         public static ServiceDescriptor Describe(Type serviceType, Type implementationType, ServiceLifetime lifetime)
         {
+            ThrowHelper.ThrowIfNull(serviceType);
+            ThrowHelper.ThrowIfNull(implementationType);
+
             return new ServiceDescriptor(serviceType, implementationType, lifetime);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="serviceType"/>, <paramref name="implementationFactory"/>,
+        /// and <paramref name="lifetime"/>.
+        /// </summary>
+        /// <param name="serviceType">The type of the service.</param>
+        /// <param name="implementationFactory">A factory to create new instances of the service implementation.</param>
+        /// <param name="lifetime">The lifetime of the service.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Describe(Type serviceType, ImplementationFactoryDelegate implementationFactory, ServiceLifetime lifetime)
+        {
+            ThrowHelper.ThrowIfNull(serviceType);
+            ThrowHelper.ThrowIfNull(implementationFactory);
+
+            return new ServiceDescriptor(serviceType, implementationFactory, lifetime);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationType"/>
+        /// and the <see cref="ServiceLifetime.Scoped"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationType">The type of the implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Scoped(Type service, Type implementationType)
+        {
+            return Describe(service, implementationType, ServiceLifetime.Scoped);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationFactory"/>
+        /// and the <see cref="ServiceLifetime.Scoped"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationFactory">A factory to create new instances of the service implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Scoped(Type service, ImplementationFactoryDelegate implementationFactory)
+        {
+            return Describe(service, implementationFactory, ServiceLifetime.Scoped);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationType"/>
+        /// and the <see cref="ServiceLifetime.Singleton"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationType">The type of the implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Singleton(Type service, Type implementationType)
+        {
+            return Describe(service, implementationType, ServiceLifetime.Singleton);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationFactory"/>
+        /// and the <see cref="ServiceLifetime.Singleton"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationFactory">A factory to create new instances of the service implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Singleton(Type service, ImplementationFactoryDelegate implementationFactory)
+        {
+            return Describe(service, implementationFactory, ServiceLifetime.Singleton);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationType"/>
+        /// and the <see cref="ServiceLifetime.Transient"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationType">The type of the implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Transient(Type service, Type implementationType)
+        {
+            return Describe(service, implementationType, ServiceLifetime.Transient);
+        }
+
+        /// <summary>
+        /// Creates an instance of <see cref="ServiceDescriptor"/> with the specified
+        /// <paramref name="service"/> and <paramref name="implementationFactory"/>
+        /// and the <see cref="ServiceLifetime.Transient"/> lifetime.
+        /// </summary>
+        /// <param name="service">The type of the service.</param>
+        /// <param name="implementationFactory">A factory to create new instances of the service implementation.</param>
+        /// <returns>A new instance of <see cref="ServiceDescriptor"/>.</returns>
+        public static ServiceDescriptor Transient(Type service, ImplementationFactoryDelegate implementationFactory)
+        {
+            return Describe(service, implementationFactory, ServiceLifetime.Transient);
         }
     }
 }

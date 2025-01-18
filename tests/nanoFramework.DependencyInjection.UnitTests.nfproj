@@ -21,6 +21,7 @@
     <IsTestProject>true</IsTestProject>
     <TestProjectType>UnitTest</TestProjectType>
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.props" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.props')" />
   <PropertyGroup>
@@ -60,6 +61,7 @@
     <Compile Include="Fakes\Service3.cs" />
     <Compile Include="Fakes\FakeTwoMultipleService.cs" />
     <Compile Include="Fakes\StructFakeService.cs" />
+    <Compile Include="ServiceCollectionDescriptorExtensionsTests.cs" />
     <Compile Include="ServiceProviderTests.cs" />
     <Compile Include="ServiceProviderExtensionsTests.cs" />
     <Compile Include="ServiceCollectionTests.cs" />
@@ -83,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\nanoFramework.DependencyInjection\nanoFramework.DependencyInjection.nfproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.lock.json" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <!-- MANUAL UPDATE HERE -->

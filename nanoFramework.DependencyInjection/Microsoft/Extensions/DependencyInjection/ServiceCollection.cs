@@ -12,8 +12,8 @@ namespace Microsoft.Extensions.DependencyInjection
     /// </summary>
     public class ServiceCollection : IServiceCollection
     {
-        private static readonly object _syncLock = new();
-        private readonly ArrayList _descriptors = new();
+        private readonly object _syncLock = new();
+        private readonly ArrayList _descriptors = [];
 
         /// <inheritdoc/>
         public bool IsReadOnly => false;

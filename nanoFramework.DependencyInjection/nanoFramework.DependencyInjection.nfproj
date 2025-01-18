@@ -17,6 +17,8 @@
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
     <DocumentationFile>bin\$(Configuration)\nanoFramework.DependencyInjection.xml</DocumentationFile>
+    <LangVersion>default</LangVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -31,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Microsoft\Extensions\DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderEngine.cs" />
@@ -49,6 +52,7 @@
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\IServiceProvider.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceProviderIsService.cs" />
+    <Compile Include="System\ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -58,6 +62,12 @@
     <Reference Include="mscorlib, Version=1.15.6.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.15.5\lib\mscorlib.dll</HintPath>
     </Reference>
+    <Reference Include="nanoFramework.System.Runtime">
+      <HintPath>..\packages\nanoFramework.System.Runtime.1.0.27\lib\nanoFramework.System.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.lock.json" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>
