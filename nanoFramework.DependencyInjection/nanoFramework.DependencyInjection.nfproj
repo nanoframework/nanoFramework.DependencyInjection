@@ -20,6 +20,7 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'True' or '$(ContinuousIntegrationBuild)' == 'True'">true</RestoreLockedMode>
     <LangVersion>default</LangVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
