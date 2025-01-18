@@ -52,6 +52,7 @@
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\IServiceProvider.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceProviderIsService.cs" />
+    <Compile Include="System\ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
@@ -63,6 +64,9 @@
   <ItemGroup>
     <Reference Include="mscorlib">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.16.1\lib\mscorlib.dll</HintPath>
+    </Reference>
+    <Reference Include="nanoFramework.System.Runtime">
+      <HintPath>..\packages\nanoFramework.System.Runtime.1.0.27\lib\nanoFramework.System.Runtime.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
