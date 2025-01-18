@@ -19,6 +19,7 @@
     <DocumentationFile>bin\$(Configuration)\nanoFramework.DependencyInjection.xml</DocumentationFile>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'True' or '$(ContinuousIntegrationBuild)' == 'True'">true</RestoreLockedMode>
+    <LangVersion>default</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>true</SignAssembly>
@@ -33,6 +34,7 @@
   <ItemGroup>
     <Compile Include="Microsoft\Extensions\DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderEngine.cs" />
@@ -51,6 +53,7 @@
     <Compile Include="System\AggregateException.cs" />
     <Compile Include="System\IServiceProvider.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceProviderIsService.cs" />
+    <Compile Include="System\ThrowHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.editorconfig" Link=".editorconfig" />
