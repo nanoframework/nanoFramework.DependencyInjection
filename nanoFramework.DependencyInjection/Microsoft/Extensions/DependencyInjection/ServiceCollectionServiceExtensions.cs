@@ -24,9 +24,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Transient"/>
         public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Transient);
         }
@@ -43,9 +43,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Transient"/>
         public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Transient);
         }
@@ -60,8 +60,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Transient"/>
         public static IServiceCollection AddTransient(this IServiceCollection services, Type serviceType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
 
             return services.AddTransient(serviceType, serviceType);
         }
@@ -78,9 +78,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Scoped"/>
         public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Scoped);
         }
@@ -97,9 +97,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Scoped"/>
         public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Scoped);
         }
@@ -114,8 +114,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Scoped"/>
         public static IServiceCollection AddScoped(this IServiceCollection services, Type serviceType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
 
             return services.AddScoped(serviceType, serviceType);
         }
@@ -132,9 +132,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Singleton"/>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             return Add(services, serviceType, implementationType, ServiceLifetime.Singleton);
         }
@@ -151,9 +151,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Singleton"/>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, ImplementationFactoryDelegate implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             return Add(services, serviceType, implementationFactory, ServiceLifetime.Singleton);
         }
@@ -168,8 +168,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Singleton"/>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
 
             return services.AddSingleton(serviceType, serviceType);
         }
@@ -186,9 +186,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <seealso cref="ServiceLifetime.Singleton"/>
         public static IServiceCollection AddSingleton(this IServiceCollection services, Type serviceType, object implementationInstance)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(serviceType);
-            ThrowHelper.ThrowIfNull(implementationInstance);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(implementationInstance);
 
             var serviceDescriptor = new ServiceDescriptor(serviceType, implementationInstance);
             services.Add(serviceDescriptor);

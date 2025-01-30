@@ -17,8 +17,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>A reference to the current instance of <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection Add(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(descriptor);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(descriptor);
 
             collection.Add(descriptor);
             return collection;
@@ -32,8 +32,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>A reference to the current instance of <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection Add(this IServiceCollection collection, IEnumerable descriptors)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(descriptors);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(descriptors);
 
             foreach (var d in descriptors)
             {
@@ -56,8 +56,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="descriptor">The <see cref="ServiceDescriptor"/> to add.</param>
         public static void TryAdd(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(descriptor);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(descriptor);
 
             var count = collection.Count;
             for (var i = 0; i < count; i++)
@@ -80,8 +80,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="descriptors">The <see cref="ServiceDescriptor"/>s to add.</param>
         public static void TryAdd(this IServiceCollection collection, IEnumerable descriptors)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(descriptors);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(descriptors);
 
             foreach (var d in descriptors)
             {
@@ -102,8 +102,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         public static void TryAddTransient(this IServiceCollection collection, Type service)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
 
             var descriptor = ServiceDescriptor.Transient(service, service);
             TryAdd(collection, descriptor);
@@ -119,9 +119,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationType">The implementation type of the service.</param>
         public static void TryAddTransient(this IServiceCollection collection, Type service, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             var descriptor = ServiceDescriptor.Transient(service, implementationType);
             TryAdd(collection, descriptor);
@@ -139,9 +139,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationFactory">The factory that creates the service.</param>
         public static void TryAddTransient(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Transient(service, implementationFactory);
             TryAdd(collection, descriptor);
@@ -157,8 +157,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         public static void TryAddScoped(this IServiceCollection collection, Type service)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
 
             var descriptor = ServiceDescriptor.Scoped(service, service);
             TryAdd(collection, descriptor);
@@ -174,9 +174,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationType">The implementation type of the service.</param>
         public static void TryAddScoped(this IServiceCollection collection, Type service, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationType);
             TryAdd(collection, descriptor);
@@ -194,9 +194,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationFactory">The factory that creates the service.</param>
         public static void TryAddScoped(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Scoped(service, implementationFactory);
             TryAdd(collection, descriptor);
@@ -211,8 +211,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="service">The type of the service to register.</param>
         public static void TryAddSingleton(this IServiceCollection collection, Type service)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
 
             var descriptor = ServiceDescriptor.Singleton(service, service);
             TryAdd(collection, descriptor);
@@ -228,9 +228,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationType">The implementation type of the service.</param>
         public static void TryAddSingleton(this IServiceCollection collection, Type service, Type implementationType)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationType);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationType);
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationType);
             TryAdd(collection, descriptor);
@@ -248,9 +248,9 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <param name="implementationFactory">The factory that creates the service.</param>
         public static void TryAddSingleton(this IServiceCollection collection, Type service, Func<IServiceProvider, object> implementationFactory)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(service);
-            ThrowHelper.ThrowIfNull(implementationFactory);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(service);
+            ArgumentNullException.ThrowIfNull(implementationFactory);
 
             var descriptor = ServiceDescriptor.Singleton(service, implementationFactory);
             TryAdd(collection, descriptor);
@@ -276,8 +276,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </remarks>
         public static void TryAddEnumerable(this IServiceCollection services, ServiceDescriptor descriptor)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(descriptor);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(descriptor);
 
             var implementationType = descriptor.GetImplementationType();
 
@@ -319,8 +319,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// </remarks>
         public static void TryAddEnumerable(this IServiceCollection services, IEnumerable descriptors)
         {
-            ThrowHelper.ThrowIfNull(services);
-            ThrowHelper.ThrowIfNull(descriptors);
+            ArgumentNullException.ThrowIfNull(services);
+            ArgumentNullException.ThrowIfNull(descriptors);
 
             foreach (var d in descriptors)
             {
@@ -342,8 +342,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
         public static IServiceCollection Replace(this IServiceCollection collection, ServiceDescriptor descriptor)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(descriptor);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(descriptor);
 
             // Remove existing
             var count = collection.Count;
@@ -368,8 +368,8 @@ namespace Microsoft.Extensions.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/> for chaining.</returns>
         public static IServiceCollection RemoveAll(this IServiceCollection collection, Type serviceType)
         {
-            ThrowHelper.ThrowIfNull(collection);
-            ThrowHelper.ThrowIfNull(serviceType);
+            ArgumentNullException.ThrowIfNull(collection);
+            ArgumentNullException.ThrowIfNull(serviceType);
 
             for (var i = collection.Count - 1; i >= 0; i--)
             {
