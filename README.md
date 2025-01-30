@@ -24,8 +24,7 @@ Provides Dependency Injection (DI) for Inversion of Control (IoC) between classe
 
 A Dependency Injection (DI) Container provides functionality and automates many of the tasks involved in Object Composition, Interception, and Lifetime Management. It's an engine that resolves and manages object graphs. These DI Containers depend on the static information compiled into all classes. Then using reflection they can analyze the requested class and figure out which Dependencies are required.
 
-This API mirrors as close as possible the official .NET 
-[DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
+This API mirrors as close as possible the official .NET [DependencyInjection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection). Exceptions are mainly derived from the lack of generics support in .NET nanoFramework.
 
 The .NET nanoFramework [Generic Host](https://github.com/nanoframework/nanoFramework.Hosting) provides convenience methods for creating dependency injection (DI) application containers with preconfigured defaults.
 
@@ -35,9 +34,9 @@ The .NET nanoFramework [Generic Host](https://github.com/nanoframework/nanoFrame
 
 Creating a dependency injection container required three basic components.
 
- * Object Composition - A object composition defining a set of objects to create and couple.
- * Registering Services - Define an instance of the ServiceCollection and register the object composition with a specific service lifetime.
- * Service Provider - Creating a service provider to retrieve the object. 
+- Object Composition - A object composition defining a set of objects to create and couple.
+- Registering Services - Define an instance of the ServiceCollection and register the object composition with a specific service lifetime.
+- Service Provider - Creating a service provider to retrieve the object. 
 
 ### Object Composition
 
@@ -122,7 +121,7 @@ Debug.WriteLine($"Three: {instance.ServiceObject.Three}");
 Debug.WriteLine($"Name: {instance.ServiceObject.GetType().Name}");
 ```
 
-###  Validate On Build 
+### Validate On Build 
 
 A check is performed to ensure that all services registered with the container can actually be created. This can be particularly useful during development to fail fast and allow developers to fix the issue. Validate on build is configured false by default.
 
@@ -132,8 +131,7 @@ var serviceProvider = new ServiceCollection()
     .BuildServiceProvider(new ServiceProviderOptions() { ValidateOnBuild = true });
 ```
 
-
-###  Validate Scopes
+### Validate Scopes
 
 A check verifying that scoped services never gets resolved from root provider. Validate on build is configured false by default.
 
@@ -142,7 +140,6 @@ var serviceProvider = new ServiceCollection()
     .AddSingleton(typeof(IServiceObject), typeof(ServiceObject))
     .BuildServiceProvider(new ServiceProviderOptions() { ValidateScopes = true });
 ```
-
 
 ## Example Application Container
 
@@ -281,6 +278,6 @@ The **nanoFramework** Class Libraries are licensed under the [MIT license](LICEN
 This project has adopted the code of conduct defined by the Contributor Covenant to clarify expected behaviour in our community.
 For more information see the [.NET Foundation Code of Conduct](https://dotnetfoundation.org/code-of-conduct).
 
-### .NET Foundation
+## .NET Foundation
 
 This project is supported by the [.NET Foundation](https://dotnetfoundation.org).
