@@ -100,7 +100,7 @@ jobs:
   # update dependents
   - template: azure-pipelines-templates/update-dependents.yml@templates  
     parameters:
-      waitBeforeUpdate: ${{ eq(variables['UPDATE_DEPENDENTS'], 'true') }}
+      waitBeforeUpdate: ${{ not(eq(variables['UPDATE_DEPENDENTS'], 'true')) }}
       repositoriesToUpdate: |
         nanoFramework.Hosting
 
