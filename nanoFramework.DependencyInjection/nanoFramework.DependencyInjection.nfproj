@@ -17,6 +17,7 @@
     <TargetFrameworkVersion>v1.0</TargetFrameworkVersion>
     <NF_IsCoreLibrary>True</NF_IsCoreLibrary>
     <DocumentationFile>bin\$(Configuration)\nanoFramework.DependencyInjection.xml</DocumentationFile>
+    <LangVersion>default</LangVersion>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <RestoreLockedMode Condition="'$(TF_BUILD)' == 'True' or '$(ContinuousIntegrationBuild)' == 'True'">true</RestoreLockedMode>
   </PropertyGroup>
@@ -33,6 +34,7 @@
   <ItemGroup>
     <Compile Include="Microsoft\Extensions\DependencyInjection\ActivatorUtilities.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceCollection.cs" />
+    <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceCollectionDescriptorExtensions.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\IServiceScope.cs" />
     <Compile Include="Microsoft\Extensions\DependencyInjection\ServiceProviderEngine.cs" />
@@ -57,12 +59,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="packages.lock.json" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="mscorlib, Version=1.16.1.0, Culture=neutral, PublicKeyToken=c07d481e9758c731">
       <HintPath>..\packages\nanoFramework.CoreLibrary.1.16.1\lib\mscorlib.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="packages.lock.json" />
   </ItemGroup>
   <Import Project="$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets" Condition="Exists('$(NanoFrameworkProjectSystemPath)NFProjectSystem.CSharp.targets')" />
   <ProjectExtensions>

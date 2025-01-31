@@ -62,6 +62,7 @@
     <Compile Include="Fakes\Service3.cs" />
     <Compile Include="Fakes\FakeTwoMultipleService.cs" />
     <Compile Include="Fakes\StructFakeService.cs" />
+    <Compile Include="ServiceCollectionDescriptorExtensionsTests.cs" />
     <Compile Include="ServiceProviderTests.cs" />
     <Compile Include="ServiceProviderExtensionsTests.cs" />
     <Compile Include="ServiceCollectionTests.cs" />
