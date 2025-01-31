@@ -17,6 +17,10 @@ trigger:
       - assets/*
       - .github/*
 
+  tags:
+    include:
+      - v*
+
 # PR always trigger build
 pr:
   autoCancel: true
@@ -29,36 +33,101 @@ resources:
       name: nanoframework/nf-tools
       endpoint: nanoframework
 
-pool:
-  vmImage: 'windows-latest'
+jobs:
 
-variables:
-  - group: sign-client-credentials
-  - name: DOTNET_NOLOGO
-    value: true  
-  - name: buildPlatform
-    value: 'Any CPU'  
-  - name: buildConfiguration
-    value: 'Release'
-  - name: solution
-    value: 'nanoFramework.DependencyInjection.sln'
-  - name: nugetPackageName
-    value: 'nanoFramework.DependencyInjection'
+##############################
+- job: Build_Library
+  condition: >-
+    and(
+      not(startsWith(variables['Build.SourceBranch'], 'refs/tags/v')),
+      or(
+        eq(variables['UPDATE_DEPENDENTS'], 'false'),
+        eq(variables['StartReleaseCandidate'], 'true')
+      )
+    )
+  pool:
+    vmImage: 'windows-latest'
 
-steps:
+  variables:
+    - group: sign-client-credentials
+    - name: DOTNET_NOLOGO
+      value: true  
+    - name: buildPlatform
+      value: 'Any CPU'  
+    - name: buildConfiguration
+      value: 'Release'
+    - name: solution
+      value: 'nanoFramework.DependencyInjection.sln'
+    - name: nugetPackageName
+      value: 'nanoFramework.DependencyInjection'
 
-# step from template @ nf-tools repo
-# all build, update and publish steps
-- template: azure-pipelines-templates/class-lib-build.yml@templates
-  parameters:
-    sonarCloudProject: 'nanoframework_nanoFramework.DependencyInjection'
-    runUnitTests: true
-    unitTestRunsettings: '$(System.DefaultWorkingDirectory)\.runsettings'
+  steps:
 
-# step from template @ nf-tools repo
-# report error
-- template: azure-pipelines-templates/discord-webhook-task.yml@templates  
-  parameters:
-    status: 'failure'
-    webhookUrl: '$(DiscordWebhook)'
-    message: ''
+  # step from template @ nf-tools repo
+  # all build, update and publish steps
+  - template: azure-pipelines-templates/class-lib-build.yml@templates
+    parameters:
+      sonarCloudProject: 'nanoframework_nanoFramework.DependencyInjection'
+      runUnitTests: true
+      unitTestRunsettings: '$(System.DefaultWorkingDirectory)\.runsettings'
+
+##############################
+- job: Update_Dependents
+  condition: >-
+    or(
+      and(
+        startsWith(variables['Build.SourceBranch'], 'refs/tags/v'),
+        eq(variables['StartReleaseCandidate'], 'false')
+      ),
+      and(
+        contains(variables['getCommitMessage.COMMIT_MESSAGE'], '***UPDATE_DEPENDENTS***'),
+        eq(variables['StartReleaseCandidate'], 'false')
+      ),
+      eq(variables['UPDATE_DEPENDENTS'], 'true')
+    )
+
+  pool:
+    vmImage: 'windows-latest'
+
+  variables:
+    DOTNET_NOLOGO: true
+
+  steps:
+  # need this here in order to persist GitHub credentials 
+  - checkout: self
+    fetchDepth: 1
+
+  # update dependents
+  - template: azure-pipelines-templates/update-dependents.yml@templates  
+    parameters:
+      waitBeforeUpdate: ${{ not(eq(variables['UPDATE_DEPENDENTS'], 'true')) }}
+      repositoriesToUpdate: |
+        nanoFramework.Hosting
+
+##################################
+# report build failure to Discord
+- job: Report_Build_Failure
+  
+  dependsOn:
+  - Build_Library
+  - Update_Dependents
+  condition: >-
+    or(
+      failed('Build_Library'),
+      failed('Update_Dependents')
+    )
+
+  pool:
+    vmImage: 'windows-latest'
+
+  steps:
+  
+  - checkout: self
+
+  # step from template @ nf-tools repo
+  # report error
+  - template: azure-pipelines-templates/discord-webhook-task.yml@templates  
+    parameters:
+      status: 'failure'
+      webhookUrl: '$(DiscordWebhook)'
+      message: ''
