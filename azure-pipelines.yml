@@ -69,7 +69,7 @@ jobs:
     parameters:
       sonarCloudProject: 'nanoframework_nanoFramework.DependencyInjection'
       runUnitTests: true
-      unitTestRunsettings: '$(System.DefaultWorkingDirectory)\tests\nano.runsettings'
+      unitTestRunsettings: '$(System.DefaultWorkingDirectory)\.runsettings'
 
 ##############################
 - job: Update_Dependents
@@ -100,7 +100,7 @@ jobs:
   # update dependents
   - template: azure-pipelines-templates/update-dependents.yml@templates  
     parameters:
-      waitBeforeUpdate: ${{ not(eq(variables['UPDATE_DEPENDENTS'], 'true')) }}
+      waitBeforeUpdate: ${{ eq(variables['UPDATE_DEPENDENTS'], 'true') }}
       repositoriesToUpdate: |
         nanoFramework.Hosting
 
