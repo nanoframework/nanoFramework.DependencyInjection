@@ -33,6 +33,12 @@ resources:
       name: nanoframework/nf-tools
       endpoint: nanoframework
 
+variables:
+    - name: nugetPackageName
+      value: 'nanoFramework.DependencyInjection'
+    - name: DOTNET_NOLOGO
+      value: true
+
 jobs:
 
 ##############################
@@ -50,16 +56,12 @@ jobs:
 
   variables:
     - group: sign-client-credentials
-    - name: DOTNET_NOLOGO
-      value: true  
     - name: buildPlatform
       value: 'Any CPU'  
     - name: buildConfiguration
       value: 'Release'
     - name: solution
       value: 'nanoFramework.DependencyInjection.sln'
-    - name: nugetPackageName
-      value: 'nanoFramework.DependencyInjection'
 
   steps:
 
@@ -89,9 +91,6 @@ jobs:
   pool:
     vmImage: 'windows-latest'
 
-  variables:
-    DOTNET_NOLOGO: true
-
   steps:
   # need this here in order to persist GitHub credentials 
   - checkout: self
@@ -100,7 +99,7 @@ jobs:
   # update dependents
   - template: azure-pipelines-templates/update-dependents.yml@templates  
     parameters:
-      waitBeforeUpdate: ${{ not(eq(variables['UPDATE_DEPENDENTS'], 'true')) }}
+      packageName: '$(nugetPackageName)'
       repositoriesToUpdate: |
         nanoFramework.Hosting
 
