@@ -19,7 +19,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var serviceProvider = CreateTestServiceProvider(1);
             var service = serviceProvider.GetService(typeof(IFoo));
 
-            Assert.IsType(typeof(Foo1), service);
+            Assert.IsInstanceOfType(service, typeof(Foo1));
         }
 
         [TestMethod]
@@ -28,7 +28,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var serviceProvider = CreateTestServiceProvider(1);
             var service = serviceProvider.GetRequiredService(typeof(IFoo));
 
-            Assert.IsType(typeof(Foo1), service);
+            Assert.IsInstanceOfType(service, typeof(Foo1));
         }
 
         [TestMethod]
@@ -50,10 +50,10 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var types = new Type[] { typeof(IFoo), typeof(IBar) };
             object[] services = ((ServiceProvider)serviceProvider).GetService(types);
 
-            Assert.IsType(typeof(Foo1), services[0].GetType());
-            Assert.IsType(typeof(Foo2), services[1].GetType());
-            Assert.IsType(typeof(Bar1), services[2].GetType());
-            Assert.IsType(typeof(Bar2), services[3].GetType());
+            Assert.IsInstanceOfType(services[0].GetType(), typeof(Foo1));
+            Assert.IsInstanceOfType(services[1].GetType(), typeof(Foo2));
+            Assert.IsInstanceOfType(services[2].GetType(), typeof(Bar1));
+            Assert.IsInstanceOfType(services[3].GetType(), typeof(Bar2));
             Assert.AreEqual(4, services.Length);
         }
 
@@ -63,8 +63,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var serviceProvider = CreateTestServiceProvider(2);
             object[] services = serviceProvider.GetServices(typeof(IFoo));
 
-            Assert.IsType(typeof(Foo1), services[0].GetType());
-            Assert.IsType(typeof(Foo2), services[1].GetType());
+            Assert.IsInstanceOfType(services[0].GetType(), typeof(Foo1));
+            Assert.IsInstanceOfType(services[1].GetType(), typeof(Foo2));
             Assert.AreEqual(2, services.Length);
         }
 
@@ -74,7 +74,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var serviceProvider = CreateTestServiceProvider(1);
             object[] services = serviceProvider.GetServices(typeof(IFoo));
 
-            Assert.IsType(typeof(Foo1), services[0].GetType());
+            Assert.IsInstanceOfType(services[0].GetType(), typeof(Foo1));
             Assert.AreEqual(1, services.Length);
         }
 
@@ -84,8 +84,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var serviceProvider = CreateTestServiceProvider(4);
             object[] services = serviceProvider.GetServices(typeof(IBar));
 
-            Assert.IsType(typeof(Bar1), services[0].GetType());
-            Assert.IsType(typeof(Bar2), services[1].GetType());
+            Assert.IsInstanceOfType(services[0].GetType(), typeof(Bar1));
+            Assert.IsInstanceOfType(services[1].GetType(), typeof(Bar2));
             Assert.AreEqual(2, services.Length);
         }
 

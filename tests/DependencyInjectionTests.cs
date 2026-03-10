@@ -23,8 +23,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(IFakeService));
             var service2 = serviceProvider.GetService(typeof(IFakeService));
 
-            Assert.IsType(typeof(FakeService), service1.GetType());
-            Assert.IsType(typeof(FakeService), service2.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
+            Assert.IsInstanceOfType(service2.GetType(), typeof(FakeService));
             Assert.AreNotSame(service1, service2);
         }
 
@@ -87,8 +87,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(FakeService));
             var service2 = serviceProvider.GetService(typeof(FakeService));
 
-            Assert.IsType(typeof(FakeService), service1.GetType());
-            Assert.IsType(typeof(FakeService), service2.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
+            Assert.IsInstanceOfType(service2.GetType(), typeof(FakeService));
             Assert.AreNotSame(service1, service2);
         }
 
@@ -102,8 +102,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(IFakeService));
             var service2 = serviceProvider.GetService(typeof(IFakeService));
 
-            Assert.IsType(typeof(FakeService), service1.GetType());
-            Assert.IsType(typeof(FakeService), service2.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
+            Assert.IsInstanceOfType(service2.GetType(), typeof(FakeService));
             Assert.AreSame(service1, service2);
         }
 
@@ -117,8 +117,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(FakeService));
             var service2 = serviceProvider.GetService(typeof(FakeService));
 
-            Assert.IsType(typeof(FakeService), service1.GetType());
-            Assert.IsType(typeof(FakeService), service2.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
+            Assert.IsInstanceOfType(service2.GetType(), typeof(FakeService));
             Assert.AreSame(service1, service2);
         }
 
@@ -134,8 +134,8 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var rootService = (RootService)serviceProvider.GetRequiredService(typeof(IRootService));
 
-            Assert.IsType(typeof(Service1), rootService.Service1.GetType());
-            Assert.IsType(typeof(Service2), rootService.Service2.GetType());
+            Assert.IsInstanceOfType(rootService.Service1.GetType(), typeof(Service1));
+            Assert.IsInstanceOfType(rootService.Service2.GetType(), typeof(Service2));
             Assert.AreEqual(0, rootService.IntProperty);
             Assert.AreEqual(null, rootService.StringProperty);
 
@@ -153,7 +153,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = (FakeTwoMultipleService)serviceProvider.GetService(typeof(IFakeMultipleService));
 
-            Assert.IsType(typeof(FakeTwoMultipleService), service.GetType());
+            Assert.IsInstanceOfType(service.GetType(), typeof(FakeTwoMultipleService));
         }
 
         [TestMethod]
@@ -167,7 +167,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             var service = serviceProvider.GetService(typeof(IFakeService));
 
-            Assert.IsType(typeof(FakeService), service.GetType());
+            Assert.IsInstanceOfType(service.GetType(), typeof(FakeService));
             Assert.AreSame(instance, service);
         }
 
@@ -197,7 +197,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
 
             Assert.IsNotNull(service);
             Assert.AreEqual(1, service.Length);
-            Assert.IsType(typeof(FakeService), service[0].GetType());
+            Assert.IsInstanceOfType(service[0].GetType(), typeof(FakeService));
         }
 
         [TestMethod]
@@ -413,7 +413,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(IFakeService));
 
             Assert.IsNotNull(factoryServiceProvider);
-            Assert.IsType(typeof(FakeService), service1.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
         }
 
         [TestMethod]
@@ -451,7 +451,7 @@ namespace nanoFramework.DependencyInjection.UnitTests
             var service1 = serviceProvider.GetService(typeof(IFakeService));
 
             Assert.IsNotNull(factoryServiceProvider);
-            Assert.IsType(typeof(FakeService), service1.GetType());
+            Assert.IsInstanceOfType(service1.GetType(), typeof(FakeService));
         }
 
         [TestMethod]
